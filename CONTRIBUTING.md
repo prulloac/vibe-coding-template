@@ -40,17 +40,70 @@ For feature requests, please include:
 
 ## Commit Message Guidelines
 
-- Use clear, descriptive commit messages
-- Start with a verb in imperative mood (e.g., "Add feature" not "Added feature")
-- Keep the subject line under 72 characters
-- Reference issues and pull requests where relevant
+This project follows the [Conventional Commits](https://www.conventionalcommits.org/) specification.
 
-Example:
+### Format
+
 ```
-Add user authentication module
+<type>(<scope>): <subject>
 
-Implement JWT-based authentication with login/logout functionality.
-Fixes #123
+[optional body]
+
+[optional footer(s)]
+```
+
+### Types
+
+- `feat`: A new feature
+- `fix`: A bug fix
+- `docs`: Documentation only changes
+- `style`: Changes that do not affect the meaning of the code (formatting, etc.)
+- `refactor`: Code change that neither fixes a bug nor adds a feature
+- `test`: Adding or updating tests
+- `chore`: Changes to build process, dependencies, or tooling
+- `perf`: A code change that improves performance
+- `ci`: Changes to CI configuration
+
+### Rules
+
+- Use lowercase for type and scope
+- Keep the subject line under 72 characters
+- Use imperative mood ("add" not "added" or "adds")
+- Reference issues and pull requests where relevant
+- Separate subject from body with a blank line
+
+### Examples
+
+```
+feat(auth): add JWT authentication support
+```
+
+```
+fix(api): resolve null pointer exception in user endpoint
+
+The user endpoint was throwing a null pointer exception when
+the user ID was not found in the database.
+
+Fixes #42
+```
+
+```
+docs(readme): update installation instructions
+```
+
+```
+refactor(database): extract query builder into separate module
+
+This improves code organization and makes the database layer
+more testable.
+```
+
+```
+test(auth): add unit tests for login functionality
+```
+
+```
+chore(deps): update lodash to version 4.17.21
 ```
 
 ## Pull Requests
@@ -60,6 +113,10 @@ Fixes #123
 3. Add or update tests as appropriate
 4. Ensure all tests pass
 5. Update documentation if needed
-6. Submit a pull request with a clear description of the changes
-7. Respond to any feedback or review comments
+6. Keep your commit history clean:
+   - The number of commits should not exceed the number of files changed
+   - Consider rebasing and squashing commits to consolidate related changes
+   - Each commit should represent a meaningful, atomic change
+7. Submit a pull request with a clear description of the changes
+8. Respond to any feedback or review comments
 
