@@ -312,7 +312,7 @@ if confirm(f"Delete {user_path}?"):
 ```
 
 **Fix Steps:**
-1. Identify the high-privilege operation (git push, file delete, etc.)
+1. Identify the high-privilege operation (git push, file removal, etc.)
 2. Add user confirmation check before execution
 3. Document the confirmation requirement in SKILL.md
 4. Run audit again to verify

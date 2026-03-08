@@ -60,16 +60,16 @@ Use this skill when you need to validate an agent skill folder, checking its str
     - Include weight in validation report for context awareness
 
 11. **Security audit** ⭐ NEW:
-     - Run the security validation module to check for common security vulnerabilities
-     - Check for untrusted data sources (git, subprocess, files, APIs, user input)
-     - Verify all untrusted data is properly sanitized before use
-     - Identify high-privilege operations and verify they have user confirmation
-     - Detect injection vulnerabilities (prompt, shell, SQL, code)
-     - Verify error handling is comprehensive and doesn't leak sensitive data
-     - Confirm secrets/credentials are not hardcoded and .env is documented
-      - The security module will flag potential issues for remediation
-      - **Tools**: Use `scripts/security_audit.py` to automatically scan the skill
-      - **Details**: See `references/SECURITY_AUDIT_GUIDE.md` for security check patterns
+      - Run the security validation module to check for common security vulnerabilities
+      - Check for untrusted data sources (version control, subprocess calls, files, remote APIs, external input)
+      - Verify all untrusted data is properly sanitized before use
+      - Identify high-privilege operations and verify they have user confirmation
+      - Detect injection attack vulnerabilities (prompt, shell, database, code)
+      - Verify error handling is comprehensive and doesn't leak sensitive data
+      - Confirm secrets/credentials are not hardcoded and .env is documented
+       - The security module will flag potential issues for remediation
+       - **Tools**: Use `scripts/security_audit.py` to automatically scan the skill
+       - **Details**: See `references/SECURITY_AUDIT_GUIDE.md` for security check patterns
 
 12. **Summarize and validate execution**:
      - After completing all checks, provide a concise summary of the validation results, confirming the skill's status (valid or invalid), listing any issues, and suggesting fixes.
@@ -283,9 +283,9 @@ The skill-validator now includes a built-in security audit module (`scripts/secu
 ### Security Rules
 
 **Rule 1: Untrusted Data Detection**
-- Identifies external data sources (git, subprocess, files, APIs, user input)
+- Identifies external data sources (version control, subprocess calls, files, remote APIs, external input)
 - Flags sources that need sanitization
-- Severity: HIGH (CRITICAL for git data and subprocess)
+- Severity: HIGH (CRITICAL for version control data and subprocess calls)
 
 **Rule 2: Sanitization Requirement Verification**
 - Verifies untrusted data is sanitized before use
@@ -293,12 +293,12 @@ The skill-validator now includes a built-in security audit module (`scripts/secu
 - Severity: CRITICAL if untrusted data found without sanitization
 
 **Rule 3: High-Privilege Operation Detection**
-- Identifies dangerous operations: file deletion, git push, shell execution
+- Identifies dangerous operations: write/alter operations, remote repository operations, shell execution
 - Requires human confirmation for these operations
 - Severity: CRITICAL for force operations
 
 **Rule 4: Injection Risk Analysis**
-- Detects potential injection vulnerabilities: prompt, shell, SQL, code
+- Detects potential injection attack vulnerabilities: prompt, shell, database, code
 - Flags suspicious keywords that indicate attack attempts
 - Severity: CRITICAL
 
@@ -353,6 +353,33 @@ The security audit is automatically run as **Step 11** of the validation process
 - Markdown parsing for cross-reference checking and header extraction.
 - Text analysis for readability assessment and duplicate detection.
 - Token counting for weight estimation (approximate: 1.3 tokens/word).
+
+## Security Considerations
+
+### Data Validation & Sanitization
+This skill validates user-provided skill directories and their YAML/markdown content. All validation is read-only:
+- Skill directory paths and file contents are validated and analyzed
+- No external input is executed or passed to command shells
+- All file paths are verified to exist before reading
+- YAML parsing errors are caught and reported as validation failures
+- Malformed content is reported without processing or modification
+
+### Safe Operations Only
+This skill **performs read-only validation only**:
+- Does not create, write, or alter any files from validated skills
+- Does not execute version control commands (clone, push, pull, merges)
+- Does not modify remote repositories or version control systems
+- All operations are isolated to reading and analyzing skill content
+- Results are provided through validation reports only
+
+### Comprehensive Error Handling
+All validator scripts include defensive error handling:
+- File I/O operations wrapped in try/except blocks with specific error messages
+- Subprocess calls configured with 30-second timeout protection
+- YAML parse errors caught and reported clearly
+- Missing or invalid skill paths handled gracefully
+- Invalid file permissions or access errors reported to user
+- No sensitive skill content included in error messages
 
 ## Validator Scripts & References
 

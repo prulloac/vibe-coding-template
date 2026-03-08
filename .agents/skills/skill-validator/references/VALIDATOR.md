@@ -120,8 +120,8 @@ Detects operations requiring special care:
 
 **Example Issue**:
 ```
-⚠️ [HIGH] High-Privilege Operation: file_delete
-   File deletion detected - requires user confirmation
+⚠️ [HIGH] High-Privilege Operation: file_removal
+   File removal operation detected - requires user confirmation
    Remediation: Ensure human confirmation before executing this operation
 ```
 
