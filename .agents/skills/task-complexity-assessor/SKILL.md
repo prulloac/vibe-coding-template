@@ -52,14 +52,12 @@ Categorize the task:
 
 ### Step 4: Scan for Relevant Skills
 
-Examine the `.agents/skills/` directory for skills that could help:
+Discover available skills dynamically by examining their frontmatter:
 
-1. **List all available skills** from the skills directory
-2. **Match skills to the task** based on:
-   - Skill purpose vs task type
-   - Required tooling
-   - Workflow patterns
-3. **Recommend top 2-3 most relevant skills**
+1. **List skill directories** with `ls .agents/skills/`
+2. **Read each skill's frontmatter** with `head -n 20 .agents/skills/<skill-name>/SKILL.md` to get its `name` and `description`
+3. **Match skills to the task** by analyzing the `description` — especially "Use when…" phrases
+4. **Recommend top 2-3 most relevant skills**
 
 ## Skills Directory Structure
 
@@ -73,26 +71,54 @@ The skills are located in `.agents/skills/` with this structure:
 └── ...
 ```
 
-## Available Skills Reference
+## Discovering Available Skills
 
-| Skill | Purpose |
-|-------|---------|
-| feature-breakdown | Decompose feature specs into tasks |
-| feature-planning | Sequence tasks and identify dependencies |
-| feature-summary | Document feature capabilities |
-| ai-agent-implementation | Execute tasks using AI agents |
-| skill-creator | Create new skills |
-| skill-validator | Validate skill definitions |
-| git-commit-workflow | Commit changes following conventions |
-| git-worktrees-usage | Work with isolated git worktrees |
-| github-create-issue | Create GitHub issues |
-| github-pull-request | Create and manage PRs |
-| github-workflows | Create GitHub Actions workflows |
-| mcp-builder | Build MCP servers |
-| devcontainer-config | Configure dev containers |
-| readme-updater | Update README files |
-| semver-changelog | Manage changelogs |
-| brainstorming-partner | Brainstorm ideas |
+Skills are not a fixed list — they grow over time. Always discover them dynamically at assessment time.
+
+### Where to Find Skills
+
+Skills are typically located in one of these directories (check in order):
+
+1. `.agents/skills/` — project-level skills (most common)
+2. `~/.agents/skills/` — user-level skills
+3. Any path referenced by the agent's configuration
+
+### How to Discover Skills
+
+**Step 1 — List all skill directories:**
+
+```bash
+ls .agents/skills/
+```
+
+**Step 2 — Read each skill's frontmatter to understand its purpose:**
+
+```bash
+head -n 20 .agents/skills/<skill-name>/SKILL.md
+```
+
+The frontmatter (between `---` delimiters) contains:
+- `name`: the skill identifier
+- `description`: a concise explanation of what the skill does and when to use it
+
+Example output:
+```
+---
+name: feature-breakdown
+description: Analyze feature specifications and decompose them into core components,
+  individual tasks, and acceptance criteria. Use when you have a feature spec/idea
+  and need to identify ALL the work required...
+---
+```
+
+**Step 3 — Match skill descriptions to the task at hand:**
+
+Read the `description` field carefully. It typically includes:
+- What the skill does
+- When it should be used (look for phrases like "Use when…")
+- What inputs it expects (e.g., "when you have a feature spec")
+
+Select the 2–3 skills whose descriptions best align with the user's request.
 
 ## Output Format
 
