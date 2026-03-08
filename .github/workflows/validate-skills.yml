@@ -5,7 +5,6 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
-  workflow_dispatch:
 
 jobs:
   detect-skills:
@@ -32,7 +31,7 @@ jobs:
             BASE_BRANCH=$(git rev-parse --abbrev-ref origin/HEAD | sed 's|origin/||')
             CHANGED_FILES=$(git diff --name-only $BASE_BRANCH...HEAD)
           fi
-          
+
           SKILLS_JSON="["
           first=true
           for file in $CHANGED_FILES; do
@@ -47,7 +46,7 @@ jobs:
             fi
           done
           SKILLS_JSON+="]"
-          
+
           echo "skills=$SKILLS_JSON" >> $GITHUB_OUTPUT
 
   validate:
@@ -75,13 +74,13 @@ jobs:
         run: |
           cat <<EOF > validate_prompt.txt
           Run the skill-validator skill to validate the skill "$SKILL_NAME" in the .agents/skills directory.
-          
+
           Return the full validation report for this specific skill.
           EOF
-          
+
           VALIDATION_OUTPUT=$(copilot -s -p "$(cat validate_prompt.txt)" 2>&1)
           echo "$VALIDATION_OUTPUT" > validation_output.txt
-          
+
           if echo "$VALIDATION_OUTPUT" | grep -q "🚨\|Critical"; then
             echo "status=failed" >> $GITHUB_OUTPUT
           else
@@ -93,14 +92,14 @@ jobs:
         run: |
           STATUS="${{ steps.validation.outputs.status }}"
           VALIDATION_OUTPUT=$(cat validation_output.txt)
-          
+
           if [ "$STATUS" = "failed" ]; then
             echo "status=failed"
             printf -v COMMENT_BODY '## 🚨 Skill Validation Failed: %s\n\n<details>\n<summary>Validation Output</summary>\n\n%s\n\n</details>\n\nPlease address the issues above before merging.' "$SKILL_NAME" "$VALIDATION_OUTPUT"
           else
             printf -v COMMENT_BODY '## ✅ Skill Validation Passed: %s\n\n<details>\n<summary>Validation Output</summary>\n\n%s\n\n</details>' "$SKILL_NAME" "$VALIDATION_OUTPUT"
           fi
-          
+
           gh pr comment ${{ github.event.pull_request.number }} --body "$COMMENT_BODY"
 
   no-skills:
