@@ -126,7 +126,7 @@ When you assess a task:
 1. **Load this skill** to analyze complexity
 2. **Follow the assessment steps** above
 3. **If todo recommended**:
-   - Use `todowrite` to create the todo list
+   - Create and maintain an in-memory todo list for this task
    - Break down the task into individual steps
    - Mark each step with priority (high/medium/low)
 4. **If skills recommended**:
