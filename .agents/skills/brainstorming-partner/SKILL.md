@@ -1,6 +1,7 @@
-______________________________________________________________________
-
-## name: brainstorming-partner description: Brainstorm ideas with a reliable AI partner using proven frameworks and evaluations. Triggers for topics requiring idea generation, problem-solving, innovation, feature ideation, strategic planning, or creative exploration. Combines SCAMPER, Six Thinking Hats, Mind Mapping, Lateral Thinking, Divergence-Convergence, and Forced Connections frameworks with Feasibility/Impact/Novelty evaluation to assess and rank ideas before presenting them for interactive refinement.
+---
+name: brainstorming-partner
+description: Brainstorm ideas with a reliable AI partner using proven frameworks and evaluations. Triggers for topics requiring idea generation, problem-solving, innovation, feature ideation, strategic planning, or creative exploration. Combines SCAMPER, Six Thinking Hats, Mind Mapping, Lateral Thinking, Divergence-Convergence, and Forced Connections frameworks with Feasibility/Impact/Novelty evaluation to assess and rank ideas before presenting them for interactive refinement.
+---
 
 # Brainstorming Partner
 

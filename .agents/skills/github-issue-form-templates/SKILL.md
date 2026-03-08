@@ -1,6 +1,7 @@
-______________________________________________________________________
-
-## name: github-issue-form-templates description: Create and manage GitHub issue form templates using YAML syntax. Use when you need to design custom issue forms for GitHub repositories with specific field types, validations, default labels, and assignees. Helps with creating bug reports, feature requests, documentation issues, and custom workflows. Includes YAML syntax guidance, field type reference, validation patterns, best practices, and ready-to-use templates.
+---
+name: github-issue-form-templates
+description: Create and manage GitHub issue form templates using YAML syntax. Use when you need to design custom issue forms for GitHub repositories with specific field types, validations, default labels, and assignees. Helps with creating bug reports, feature requests, documentation issues, and custom workflows. Includes YAML syntax guidance, field type reference, validation patterns, best practices, and ready-to-use templates.
+---
 
 # GitHub Issue Form Templates
 

@@ -1,6 +1,7 @@
-______________________________________________________________________
-
-## name: markdown-crossref-validator description: Validate cross-references in markdown documents, ensuring links and references point to existing sections, headings, or files.
+---
+name: markdown-crossref-validator
+description: Validate cross-references in markdown documents, ensuring links and references point to existing sections, headings, or files.
+---
 
 # Markdown Cross-Reference Validator
 

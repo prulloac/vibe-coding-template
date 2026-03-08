@@ -1,6 +1,7 @@
-______________________________________________________________________
-
-## name: github-workflows description: Create, edit, and troubleshoot GitHub Actions workflow files (.github/workflows/\*.yml). Use when the user needs to set up CI/CD pipelines, PR automation, release workflows, scheduled tasks, Docker builds, deployment pipelines, or any GitHub Actions workflow. Covers workflow syntax, common actions, best practices, security hardening, and reusable workflow patterns. Includes starter templates for common workflow types.
+---
+name: github-workflows
+description: Create, edit, and troubleshoot GitHub Actions workflow files (.github/workflows/\*.yml). Use when the user needs to set up CI/CD pipelines, PR automation, release workflows, scheduled tasks, Docker builds, deployment pipelines, or any GitHub Actions workflow. Covers workflow syntax, common actions, best practices, security hardening, and reusable workflow patterns. Includes starter templates for common workflow types.
+---
 
 # GitHub Workflows
 

@@ -1,6 +1,7 @@
-______________________________________________________________________
-
-## name: skill-creator description: Create, iterate, and optimize OpenCode skills. Use when users want to create a new skill from scratch, update an existing skill, run evaluation prompts with and without a skill, benchmark skill performance, or improve SKILL.md description triggering quality. license: Complete terms in LICENSE.txt
+---
+name: skill-creator
+description: Create, iterate, and optimize OpenCode skills. Use when users want to create a new skill from scratch, update an existing skill, run evaluation prompts with and without a skill, benchmark skill performance, or improve SKILL.md description triggering quality. license: Complete terms in LICENSE.txt
+---
 
 # Skill Creator
 

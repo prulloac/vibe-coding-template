@@ -1,6 +1,7 @@
-______________________________________________________________________
-
-## name: github-pull-request description: Create pull requests on GitHub using GitHub MCP, GitHub CLI (gh), or the GitHub REST API. Use this skill when the user wants to submit changes as a pull request, following repository standards and templates.
+---
+name: github-pull-request
+description: Create pull requests on GitHub using GitHub MCP, GitHub CLI (gh), or the GitHub REST API. Use this skill when the user wants to submit changes as a pull request, following repository standards and templates.
+---
 
 # GitHub Pull Request Skill
 

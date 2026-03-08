@@ -1,6 +1,7 @@
-______________________________________________________________________
-
-## name: feature-planning description: Sequence tasks from a feature breakdown into an optimal execution order, identify dependencies and parallelization opportunities, and create an agent-ready execution sequence. Use when you have a feature breakdown and need to determine the correct order to build tasks and which can run in parallel.
+---
+name: feature-planning
+description: Sequence tasks from a feature breakdown into an optimal execution order, identify dependencies and parallelization opportunities, and create an agent-ready execution sequence. Use when you have a feature breakdown and need to determine the correct order to build tasks and which can run in parallel.
+---
 
 # Feature Planning Skill
 

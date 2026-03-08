@@ -1,6 +1,7 @@
-______________________________________________________________________
-
-## name: feature-breakdown description: Analyze feature specifications and decompose them into core components, individual tasks, and acceptance criteria. Use when you have a feature spec/idea and need to identify ALL the work required, define what success looks like, and create validation approaches. Focus on WHAT needs building and HOW to verify it's correct (not scheduling or timelines).
+---
+name: feature-breakdown
+description: Analyze feature specifications and decompose them into core components, individual tasks, and acceptance criteria. Use when you have a feature spec/idea and need to identify ALL the work required, define what success looks like, and create validation approaches. Focus on WHAT needs building and HOW to verify it's correct (not scheduling or timelines).
+---
 
 # Feature Breakdown Skill
 

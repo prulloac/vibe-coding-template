@@ -1,6 +1,7 @@
-______________________________________________________________________
-
-## name: skill-validator description: Validate agent skills for correctness, readability, workflow clarity, and isolation, ensuring they can be installed independently without dependencies on other skills.
+---
+name: skill-validator
+description: Validate agent skills for correctness, readability, workflow clarity, and isolation, ensuring they can be installed independently without dependencies on other skills.
+---
 
 # Skill Validator
 

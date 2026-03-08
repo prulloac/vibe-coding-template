@@ -11,5 +11,8 @@
       }
 		}
   },
+  "skills": {
+    "paths": ["./.agents/skills"]
+  },
   "autoupdate": true
 }
