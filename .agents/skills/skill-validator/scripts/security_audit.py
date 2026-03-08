@@ -69,56 +69,52 @@ class SecurityAuditor:
         self.untrusted_data_patterns = {
             'subprocess': {
                 'patterns': [
-                    r'subprocess\.',
-                    r'spawnSync',
-                    r'execSync',
-                    r'Popen',
-                    r'os\.system',
-                    r'os\.popen',
+                    r'\bsubprocess\.run\s*\(',
+                    r'\bsubprocess\.Popen\s*\(',
+                    r'\bsubprocess\.call\s*\(',
+                    r'\bos\.system\s*\(',
+                    r'\bos\.popen\s*\(',
                 ],
                 'severity': Severity.CRITICAL,
                 'description': 'Subprocess execution detected - verify input sanitization'
             },
             'file_read': {
                 'patterns': [
-                    r'open\(',
-                    r'readFile',
-                    r'read_file',
-                    r'fs\.read',
-                    r'pathlib\.Path\(.*\)\.read',
+                    r'\bopen\s*\(',
+                    r'\breadFile\s*\(',
+                    r'\bread_file\s*\(',
+                    r'\bfs\.read',
+                    r'\.read_text\s*\(',
                 ],
                 'severity': Severity.HIGH,
                 'description': 'File read operation detected - verify content validation'
             },
             'api_call': {
                 'patterns': [
-                    r'requests\.',
-                    r'fetch\(',
-                    r'curl',
-                    r'axios',
-                    r'urllib\.request',
+                    r'\brequests\.[a-z]+\s*\(',
+                    r'\bfetch\s*\(',
+                    r'\burllib\.request',
+                    r'\baxios\.[a-z]+\s*\(',
+                    r'\bSession\(\)\.get',
                 ],
                 'severity': Severity.HIGH,
                 'description': 'API call detected - verify response validation'
             },
             'git_data': {
                 'patterns': [
-                    r'git\s+log',
-                    r'git\s+diff',
-                    r'git\s+show',
-                    r'git\s+blame',
-                    r'subprocess.*git',
+                    r'\bgit\s+(log|diff|show|blame)\b',
+                    r'subprocess.*["\']git',
+                    r'\bGit\s*\(',
                 ],
                 'severity': Severity.CRITICAL,
                 'description': 'Git data extraction detected - HIGH RISK for prompt injection'
             },
             'user_input': {
                 'patterns': [
-                    r'\buser\b.*input',
-                    r'argument',
-                    r'parameter',
-                    r'sys\.argv',
-                    r'argparse',
+                    r'\bsys\.argv',
+                    r'\bargparse\.',
+                    r'\binput\s*\(',
+                    r'\bclick\.(argument|option)',
                 ],
                 'severity': Severity.HIGH,
                 'description': 'User input detected - verify validation'
@@ -143,32 +139,57 @@ class SecurityAuditor:
         
         self.high_privilege_ops = {
             'file_delete': {
-                'patterns': [r'rm\s', r'unlink', r'delete.*file', r'removeSync', r'truncate'],
+                'patterns': [
+                    r'\brm\s+[-/]',  # rm command with options (rm -, rm /)
+                    r'\bunlink\s*\(',  # unlink() function call
+                    r'\bremoveSync\s*\(',  # removeSync() function call
+                    r'subprocess\.run.*\[.*["\']rm["\']',  # subprocess with rm
+                    r'os\.remove\s*\(',  # os.remove() function call
+                ],
                 'severity': Severity.CRITICAL,
-                'description': 'File deletion detected - requires user confirmation'
+                'description': 'File deletion operation detected - requires user confirmation'
             },
             'file_modify': {
-                'patterns': [r'chmod', r'chown', r'truncate', r'rename'],
+                'patterns': [
+                    r'\bchmod\s+[0-9]',  # chmod with permission number
+                    r'\bchown\s+',  # chown command
+                    r'\brename\s*\(',  # rename() function call
+                ],
                 'severity': Severity.HIGH,
                 'description': 'File modification detected - requires validation'
             },
             'git_push': {
-                'patterns': [r'git\s+push', r'gh\s+pr\s+create', r'git\s+merge'],
+                'patterns': [
+                    r'\bgit\s+push\b',  # git push command
+                    r'\bgh\s+pr\s+create\b',  # gh pr create command
+                    r'\bgit\s+merge\b',  # git merge command
+                ],
                 'severity': Severity.CRITICAL,
                 'description': 'Git push/PR creation detected - requires human approval'
             },
             'git_force': {
-                'patterns': [r'git\s+push.*--force', r'git\s+reset.*--hard'],
+                'patterns': [
+                    r'git\s+push.*--force',  # git push --force
+                    r'git\s+reset.*--hard',  # git reset --hard
+                ],
                 'severity': Severity.CRITICAL,
                 'description': 'Force git operation detected - EXTREMELY high risk'
             },
             'shell_exec': {
-                'patterns': [r'system\(', r'exec\(', r'shell\s*=\s*True'],
+                'patterns': [
+                    r'\bsystem\s*\(',  # system() function call
+                    r'\bexec\s*\(',  # exec() function call
+                    r'shell\s*=\s*True\b',  # shell=True parameter
+                ],
                 'severity': Severity.CRITICAL,
                 'description': 'Shell execution detected - use subprocess with list args'
             },
             'file_write': {
-                'patterns': [r'open\(.*["\']w["\']', r'writeFile\('],
+                'patterns': [
+                    r'open\s*\([^)]*["\']w["\']',  # open() with 'w' mode
+                    r'\bwriteFile\s*\(',  # writeFile() function call
+                    r'\bwrite\s*\(.*\)\s*$',  # .write() at end of line
+                ],
                 'severity': Severity.HIGH,
                 'description': 'File write operation detected - verify content validation'
             }
@@ -187,26 +208,26 @@ class SecurityAuditor:
             },
             'shell_injection': {
                 'patterns': [
-                    r'(subprocess|system|shell)\s*[\(\[].*[f"\'].*[\${]',
-                    r'os\.system\(.*[f"\']',
-                    r'shell\s*=\s*True.*[\${]',
+                    r'\bsubprocess\.run\s*\([^)]*f["\'][^"\']*\$',
+                    r'\bos\.system\s*\([^)]*f["\']',
+                    r'shell\s*=\s*True\b.*\bsubprocess',
                 ],
                 'risk': 'CRITICAL',
                 'description': 'Untrusted data in shell command - shell injection risk'
             },
             'sql_injection': {
                 'patterns': [
-                    r'(query|execute|sql)\s*[\(\[].*[f"\'].*[\${]',
-                    r'(SELECT|INSERT|UPDATE|DELETE).*[f"\']',
+                    r'\b(query|execute|sql|cursor|dbapi)\s*\([^)]*f["\'][^"\']*\$',
+                    r'\bexecute\s*\([^)]*\+.*variable',
                 ],
                 'risk': 'CRITICAL',
                 'description': 'Untrusted data in SQL query - SQL injection risk'
             },
             'code_injection': {
                 'patterns': [
-                    r'eval\s*\(',
-                    r'exec\s*\(',
-                    r'__import__',
+                    r'\beval\s*\([^)]*\)',
+                    r'\bexec\s*\([^)]*\)',
+                    r'\b__import__\s*\(',
                 ],
                 'risk': 'CRITICAL',
                 'description': 'Code injection detected - eval/exec of untrusted data'
