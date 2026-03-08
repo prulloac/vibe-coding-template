@@ -23,7 +23,7 @@ jobs:
 
       - name: Validate skills using skill-validator
         env:
-          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
+          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_TOKEN }}
         run: |
           cat <<EOF > validate_prompt.txt
           Run the skill-validator skill to validate all skills in the .agents/skills directory.
