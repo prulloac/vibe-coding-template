@@ -42,8 +42,8 @@ repos:
   - repo: local
     hooks:
       - id: validate-commit-msg
-        name: validate commit message (opencode)
-        entry: .pre-commit-hooks/validate-commit-msg-opencode.sh
+        name: validate commit message (gemini)
+        entry: .pre-commit-hooks/validate-commit-msg-gemini.sh
         language: script
         stages: [commit-msg]
         always_run: true
