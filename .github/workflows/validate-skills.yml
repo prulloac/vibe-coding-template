@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup GitHub CLI
-        run: gh extension install github/copilot-cli
+        run: gh extension install gh-copilot
 
       - name: Validate skills using skill-validator
         run: gh copilot skill invoke skill-validator
