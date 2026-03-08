@@ -17,15 +17,53 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed skills
+        id: changed-skills
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            # Get files changed in PR
+            CHANGED_FILES=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '.files[].path')
+          else
+            # For push, compare with main/master
+            BASE_BRANCH=$(git rev-parse --abbrev-ref origin/HEAD | sed 's|origin/||')
+            CHANGED_FILES=$(git diff --name-only $BASE_BRANCH...HEAD)
+          fi
+          
+          # Filter for skills directory and extract skill names
+          SKILLS=""
+          for file in $CHANGED_FILES; do
+            if [[ "$file" == .agents/skills/*/SKILL.md ]]; then
+              SKILL_NAME=$(echo "$file" | sed 's|.agents/skills/||' | sed 's|/SKILL.md||')
+              if [[ ! " $SKILLS " =~ " $SKILL_NAME " ]]; then
+                SKILLS="$SKILLS $SKILL_NAME"
+              fi
+            fi
+          done
+          
+          echo "skills=$SKILLS" >> $GITHUB_OUTPUT
 
       - name: Install Copilot CLI
+        if: steps.changed-skills.outputs.skills != ''
         run: npm install -g @github/copilot
 
-      - name: Validate skills using skill-validator
+      - name: Validate changed skills
+        if: steps.changed-skills.outputs.skills != ''
         env:
           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_TOKEN }}
+          CHANGED_SKILLS: ${{ steps.changed-skills.outputs.skills }}
         run: |
           cat <<EOF > validate_prompt.txt
-          Run the skill-validator skill to validate all skills in the .agents/skills directory.
+          Run the skill-validator skill to validate only the following skills in the .agents/skills directory:
+          
+          Skills to validate: $CHANGED_SKILLS
+          
+          Focus on validating these specific skills only.
           EOF
           copilot -s -p "$(cat validate_prompt.txt)"
+
+      - name: No skills to validate
+        if: steps.changed-skills.outputs.skills == ''
+        run: echo "No skill changes detected in this PR"
