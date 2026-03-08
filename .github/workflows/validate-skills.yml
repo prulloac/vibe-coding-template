@@ -1,0 +1,25 @@
+name: Validate Skills
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  validate-skills:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: read
+      pull-requests: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup GitHub CLI
+        run: gh extension install github/copilot-cli
+
+      - name: Validate skills using skill-validator
+        run: gh copilot skill invoke skill-validator
