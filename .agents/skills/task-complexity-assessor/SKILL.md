@@ -1,6 +1,6 @@
 ---
 name: task-complexity-assessor
-description: Assess task complexity to determine when to use a todo list. Analyzes user requests for new features or tasks, estimates complexity in steps, and suggests relevant skills from the skills directory that could help accomplish the task.
+description: Use this skill when a user requests a new feature, bug fix, refactoring, or any multi-step task. Assesses complexity, estimates steps, determines if a todo list is needed, and suggests relevant skills to accomplish the task.
 ---
 
 # Task Complexity Assessor Skill
@@ -220,3 +220,13 @@ When you assess a task:
 ❌ **Over-recommending todo** - Simple tasks don't need overhead
 
 ❌ **Vague recommendations** - "Consider using skills" is not helpful; be specific
+
+## Validation
+
+After completing the assessment, verify:
+
+- [ ] Complexity rating is one of: Simple / Moderate / Complex / Very Complex
+- [ ] Estimated step count aligns with the complexity table
+- [ ] Todo recommendation is explicitly stated (use / skip)
+- [ ] 2–3 relevant skills are named with justification (or explicitly none if N/A)
+- [ ] Output follows the format defined in "## Output Format"
