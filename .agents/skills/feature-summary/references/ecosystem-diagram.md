@@ -44,6 +44,7 @@ This document shows how feature-summary fits into the feature documentation work
 ## Documentation Hierarchy
 
 ### Feature Documentation (Unified Structure)
+
 ```
 docs/features/
 ├── git-blame-overlay/
@@ -61,12 +62,12 @@ docs/features/
 
 ## When to Use Each Skill
 
-| Skill | When | What you need | What you get |
-|-------|------|---------------|--------------|
-| **feature-breakdown** | Planning a new feature | Spec or detailed idea | Task decomposition + acceptance criteria |
-| **feature-summary** | Documenting existing feature | Implemented feature | User-facing documentation + roadmap |
-| **feature-planning** | Scheduling work | breakdown.md | Execution sequence + timeline |
-| **execution-tracking** | Monitoring progress | implementation-sequence.md | Progress reports + blocker tracking |
+| Skill                  | When                         | What you need              | What you get                             |
+| ---------------------- | ---------------------------- | -------------------------- | ---------------------------------------- |
+| **feature-breakdown**  | Planning a new feature       | Spec or detailed idea      | Task decomposition + acceptance criteria |
+| **feature-summary**    | Documenting existing feature | Implemented feature        | User-facing documentation + roadmap      |
+| **feature-planning**   | Scheduling work              | breakdown.md               | Execution sequence + timeline            |
+| **execution-tracking** | Monitoring progress          | implementation-sequence.md | Progress reports + blocker tracking      |
 
 ## Information Flow
 
@@ -96,12 +97,12 @@ execution-tracking monitors
 
 The **feature-summary** skill transforms internal planning into user-facing documentation:
 
-| Source | From | Use For |
-|--------|------|---------|
-| Feature spec | Input | Overview, use cases |
-| breakdown.md | Optional input | Completeness check, architecture context |
-| Actual implementation | Input | Technical accuracy, current status |
-| feature-planning docs | Optional input | Future enhancements, roadmap |
+| Source                | From           | Use For                                  |
+| --------------------- | -------------- | ---------------------------------------- |
+| Feature spec          | Input          | Overview, use cases                      |
+| breakdown.md          | Optional input | Completeness check, architecture context |
+| Actual implementation | Input          | Technical accuracy, current status       |
+| feature-planning docs | Optional input | Future enhancements, roadmap             |
 
 **Result**: Comprehensive documentation that serves users, developers, and stakeholders
 
@@ -124,24 +125,29 @@ The **feature-summary** skill transforms internal planning into user-facing docu
 ## Recommended Execution Order
 
 1. **Create feature-breakdown** (1-2 hrs)
+
    - Understand scope completely
    - Document all tasks and acceptance criteria
 
-2. **Create feature-summary** (1-2 hrs)
+1. **Create feature-summary** (1-2 hrs)
+
    - Document for users
    - Classify feature type
    - Plan future enhancements
 
-3. **Create feature-planning** (1-2 hrs)
+1. **Create feature-planning** (1-2 hrs)
+
    - Sequence tasks for team
    - Identify dependencies
    - Create timeline
 
-4. **Team implementation** (varies)
+1. **Team implementation** (varies)
+
    - Follow the plan
    - Implement features
 
-5. **execution-tracking** (ongoing)
+1. **execution-tracking** (ongoing)
+
    - Monitor progress
    - Adjust as needed
    - Track blockers

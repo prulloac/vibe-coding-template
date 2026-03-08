@@ -2,7 +2,7 @@
 
 This example demonstrates how to document a **core functionality** feature. This is the "Git Blame Overlay" feature from the git-blame-vsc extension.
 
----
+______________________________________________________________________
 
 # Git Blame Overlay Feature
 
@@ -18,7 +18,7 @@ The Git Blame Overlay is the core feature of the git-blame-vsc extension. It pro
 
 ## Feature Type
 
-**Category**: Core Functionality  
+**Category**: Core Functionality
 **Type**: Primary feature that defines the extension's main purpose
 
 This is the foundational feature that users install the extension for. All other features (formatting, styling, management, optimization) exist to enhance or support this core capability.
@@ -28,6 +28,7 @@ This is the foundational feature that users install the extension for. All other
 Users can immediately understand who made changes to a line and when without leaving their editor. This streamlines code review processes, debugging, and understanding code history during development.
 
 **Benefits**:
+
 - **Accelerated code review**: Quickly identify commit context without switching tools
 - **Efficient debugging**: Understand when and why code was changed
 - **Reduced context switching**: Blame information inline within the editor
@@ -38,8 +39,8 @@ Users can immediately understand who made changes to a line and when without lea
 When a user clicks on a line of code in a git-tracked file:
 
 1. The extension detects the click event
-2. It queries the git repository for blame information for that specific line
-3. An inline overlay appears at the end of the line showing:
+1. It queries the git repository for blame information for that specific line
+1. An inline overlay appears at the end of the line showing:
    - The commit hash (7-character short hash)
    - Author name and/or email
    - Commit date
@@ -50,9 +51,9 @@ When a user clicks on a line of code in a git-tracked file:
 No need for commands or keyboard shortcuts. The interaction is intuitive:
 
 1. Click a line of code
-2. Overlay appears with blame information
-3. Click another line to update the overlay
-4. Use "Clear Line Overlay" command to hide it
+1. Overlay appears with blame information
+1. Click another line to update the overlay
+1. Use "Clear Line Overlay" command to hide it
 
 ### Example Output
 
@@ -65,19 +66,23 @@ The overlay appears non-intrusively at the end of the clicked line, providing in
 ## Key Features
 
 ### Core Functionality
+
 - **Click-to-activate**: No keyboard shortcuts needed, simply click any line
 - **Git integration**: Uses native `git blame` command for accuracy
 - **Real-time access**: Instantly shows blame data from repository
 - **Smart defaults**: Shows appropriate format without configuration
 
 ### Data Provided
+
 - **Commit hash**: Short 7-character hash for easy reference
 - **Author information**: Full name and email extracted from git config
 - **Commit date**: YYYY-MM-DD format for consistency
 - **Commit message**: The subject line of the commit
 
 ### Non-Git Files
+
 For files not in a git repository:
+
 - Overlay still appears on click (empty by default)
 - No error messages or noise is generated
 - Seamless user experience across tracked and untracked files
@@ -94,6 +99,7 @@ For detailed configuration options, see the [Customizable Formatting](../customi
 ## Technical Implementation
 
 ### Related Source Code
+
 - **Core Extension**: [src/extension.ts](../../src/extension.ts)
 - **Blame Provider**: [src/blameProvider.ts](../../src/blameProvider.ts)
 - **Overlay Manager**: [src/overlayManager.ts](../../src/overlayManager.ts)
@@ -103,23 +109,26 @@ For detailed configuration options, see the [Customizable Formatting](../customi
 The feature uses a three-component architecture:
 
 1. **Blame Provider** - Fetches git blame data using `git blame` command
-2. **Overlay Manager** - Creates and positions VS Code decorations
-3. **Extension Entry Point** - Coordinates between providers and managers
+1. **Overlay Manager** - Creates and positions VS Code decorations
+1. **Extension Entry Point** - Coordinates between providers and managers
 
 ### Key Implementation Details
 
 **BlameProvider**:
+
 - Executes `git blame` command for files
 - Parses blame output line-by-line
 - Fetches full commit messages via `git log`
 - Caches results for performance (30-second TTL)
 
 **OverlayManager**:
+
 - Creates VS Code decorations for inline display
 - Positions overlays at line end
 - Manages overlay lifecycle and clearing
 
 **Extension**:
+
 - Registers click event listeners
 - Coordinates between BlameProvider and OverlayManager
 - Handles configuration and formatting
@@ -127,20 +136,22 @@ The feature uses a three-component architecture:
 ## User Interactions
 
 ### Primary Workflow
+
 1. User opens a file in a git repository
-2. User clicks on a line of code
-3. Extension queries git blame for that line
-4. Overlay appears with formatted blame information
-5. User can click another line to update the overlay
+1. User clicks on a line of code
+1. Extension queries git blame for that line
+1. Overlay appears with formatted blame information
+1. User can click another line to update the overlay
 
 ### Alternative Workflows
+
 - **Clear overlay**: Open Command Palette, search "Clear Line Overlay"
 - **Switch lines**: Click a different line; overlay updates automatically
 
 ### Commands
 
-| Command | ID | Description |
-|---------|----|----|
+| Command            | ID                           | Description             |
+| ------------------ | ---------------------------- | ----------------------- |
 | Clear Line Overlay | `git-blame-vsc.clearOverlay` | Removes current overlay |
 
 ## Status and Roadmap
@@ -157,10 +168,10 @@ The feature uses a three-component architecture:
 ### Known Limitations
 
 1. **Cache limitations**: Blame data is cached for 30 seconds. External file changes may not reflect immediately.
-2. **Large files**: Very large files may take a moment to compute blame on first request
-3. **Recently moved files**: Renamed or moved files may show inaccurate blame until the file is saved
-4. **Git requirement**: Requires git to be installed and accessible in system PATH
-5. **Single overlay**: Only one overlay visible at a time
+1. **Large files**: Very large files may take a moment to compute blame on first request
+1. **Recently moved files**: Renamed or moved files may show inaccurate blame until the file is saved
+1. **Git requirement**: Requires git to be installed and accessible in system PATH
+1. **Single overlay**: Only one overlay visible at a time
 
 ### Future Enhancements (Out of Scope - v0.0.2)
 

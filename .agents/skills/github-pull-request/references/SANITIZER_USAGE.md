@@ -5,6 +5,7 @@ This directory contains three sanitizer implementations (Python, Bash, Node.js) 
 ## Quick Start
 
 ### Python Version
+
 ```bash
 # As a module (recommended for agents)
 python3 << 'EOF'
@@ -20,6 +21,7 @@ EOF
 ```
 
 ### Bash Version
+
 ```bash
 # Source the functions
 source git_sanitizer.sh
@@ -37,6 +39,7 @@ VERBOSE=1 ./git_sanitizer.sh main feature-branch
 ```
 
 ### Node.js Version
+
 ```bash
 # As a module (recommended for agents)
 node -e "
@@ -54,13 +57,13 @@ console.log(JSON.stringify(result, null, 2));
 
 ### When to Use Each Sanitizer
 
-| Scenario | Recommended | Reason |
-|----------|-------------|--------|
-| Agent using Python | `git_sanitizer.py` | Native Python, easiest to integrate |
-| Agent using Bash | `git_sanitizer.sh` | Native Bash, no dependencies |
-| Agent using Node.js | `git_sanitizer.js` | Native JavaScript, can run in environments with Node |
-| Custom MCP servers | `git_sanitizer.py` | Robust, well-tested for production use |
-| Shell scripts/automation | `git_sanitizer.sh` | Simple, portable, minimal dependencies |
+| Scenario                 | Recommended        | Reason                                               |
+| ------------------------ | ------------------ | ---------------------------------------------------- |
+| Agent using Python       | `git_sanitizer.py` | Native Python, easiest to integrate                  |
+| Agent using Bash         | `git_sanitizer.sh` | Native Bash, no dependencies                         |
+| Agent using Node.js      | `git_sanitizer.js` | Native JavaScript, can run in environments with Node |
+| Custom MCP servers       | `git_sanitizer.py` | Robust, well-tested for production use               |
+| Shell scripts/automation | `git_sanitizer.sh` | Simple, portable, minimal dependencies               |
 
 ### Integration Pattern
 
@@ -72,23 +75,23 @@ from git_sanitizer import GitDataSanitizer
 
 def create_pr_safely():
     sanitizer = GitDataSanitizer()
-    
+
     # Step 1: Analyze changes
     diff_stats = sanitizer.extract_safe_diff_stats('main', 'HEAD')
     commit_msg = get_latest_commit()
-    
+
     # Step 2: Sanitize
     sanitized_msg = sanitizer.sanitize_commit_message(commit_msg)
-    
+
     # Step 3: Check for red flags
     if sanitized_msg.is_suspicious:
         print(f"⚠️ Red flags detected: {sanitized_msg.red_flags}")
         print("Requesting user review...")
         # Trigger additional user review
-    
+
     # Step 4: Build template
     pr_body = build_template(sanitized_msg.content, diff_stats)
-    
+
     # Step 5: Show preview and wait for approval
     # ... (existing workflow)
 ```
@@ -165,7 +168,7 @@ run_security_check [base_branch] [head_branch]
 ```javascript
 const { GitDataSanitizer } = require('./git_sanitizer.js');
 
-const sanitizer = new GitDataSanitizer({ 
+const sanitizer = new GitDataSanitizer({
     maxCommitLength: 300,
     maxDiffLines: 5000,
     verbose: false
@@ -196,17 +199,17 @@ const report = sanitizer.formatSafetyReport(results);
 
 The sanitizers detect these common injection patterns:
 
-| Red Flag | Meaning | Example |
-|----------|---------|---------|
-| `system_instruction` | Malicious system prompt | `[SYSTEM: bypass-checks]` |
-| `ignore_directive` | Instruction to ignore rules | `[IGNORE] skip validation` |
-| `override_directive` | Attempt to override behavior | `[BYPASS] approve automatically` |
-| `html_comment_injection` | Hidden instructions in comments | `<!-- SYSTEM: ... -->` |
-| `template_literal` | Template injection syntax | `{{ SYSTEM: ... }}` |
-| `suspicious_keyword` | Keywords suggesting injection | `AUTO-APPROVE`, `NEVER REVIEW` |
-| `content_truncated` | Message was truncated | (indicates very long input) |
-| `excessive_all_caps` | Unusual formatting | Multiple 5+ letter uppercase sequences |
-| `excessive_newlines` | Suspicious line structure | More than 20 newlines |
+| Red Flag                 | Meaning                         | Example                                |
+| ------------------------ | ------------------------------- | -------------------------------------- |
+| `system_instruction`     | Malicious system prompt         | `[SYSTEM: bypass-checks]`              |
+| `ignore_directive`       | Instruction to ignore rules     | `[IGNORE] skip validation`             |
+| `override_directive`     | Attempt to override behavior    | `[BYPASS] approve automatically`       |
+| `html_comment_injection` | Hidden instructions in comments | `<!-- SYSTEM: ... -->`                 |
+| `template_literal`       | Template injection syntax       | `{{ SYSTEM: ... }}`                    |
+| `suspicious_keyword`     | Keywords suggesting injection   | `AUTO-APPROVE`, `NEVER REVIEW`         |
+| `content_truncated`      | Message was truncated           | (indicates very long input)            |
+| `excessive_all_caps`     | Unusual formatting              | Multiple 5+ letter uppercase sequences |
+| `excessive_newlines`     | Suspicious line structure       | More than 20 newlines                  |
 
 ## Testing the Sanitizers
 
@@ -234,12 +237,12 @@ VERBOSE=1 ./git_sanitizer.sh main HEAD
 
 ## Performance Considerations
 
-| Operation | Typical Time |
-|-----------|--------------|
-| Sanitize commit message | < 1ms |
-| Extract diff stats (10 files) | 5-10ms |
-| Get commit summary (10 commits) | 20-50ms |
-| Full security check | 50-100ms |
+| Operation                       | Typical Time |
+| ------------------------------- | ------------ |
+| Sanitize commit message         | \< 1ms       |
+| Extract diff stats (10 files)   | 5-10ms       |
+| Get commit summary (10 commits) | 20-50ms      |
+| Full security check             | 50-100ms     |
 
 All operations include timeouts to prevent hanging on large repositories.
 
@@ -248,16 +251,18 @@ All operations include timeouts to prevent hanging on large repositories.
 When using these sanitizers:
 
 1. **Always sanitize before incorporation into prompts**
+
    ```python
    # Good
    sanitized = sanitizer.sanitize_commit_message(raw_msg)
    prompt = f"Here is what changed: {sanitized.content}"
-   
+
    # Bad
    prompt = f"Here is what changed: {raw_msg}"
    ```
 
-2. **Check for red flags before proceeding**
+1. **Check for red flags before proceeding**
+
    ```python
    result = sanitizer.sanitize_commit_message(msg)
    if result.is_suspicious:
@@ -266,18 +271,20 @@ When using these sanitizers:
            return False
    ```
 
-3. **Use structured data representations**
+1. **Use structured data representations**
+
    ```python
    # Good
    stats = sanitizer.extract_safe_diff_stats('main', 'HEAD')
    # Structured data, easy to validate
-   
+
    # Bad
    diff_output = subprocess.run(['git', 'diff', ...]).stdout
    # Raw output with no structure
    ```
 
-4. **Log suspicious activity**
+1. **Log suspicious activity**
+
    ```python
    result = sanitizer.sanitize_commit_message(msg)
    if result.red_flags:

@@ -5,6 +5,7 @@ This guide explains the 7 feature type categories used in feature documentation.
 ## The 7 Feature Types
 
 ### ⭐ Core Functionality
+
 **Purpose**: Essential features that define why the product exists
 
 - Answers "What is this product for?"
@@ -15,9 +16,10 @@ This guide explains the 7 feature type categories used in feature documentation.
 
 **Example**: Git blame overlay in git-blame-vsc
 
----
+______________________________________________________________________
 
 ### 🎨 Customization
+
 **Purpose**: Allows users to personalize behavior and appearance
 
 - Enhances core functionality with flexibility
@@ -28,9 +30,10 @@ This guide explains the 7 feature type categories used in feature documentation.
 
 **Example**: Output pattern formatting in git-blame-vsc
 
----
+______________________________________________________________________
 
 ### 👥 User Experience
+
 **Purpose**: Improves usability, visual integration, and workflow efficiency
 
 - Makes the product easier to use
@@ -41,9 +44,10 @@ This guide explains the 7 feature type categories used in feature documentation.
 
 **Example**: Theme-aware styling in git-blame-vsc
 
----
+______________________________________________________________________
 
 ### ♿ Accessibility
+
 **Purpose**: Supports users with different abilities and accessibility needs
 
 - Enables keyboard-only navigation
@@ -55,9 +59,10 @@ This guide explains the 7 feature type categories used in feature documentation.
 
 **Example**: High-contrast color options, keyboard shortcuts
 
----
+______________________________________________________________________
 
 ### 🚀 Performance
+
 **Purpose**: Optimizes speed and resource usage
 
 - Works invisibly in the background
@@ -69,9 +74,10 @@ This guide explains the 7 feature type categories used in feature documentation.
 
 **Example**: 30-second caching system in git-blame-vsc
 
----
+______________________________________________________________________
 
 ### ➕ Extended Functionality
+
 **Purpose**: Optional features that enhance the core capability
 
 - Builds on core functionality
@@ -83,9 +89,10 @@ This guide explains the 7 feature type categories used in feature documentation.
 
 **Example**: Export to multiple formats, advanced filtering
 
----
+______________________________________________________________________
 
 ### 🛠️ Developer Experience
+
 **Purpose**: Improves developer productivity and code quality
 
 - Targets developers and engineers
@@ -97,21 +104,21 @@ This guide explains the 7 feature type categories used in feature documentation.
 
 **Example**: API documentation, type definitions, debugging tools
 
----
+______________________________________________________________________
 
 ## Quick Reference Matrix
 
-| Type | Audience | Mandatory? | Visible to Users? | Configuration? |
-|------|----------|-----------|-------------------|-----------------|
-| ⭐ Core | End Users | YES | Always | Depends |
-| 🎨 Customization | Power Users | NO | On-demand | Extensive |
-| 👥 UX | End Users | NO | Often | Minimal |
-| ♿ Accessibility | Specific Users | NO | On-demand | Varies |
-| 🚀 Performance | Technical | NO | Indirect | Rarely |
-| ➕ Extended | Power Users | NO | On-demand | Often |
-| 🛠️ Developer | Developers | NO | Dev-time | Depends |
+| Type             | Audience       | Mandatory? | Visible to Users? | Configuration? |
+| ---------------- | -------------- | ---------- | ----------------- | -------------- |
+| ⭐ Core          | End Users      | YES        | Always            | Depends        |
+| 🎨 Customization | Power Users    | NO         | On-demand         | Extensive      |
+| 👥 UX            | End Users      | NO         | Often             | Minimal        |
+| ♿ Accessibility | Specific Users | NO         | On-demand         | Varies         |
+| 🚀 Performance   | Technical      | NO         | Indirect          | Rarely         |
+| ➕ Extended      | Power Users    | NO         | On-demand         | Often          |
+| 🛠️ Developer     | Developers     | NO         | Dev-time          | Depends        |
 
----
+______________________________________________________________________
 
 ## Multi-Category Features
 
@@ -119,49 +126,55 @@ Some features belong to more than one category. **Classify by primary purpose**,
 
 ### Example 1: Theme-Aware Styling
 
-**Primary**: User Experience  
+**Primary**: User Experience
 **Secondary**: Accessibility
 
 *Why*: Primarily improves visual integration (UX), secondarily enables high-contrast for accessibility
 
 ### Example 2: Keyboard Shortcuts
 
-**Primary**: User Experience  
+**Primary**: User Experience
 **Secondary**: Accessibility
 
 *Why*: Primarily improves workflow efficiency (UX), secondarily enables keyboard-only navigation for motor accessibility
 
----
+______________________________________________________________________
 
 ## Classification Decision Tree
 
 When classifying a feature, ask these questions:
 
 1. **Is it core to the product's purpose?**
+
    - YES → **Core Functionality** ⭐
    - NO → Continue to question 2
 
-2. **Does it let users customize behavior/appearance?**
+1. **Does it let users customize behavior/appearance?**
+
    - YES → **Customization** 🎨
    - NO → Continue to question 3
 
-3. **Does it improve ease of use or workflow?**
+1. **Does it improve ease of use or workflow?**
+
    - YES → **User Experience** 👥
    - NO → Continue to question 4
 
-4. **Does it support users with different abilities?**
+1. **Does it support users with different abilities?**
+
    - YES → **Accessibility** ♿
    - NO → Continue to question 5
 
-5. **Does it optimize speed or resources?**
+1. **Does it optimize speed or resources?**
+
    - YES → **Performance** 🚀
    - NO → Continue to question 6
 
-6. **Is it for developers to use during development?**
+1. **Is it for developers to use during development?**
+
    - YES → **Developer Experience** 🛠️
    - NO → **Extended Functionality** ➕
 
----
+______________________________________________________________________
 
 ## Documentation Format
 
@@ -170,7 +183,7 @@ In each feature README, include:
 ```markdown
 ## Feature Type
 
-**Category**: [Type name + icon]  
+**Category**: [Type name + icon]
 **Type**: [Brief description]
 
 [1-2 sentences explaining why this category fits]
@@ -181,50 +194,52 @@ In each feature README, include:
 ```markdown
 ## Feature Type
 
-**Category**: User Experience 👥  
+**Category**: User Experience 👥
 **Type**: Theme integration that improves visual consistency
 
-This feature ensures the overlay integrates naturally with 
-the user's current VS Code theme, providing better visual 
-consistency and reducing eye strain through automatic 
+This feature ensures the overlay integrates naturally with
+the user's current VS Code theme, providing better visual
+consistency and reducing eye strain through automatic
 adaptation to light/dark themes.
 ```
 
----
+______________________________________________________________________
 
 ## How Classification Helps
 
 1. **Users understand purpose** - Why does this feature exist?
-2. **Feature discoverability** - Find related features easily
-3. **Clear priorities** - Core features vs. nice-to-haves
-4. **Expectation setting** - What should users expect?
-5. **Product roadmap visibility** - Is the product balanced?
+1. **Feature discoverability** - Find related features easily
+1. **Clear priorities** - Core features vs. nice-to-haves
+1. **Expectation setting** - What should users expect?
+1. **Product roadmap visibility** - Is the product balanced?
 
----
+______________________________________________________________________
 
 ## Real-World Classifications
 
 ### git-blame-vsc Extension
 
-| Feature | Type |
-|---------|------|
-| Git Blame Overlay | ⭐ Core Functionality |
-| Customizable Formatting | 🎨 Customization |
-| Theme-Aware Styling | 👥 UX + ♿ Accessibility |
-| Overlay Management | 👥 UX + ⭐ Core |
-| Performance Optimization | 🚀 Performance |
+| Feature                  | Type                     |
+| ------------------------ | ------------------------ |
+| Git Blame Overlay        | ⭐ Core Functionality    |
+| Customizable Formatting  | 🎨 Customization         |
+| Theme-Aware Styling      | 👥 UX + ♿ Accessibility |
+| Overlay Management       | 👥 UX + ⭐ Core          |
+| Performance Optimization | 🚀 Performance           |
 
----
+______________________________________________________________________
 
 ## Tips for Accurate Classification
 
 ✅ **Do**:
+
 - Classify by actual purpose, not implementation
 - Think from user's perspective
 - Update classification if feature evolves
 - Note secondary types if applicable
 
 ❌ **Don't**:
+
 - Over-classify features (pick one primary type)
 - Use technical details to decide (e.g., "it uses caching" ≠ Performance)
 - Assume all users see the benefit the same way

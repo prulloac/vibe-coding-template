@@ -8,6 +8,7 @@ Generates documentation for the unified skill validator system.
 # This is metadata for the validator documentation
 
 VALIDATOR_DOCUMENTATION = """
+
 # Skill Validator - Complete Implementation Guide
 
 ## Overview
@@ -15,8 +16,8 @@ VALIDATOR_DOCUMENTATION = """
 The Skill Validator is a comprehensive validation system that ensures OpenCode agent skills meet quality, security, and correctness standards. It integrates three complementary validation approaches:
 
 1. **Structure Validation** - SKILL.md format, file organization, frontmatter compliance
-2. **Security Validation** - Detects vulnerabilities, unsafe operations, prompt injection risks
-3. **Eval Loop Validation** - Tests skill triggering using sample queries
+1. **Security Validation** - Detects vulnerabilities, unsafe operations, prompt injection risks
+1. **Eval Loop Validation** - Tests skill triggering using sample queries
 
 ## Quick Start
 
@@ -58,6 +59,7 @@ python run_skill_evals.py /path/to/skill --output eval_results.json --trigger-th
 **Purpose**: Ensures skill folder organization and SKILL.md compliance
 
 **Checks**:
+
 - SKILL.md file exists
 - YAML frontmatter is valid with required fields:
   - `name`: Short identifier (alphanumeric-dash)
@@ -66,11 +68,13 @@ python run_skill_evals.py /path/to/skill --output eval_results.json --trigger-th
 - No circular references between skills
 
 **Example Output**:
+
 ```
 Skill is valid!
 ```
 
 **When it fails**:
+
 ```
 ERROR: Missing SKILL.md file
 ERROR: Missing required field 'name' in frontmatter
@@ -84,7 +88,9 @@ ERROR: Invalid YAML frontmatter
 **Security Checks**:
 
 #### Rule 1: Untrusted Data Detection
+
 Identifies potential sources of untrusted data:
+
 - Subprocess execution patterns
 - File read/write operations
 - API calls and network requests
@@ -92,6 +98,7 @@ Identifies potential sources of untrusted data:
 - User input handling
 
 **Example Issue**:
+
 ```
 ⚠️ [HIGH] Untrusted Data Sources Detected
    Found untrusted data sources: subprocess, file_read
@@ -99,12 +106,15 @@ Identifies potential sources of untrusted data:
 ```
 
 #### Rule 2: Sanitization Verification
+
 Checks if untrusted data is properly validated/escaped:
+
 - Searches for sanitization functions
 - Verifies input validation patterns
 - Detects missing protections
 
 **Example Issue**:
+
 ```
 🚨 [CRITICAL] Untrusted Data Without Sanitization
    Untrusted data sources found but no sanitization functions detected
@@ -112,13 +122,16 @@ Checks if untrusted data is properly validated/escaped:
 ```
 
 #### Rule 3: High-Privilege Operations
+
 Detects operations requiring special care:
+
 - File deletion/modification
 - Shell command execution
 - Git repository operations
 - Process management
 
 **Example Issue**:
+
 ```
 ⚠️ [HIGH] High-Privilege Operation: file_removal
    File removal operation detected - requires user confirmation
@@ -126,13 +139,16 @@ Detects operations requiring special care:
 ```
 
 #### Rule 4: Injection Vulnerabilities
+
 Detects injection attack risks:
+
 - **Prompt Injection**: Skill description suggests prompt concatenation without escaping
 - **Shell Injection**: Subprocess execution with unsanitized input
 - **SQL Injection**: Database queries with untrusted input
 - **Code Injection**: eval/exec with user input
 
 **Example Issue**:
+
 ```
 🚨 [CRITICAL] Prompt Injection Vulnerability
    Skill description mentions unsafe prompt concatenation
@@ -140,12 +156,15 @@ Detects injection attack risks:
 ```
 
 #### Rule 5: Error Handling
+
 Checks for comprehensive error handling:
+
 - try/except blocks around dangerous operations
 - Proper exception logging
 - No sensitive data exposure in errors
 
 **Example Issue**:
+
 ```
 ⚠️ [HIGH] Missing Error Handling
    No try/except blocks found for external operations
@@ -153,12 +172,15 @@ Checks for comprehensive error handling:
 ```
 
 #### Rule 6: Secrets Protection
+
 Verifies credentials aren't hardcoded:
+
 - API keys, tokens, passwords
 - Database connection strings
 - Private URLs
 
 **Example Issue**:
+
 ```
 🚨 [CRITICAL] Hardcoded Secrets Found
    Found hardcoded API key or password
@@ -166,6 +188,7 @@ Verifies credentials aren't hardcoded:
 ```
 
 **Running Security Validation**:
+
 ```bash
 python run_security_checks.py /path/to/skill
 
@@ -177,6 +200,7 @@ python run_security_checks.py /path/to/skill --output report.json
 ```
 
 **Report Format**:
+
 ```json
 {
   "skill_name": "brainstorming-partner",
@@ -196,13 +220,15 @@ python run_security_checks.py /path/to/skill --output report.json
 **Purpose**: Tests skill triggering effectiveness with sample queries
 
 **How It Works**:
+
 1. Reads test queries from `evals/evals.json`
-2. Creates temporary skill copies for testing
-3. Runs OpenCode CLI with each query
-4. Detects skill triggering in response
-5. Calculates trigger rate statistics
+1. Creates temporary skill copies for testing
+1. Runs OpenCode CLI with each query
+1. Detects skill triggering in response
+1. Calculates trigger rate statistics
 
 **Query Format** (`evals/evals.json`):
+
 ```json
 {
   "evals": [
@@ -217,6 +243,7 @@ python run_security_checks.py /path/to/skill --output report.json
 ```
 
 **Running Eval Tests**:
+
 ```bash
 # Basic eval run
 python run_skill_evals.py /path/to/skill
@@ -235,6 +262,7 @@ python run_skill_evals.py /path/to/skill --output eval_results.json
 ```
 
 **Report Format**:
+
 ```json
 {
   "skill_name": "brainstorming-partner",
@@ -262,12 +290,14 @@ python run_skill_evals.py /path/to/skill --output eval_results.json
 **Purpose**: Orchestrates all validation checks and aggregates results
 
 **Features**:
+
 - Runs structure, security, and eval checks in sequence
 - Aggregates results into comprehensive report
 - Provides clear pass/fail status
 - Generates JSON export for CI/CD integration
 
 **Running Unified Validation**:
+
 ```bash
 # Full validation (structure + security + evals)
 python validator.py /path/to/skill
@@ -283,6 +313,7 @@ python validator.py /path/to/skill --output validation_report.json
 ```
 
 **Report Structure**:
+
 ```json
 {
   "summary": {
@@ -367,18 +398,19 @@ Checks: 1/2 passed
 The validator includes comprehensive security test cases in `tests/security_test_cases.json`:
 
 1. **Secure Skill** - No security concerns
-2. **Unsafe Subprocess** - Shell injection vulnerability
-3. **Unsafe File Read** - Path traversal risk
-4. **Unsafe API** - Hardcoded credentials
-5. **Unsafe Git** - Unsanitized git data in commands
-6. **Missing Error Handling** - Multiple unhandled exceptions
-7. **Prompt Injection** - Vulnerable to prompt injection
-8. **Partial Sanitization** - Incomplete input validation
-9. **Safe with Warnings** - Generally safe implementation
-10. **Unsafe os.system** - Direct command execution
-11. **Unsafe eval()** - Arbitrary code execution
+1. **Unsafe Subprocess** - Shell injection vulnerability
+1. **Unsafe File Read** - Path traversal risk
+1. **Unsafe API** - Hardcoded credentials
+1. **Unsafe Git** - Unsanitized git data in commands
+1. **Missing Error Handling** - Multiple unhandled exceptions
+1. **Prompt Injection** - Vulnerable to prompt injection
+1. **Partial Sanitization** - Incomplete input validation
+1. **Safe with Warnings** - Generally safe implementation
+1. **Unsafe os.system** - Direct command execution
+1. **Unsafe eval()** - Arbitrary code execution
 
 Each test case includes:
+
 - `id`: Unique identifier
 - `name`: Human-readable name
 - `skill_content`: Sample skill SKILL.md content
@@ -397,7 +429,7 @@ import json
 
 with open('tests/security_test_cases.json') as f:
     cases = json.load(f)['security_test_cases']
-    
+
 auditor = SecurityAuditor()
 for case in cases[:2]:  # Test first 2 cases
     result = auditor.audit(case['skill_content'])
@@ -419,17 +451,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-      
+
       - name: Validate skills
         run: |
           cd .agents/skills/skill-validator/scripts
           python validator.py ../../skill-name --output report.json
-          
+
       - name: Upload report
         if: always()
         uses: actions/upload-artifact@v3
@@ -451,11 +483,11 @@ for skill_dir in $SKILLS_DIR/*; do
     if [ -d "$skill_dir" ]; then
         skill_name=$(basename "$skill_dir")
         echo "Validating: $skill_name"
-        
+
         python "$VALIDATOR_DIR/validator.py" "$skill_dir" \
             --output "reports/$skill_name-validation.json" \
             --skip-evals
-        
+
         if [ $? -ne 0 ]; then
             echo "❌ $skill_name failed validation"
             exit 1
@@ -471,40 +503,48 @@ echo "✅ All skills validated successfully"
 ### Structure Validation Issues
 
 **Error**: "Missing SKILL.md file"
+
 - **Solution**: Create a SKILL.md file with proper frontmatter
 
 **Error**: "Missing required field 'name'"
+
 - **Solution**: Add `name: your-skill-name` to frontmatter
 
 ### Security Validation Issues
 
 **Critical Issue**: "Untrusted Data Without Sanitization"
+
 - **Problem**: Using subprocess/files/API without input validation
 - **Solution**: Add sanitization functions and validate all user input
 
 **Critical Issue**: "Hardcoded Secrets Found"
+
 - **Problem**: API keys, passwords in code
 - **Solution**: Use environment variables or secret management
 
 **High Issue**: "Missing Error Handling"
+
 - **Problem**: No try/except blocks around dangerous operations
 - **Solution**: Add comprehensive error handling
 
 ### Eval Validation Issues
 
 **Error**: "No evals file found"
+
 - **Solution**: Create `evals/evals.json` with test queries
 
 **Warning**: "Trigger rate below threshold"
+
 - **Problem**: Skill not being triggered for test queries
 - **Solution**: Improve skill description to better match test queries
 
 **Error**: "OpenCode command failed"
+
 - **Solution**: Ensure OpenCode CLI is installed and in PATH
 
 ## Performance Notes
 
-- **Structure validation**: < 1 second
+- **Structure validation**: \< 1 second
 - **Security validation**: 5-10 seconds (depends on code size)
 - **Eval validation**: 30-300 seconds (depends on queries and timeout)
 - **Full validation**: 40-320 seconds
@@ -532,16 +572,16 @@ Use `--skip-evals` for faster feedback during development.
 To extend the validator:
 
 1. **Add new security checks**: Modify `security_audit.py` to add new detection patterns
-2. **Add new structure checks**: Extend `quick_validate.py` with additional validations
-3. **Add eval templates**: Create example evals JSON files in skill directories
-4. **Test thoroughly**: Use `tests/security_test_cases.json` as reference
+1. **Add new structure checks**: Extend `quick_validate.py` with additional validations
+1. **Add eval templates**: Create example evals JSON files in skill directories
+1. **Test thoroughly**: Use `tests/security_test_cases.json` as reference
 
 ## References
 
 - [Security Audit Guide](scripts/SECURITY_AUDIT_GUIDE.md)
 - [Brainstorming Partner Skill](../brainstorming-partner/SKILL.md)
 - [OpenCode CLI Documentation](https://opencode.ai/docs)
-"""
+  """
 
 if __name__ == "__main__":
-    print(VALIDATOR_DOCUMENTATION)
+print(VALIDATOR_DOCUMENTATION)

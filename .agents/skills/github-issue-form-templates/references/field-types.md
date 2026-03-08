@@ -3,20 +3,22 @@
 Complete guide to all GitHub issue form field types with syntax and examples.
 
 ## Table of Contents
-1. [Markdown](#markdown)
-2. [Input](#input)
-3. [Textarea](#textarea)
-4. [Dropdown](#dropdown)
-5. [Checkboxes](#checkboxes)
-6. [Hidden](#hidden)
 
----
+1. [Markdown](#markdown)
+1. [Input](#input)
+1. [Textarea](#textarea)
+1. [Dropdown](#dropdown)
+1. [Checkboxes](#checkboxes)
+1. [Hidden](#hidden)
+
+______________________________________________________________________
 
 ## Markdown
 
 Display-only content. No user input. Commonly used for instructions, section headers, or formatted text.
 
 ### Syntax
+
 ```yaml
 - type: markdown
   attributes:
@@ -25,9 +27,11 @@ Display-only content. No user input. Commonly used for instructions, section hea
 ```
 
 ### Attributes
+
 - `value` (required, string): Markdown content to display
 
 ### Use Cases
+
 - Welcome messages
 - Instructions before form fields
 - Section dividers
@@ -35,27 +39,29 @@ Display-only content. No user input. Commonly used for instructions, section hea
 - Community guidelines
 
 ### Example
+
 ```yaml
 - type: markdown
   attributes:
     value: |
       ## Before You Report
-      
+
       Please check:
       1. Search [existing issues](https://github.com/org/repo/issues)
       2. Review [documentation](https://docs.example.com)
       3. Check [FAQ](https://example.com/faq)
-      
+
       > Duplicates will be closed without response.
 ```
 
----
+______________________________________________________________________
 
 ## Input
 
 Single-line text field for short responses (email, version, URL, etc.).
 
 ### Syntax
+
 ```yaml
 - type: input
   id: unique-id
@@ -68,12 +74,14 @@ Single-line text field for short responses (email, version, URL, etc.).
 ```
 
 ### Attributes
+
 - `label` (required, string): Field label shown to user
 - `description` (optional, string): Help text below label
 - `placeholder` (optional, string): Placeholder text in empty field
 - `value` (optional, string): Pre-filled value
 
 ### Validations
+
 - `required` (boolean): Make field required
 - `regex` (string): Validate against regex pattern
 - `regex_error` (string): Custom error message for regex
@@ -81,6 +89,7 @@ Single-line text field for short responses (email, version, URL, etc.).
 ### Examples
 
 **Email input with regex validation:**
+
 ```yaml
 - type: input
   id: email
@@ -95,6 +104,7 @@ Single-line text field for short responses (email, version, URL, etc.).
 ```
 
 **Version input:**
+
 ```yaml
 - type: input
   id: version
@@ -108,6 +118,7 @@ Single-line text field for short responses (email, version, URL, etc.).
 ```
 
 **URL input:**
+
 ```yaml
 - type: input
   id: reproduction-url
@@ -120,13 +131,14 @@ Single-line text field for short responses (email, version, URL, etc.).
     regex_error: "URL must start with http:// or https://"
 ```
 
----
+______________________________________________________________________
 
 ## Textarea
 
 Multi-line text field for longer responses (descriptions, error logs, step-by-step instructions).
 
 ### Syntax
+
 ```yaml
 - type: textarea
   id: unique-id
@@ -141,6 +153,7 @@ Multi-line text field for longer responses (descriptions, error logs, step-by-st
 ```
 
 ### Attributes
+
 - `label` (required, string): Field label
 - `description` (optional, string): Help text
 - `placeholder` (optional, string): Placeholder text
@@ -148,41 +161,49 @@ Multi-line text field for longer responses (descriptions, error logs, step-by-st
 - `render` (optional, string): Format for display (`markdown`, `shell`, or `python`)
 
 ### Validations
+
 - `required` (boolean): Make field required
 - `regex` (string): Validate against regex pattern
 
 ### Render Options
 
 **`render: markdown`**
+
 ```yaml
 - type: textarea
   attributes:
     label: Details
     render: markdown
 ```
+
 Treats content as markdown (bullet lists, bold, links, etc.).
 
 **`render: shell`**
+
 ```yaml
 - type: textarea
   attributes:
     label: Terminal Output
     render: shell
 ```
+
 Formats as shell script block with syntax highlighting.
 
 **`render: python`**
+
 ```yaml
 - type: textarea
   attributes:
     label: Python Code
     render: python
 ```
+
 Formats as Python code block with syntax highlighting.
 
 ### Examples
 
 **Bug description:**
+
 ```yaml
 - type: textarea
   id: what-happened
@@ -198,6 +219,7 @@ Formats as Python code block with syntax highlighting.
 ```
 
 **Error log with shell rendering:**
+
 ```yaml
 - type: textarea
   id: error-log
@@ -211,6 +233,7 @@ Formats as Python code block with syntax highlighting.
 ```
 
 **Steps to reproduce:**
+
 ```yaml
 - type: textarea
   id: steps
@@ -227,13 +250,14 @@ Formats as Python code block with syntax highlighting.
     required: true
 ```
 
----
+______________________________________________________________________
 
 ## Dropdown
 
 Single or multi-select dropdown menu.
 
 ### Syntax
+
 ```yaml
 - type: dropdown
   id: unique-id
@@ -251,6 +275,7 @@ Single or multi-select dropdown menu.
 ```
 
 ### Attributes
+
 - `label` (required, string): Field label
 - `description` (optional, string): Help text
 - `options` (required, array): List of options to choose from
@@ -258,6 +283,7 @@ Single or multi-select dropdown menu.
 - `default` (optional, integer): Index of default selected option (0-based)
 
 ### Notes
+
 - `default` is the index position (0 = first option)
 - When `multiple: true`, appears as checkboxes in the form
 - Options cannot be conditional; all appear regardless
@@ -265,6 +291,7 @@ Single or multi-select dropdown menu.
 ### Examples
 
 **Browser selection (single):**
+
 ```yaml
 - type: dropdown
   id: browser
@@ -280,6 +307,7 @@ Single or multi-select dropdown menu.
 ```
 
 **Severity level with default:**
+
 ```yaml
 - type: dropdown
   id: severity
@@ -297,6 +325,7 @@ Single or multi-select dropdown menu.
 ```
 
 **Multi-select platforms:**
+
 ```yaml
 - type: dropdown
   id: platforms
@@ -312,13 +341,14 @@ Single or multi-select dropdown menu.
       - Android
 ```
 
----
+______________________________________________________________________
 
 ## Checkboxes
 
 Multiple independent checkboxes. Can require one or more to be checked.
 
 ### Syntax
+
 ```yaml
 - type: checkboxes
   id: unique-id
@@ -333,15 +363,18 @@ Multiple independent checkboxes. Can require one or more to be checked.
 ```
 
 ### Attributes
+
 - `label` (required, string): Field label
 - `description` (optional, string): Help text
 - `options` (required, array): List of checkbox options
 
 ### Option Attributes
+
 - `label` (required, string): Checkbox label text
 - `required` (optional, boolean): Require this specific checkbox to be checked
 
 ### Use Cases
+
 - Pre-submission checklist
 - Agreement confirmations
 - "I have read the guidelines" type checks
@@ -350,6 +383,7 @@ Multiple independent checkboxes. Can require one or more to be checked.
 ### Examples
 
 **Pre-submission checklist:**
+
 ```yaml
 - type: checkboxes
   id: prechecks
@@ -366,6 +400,7 @@ Multiple independent checkboxes. Can require one or more to be checked.
 ```
 
 **Feature agreement:**
+
 ```yaml
 - type: checkboxes
   id: agreement
@@ -381,6 +416,7 @@ Multiple independent checkboxes. Can require one or more to be checked.
 ```
 
 **Component selection (no required):**
+
 ```yaml
 - type: checkboxes
   id: components
@@ -394,13 +430,14 @@ Multiple independent checkboxes. Can require one or more to be checked.
       - label: Documentation
 ```
 
----
+______________________________________________________________________
 
 ## Hidden
 
 Metadata fields not displayed to users. Useful for automation.
 
 ### Syntax
+
 ```yaml
 - type: hidden
   id: unique-id
@@ -410,10 +447,12 @@ Metadata fields not displayed to users. Useful for automation.
 ```
 
 ### Attributes
+
 - `label` (string): Metadata identifier (not shown to users)
 - `value` (string): Fixed value for this field
 
 ### Use Cases
+
 - Tracking template version
 - Automation markers
 - Form type identification
@@ -422,6 +461,7 @@ Metadata fields not displayed to users. Useful for automation.
 ### Examples
 
 **Template version tracking:**
+
 ```yaml
 - type: hidden
   id: template-version
@@ -431,6 +471,7 @@ Metadata fields not displayed to users. Useful for automation.
 ```
 
 **Automation marker:**
+
 ```yaml
 - type: hidden
   id: form-type
@@ -439,16 +480,18 @@ Metadata fields not displayed to users. Useful for automation.
     value: "bug-report"
 ```
 
----
+______________________________________________________________________
 
 ## Field Attributes Reference
 
 ### Common to All Field Types
+
 - `id` (required on non-markdown fields): Unique identifier for field
 - `attributes` (required): Object containing field configuration
 - `validations` (optional): Validation rules
 
 ### Available in Input/Textarea
+
 - `label`: Field name shown to user
 - `description`: Help text
 - `placeholder`: Hint text in empty field
@@ -456,10 +499,11 @@ Metadata fields not displayed to users. Useful for automation.
 - `render`: Display format (textarea only)
 
 ### Available in Dropdown
+
 - `options`: Array of choices
 - `multiple`: Enable multi-select
 - `default`: Default selected index (0-based)
 
 ### Available in Checkboxes
-- `options`: Array with `label` and `required`
 
+- `options`: Array with `label` and `required`

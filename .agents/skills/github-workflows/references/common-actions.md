@@ -87,16 +87,16 @@
 
 Common cache paths:
 
-| Tool | Path | Key Hash File |
-|---|---|---|
-| npm | `~/.npm` | `**/package-lock.json` |
-| yarn | `~/.cache/yarn` | `**/yarn.lock` |
-| pnpm | `~/.local/share/pnpm/store` | `**/pnpm-lock.yaml` |
-| pip | `~/.cache/pip` | `**/requirements*.txt` |
-| Go | `~/go/pkg/mod` | `**/go.sum` |
-| Cargo | `~/.cargo/registry`, `~/.cargo/git`, `target` | `**/Cargo.lock` |
-| Gradle | `~/.gradle/caches` | `**/*.gradle*`, `**/gradle-wrapper.properties` |
-| Maven | `~/.m2/repository` | `**/pom.xml` |
+| Tool   | Path                                          | Key Hash File                                  |
+| ------ | --------------------------------------------- | ---------------------------------------------- |
+| npm    | `~/.npm`                                      | `**/package-lock.json`                         |
+| yarn   | `~/.cache/yarn`                               | `**/yarn.lock`                                 |
+| pnpm   | `~/.local/share/pnpm/store`                   | `**/pnpm-lock.yaml`                            |
+| pip    | `~/.cache/pip`                                | `**/requirements*.txt`                         |
+| Go     | `~/go/pkg/mod`                                | `**/go.sum`                                    |
+| Cargo  | `~/.cargo/registry`, `~/.cargo/git`, `target` | `**/Cargo.lock`                                |
+| Gradle | `~/.gradle/caches`                            | `**/*.gradle*`, `**/gradle-wrapper.properties` |
+| Maven  | `~/.m2/repository`                            | `**/pom.xml`                                   |
 
 Note: Most `actions/setup-*` actions have built-in caching via `cache:` parameter, which is preferred over manual `actions/cache` when available.
 

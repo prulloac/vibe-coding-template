@@ -1,7 +1,6 @@
----
-name: github-pr-comments
-description: Analyze and manage GitHub pull request comments with automated categorization, severity assessment, and intelligent response handling. Use when working with PR comments to understand feedback patterns, prioritize issues, or automatically address reviewer concerns. Leverages GitHub MCP Server, GitHub CLI (gh), or GitHub REST API in order of precedence.
----
+______________________________________________________________________
+
+## name: github-pr-comments description: Analyze and manage GitHub pull request comments with automated categorization, severity assessment, and intelligent response handling. Use when working with PR comments to understand feedback patterns, prioritize issues, or automatically address reviewer concerns. Leverages GitHub MCP Server, GitHub CLI (gh), or GitHub REST API in order of precedence.
 
 # GitHub PR Comments
 
@@ -18,10 +17,11 @@ Follow these steps when handling PR comment analysis and management:
 Use available tools in order of precedence:
 
 1. **GitHub MCP Server** (if available): Use GitHub MCP tools to fetch PR comments
-2. **GitHub CLI (`gh`)**: Use `gh pr view <pr-number> --json comments` or `gh api repos/{owner}/{repo}/pulls/{pr-number}/comments`
-3. **GitHub REST API**: Use `curl` with GitHub API endpoints
+1. **GitHub CLI (`gh`)**: Use `gh pr view <pr-number> --json comments` or `gh api repos/{owner}/{repo}/pulls/{pr-number}/comments`
+1. **GitHub REST API**: Use `curl` with GitHub API endpoints
 
 Retrieve all comments including:
+
 - Review comments (inline code comments)
 - General PR comments
 - Comment metadata (author, timestamp, line numbers)
@@ -31,6 +31,7 @@ Retrieve all comments including:
 For each comment, determine:
 
 **Category** (one of six types):
+
 - **Security**: Vulnerabilities, authentication, data exposure, unsafe practices
 - **Code Changes**: Logic modifications, refactoring, implementation changes
 - **Documentation**: Code comments, README, API docs, explanations
@@ -39,6 +40,7 @@ For each comment, determine:
 - **Other**: Praise, meta-discussion, process notes
 
 **Severity** (one of four levels):
+
 - **Critical**: Blocking issues requiring immediate fix before merge
 - **High**: Important issues that should be addressed
 - **Medium**: Improvements and suggestions worth considering
@@ -51,6 +53,7 @@ Refer to `references/examples.md` for detailed categorization guidelines and sam
 Show the user a comprehensive summary using one or more formats:
 
 **Format Option A - Severity Distribution:**
+
 ```
 | Category              | Critical | High | Medium | Info | Total |
 |-----------------------|----------|------|--------|------|-------|
@@ -95,23 +98,28 @@ Wait for user response before proceeding to implementation.
 For each comment marked for auto-fix:
 
 **Before making changes:**
+
 1. Post response on GitHub: "🤖 Working on this comment, please be patient."
-2. Use appropriate GitHub tool to add the comment
+1. Use appropriate GitHub tool to add the comment
 
 **Implement the fix:**
+
 1. Analyze the requested change
-2. Make necessary code modifications
-3. Test the change if possible
-4. Commit the changes with descriptive message
+1. Make necessary code modifications
+1. Test the change if possible
+1. Commit the changes with descriptive message
 
 **After successful fix:**
-1. Post completion response on GitHub: "✅ Fixed in commit [hash]. [Brief description]"
+
+1. Post completion response on GitHub: "✅ Fixed in commit \[hash\]. \[Brief description\]"
 
 **If unable to auto-fix:**
-1. Post explanation: "⚠️ Unable to automatically fix this. [Reason]. Manual intervention needed."
+
+1. Post explanation: "⚠️ Unable to automatically fix this. \[Reason\]. Manual intervention needed."
 
 **For "won't fix" comments:**
-1. Post explanation: "Thanks for the feedback! After consideration, we've decided not to implement this change because [reason]."
+
+1. Post explanation: "Thanks for the feedback! After consideration, we've decided not to implement this change because \[reason\]."
 
 ### Step 6: Provide Summary Report
 
@@ -137,24 +145,28 @@ Summary Report
 ## Important Considerations
 
 **Tool Selection:**
+
 - Always try GitHub MCP Server first (most reliable)
 - Fall back to `gh` CLI if MCP unavailable
 - Use REST API as last resort
 - Check tool availability before starting workflow
 
 **Categorization Guidelines:**
+
 - Some comments may fit multiple categories - choose the primary focus
 - When uncertain about severity, err on the side of higher severity
 - Security and Bugs with Critical/High severity should generally be auto-fixed unless complex
 - Clarifications usually need manual responses with context
 
 **Auto-Fix Limitations:**
+
 - Don't auto-fix if the change requires architectural decisions
 - Don't auto-fix if unclear about the requested change
 - Don't auto-fix documentation that requires domain knowledge
 - Always inform the user before posting "won't fix" responses
 
 **GitHub Posting:**
+
 - Always post status updates to maintain communication
 - Include commit hashes in completion messages for traceability
 - Be professional and constructive in all responses
@@ -165,6 +177,7 @@ Summary Report
 ### references/
 
 **examples.md**: Comprehensive examples including:
+
 - Category definitions with severity indicators
 - 13+ sample PR comments with categorization explanations
 - Multiple summary table format examples

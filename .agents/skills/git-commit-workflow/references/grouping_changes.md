@@ -11,26 +11,32 @@ When committing changes, it's important to group related files together to maint
 ## Common Grouping Strategies
 
 ### By Feature or Functionality
+
 - All files implementing a new feature
 - Example: UI component files, backend API, database migrations, tests for the feature
 
 ### By Bug Fix
+
 - Files modified to fix a specific bug
 - Example: Code changes, updated tests, documentation fixes related to the bug
 
 ### By Refactoring
+
 - Files changed during code restructuring or optimization
 - Example: Renamed functions across multiple files, code cleanup, performance improvements
 
 ### By Documentation
+
 - Only documentation files (README, API docs, comments)
 - Example: Updated README.md, added docstrings, wiki pages
 
 ### By Tests
+
 - Test files related to recent changes
 - Example: New test cases, updated existing tests
 
 ### By Dependencies
+
 - Changes to package files, lock files, configuration
 - Example: Updated package.json, requirements.txt, CI configuration
 

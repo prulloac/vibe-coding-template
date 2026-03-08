@@ -17,12 +17,21 @@ def generate_html(data: dict, auto_refresh: bool = False, skill_name: str = "") 
     test_queries = []
     if history:
         for r in history[0].get("train_results", history[0].get("results", [])):
-            train_queries.append({"query": r["query"], "should_trigger": r.get("should_trigger", True)})
+            train_queries.append(
+                {"query": r["query"], "should_trigger": r.get("should_trigger", True)}
+            )
         if history[0].get("test_results"):
             for r in history[0].get("test_results", []):
-                test_queries.append({"query": r["query"], "should_trigger": r.get("should_trigger", True)})
+                test_queries.append(
+                    {
+                        "query": r["query"],
+                        "should_trigger": r.get("should_trigger", True),
+                    }
+                )
 
-    refresh_tag = '    <meta http-equiv="refresh" content="5">\n' if auto_refresh else ""
+    refresh_tag = (
+        '    <meta http-equiv="refresh" content="5">\n' if auto_refresh else ""
+    )
 
     html_parts = [
         """<!DOCTYPE html>
@@ -58,7 +67,9 @@ def generate_html(data: dict, auto_refresh: bool = False, skill_name: str = "") 
         f"<p><strong>Best:</strong> {html.escape(data.get('best_description', 'N/A'))}</p>"
     )
 
-    html_parts.append("<table><thead><tr><th>Iter</th><th>Train</th><th>Test</th><th>Description</th>")
+    html_parts.append(
+        "<table><thead><tr><th>Iter</th><th>Train</th><th>Test</th><th>Description</th>"
+    )
     for q in train_queries:
         html_parts.append(f"<th>{html.escape(q['query'])}</th>")
     for q in test_queries:
@@ -68,13 +79,19 @@ def generate_html(data: dict, auto_refresh: bool = False, skill_name: str = "") 
     for h in history:
         html_parts.append("<tr>")
         html_parts.append(f"<td>{h.get('iteration', '?')}</td>")
-        html_parts.append(f"<td>{h.get('train_passed', 0)}/{h.get('train_total', 0)}</td>")
+        html_parts.append(
+            f"<td>{h.get('train_passed', 0)}/{h.get('train_total', 0)}</td>"
+        )
         test_passed = h.get("test_passed")
         test_total = h.get("test_total")
-        html_parts.append(f"<td>{'' if test_passed is None else f'{test_passed}/{test_total}'}</td>")
+        html_parts.append(
+            f"<td>{'' if test_passed is None else f'{test_passed}/{test_total}'}</td>"
+        )
         html_parts.append(f"<td>{html.escape(h.get('description', ''))}</td>")
 
-        train_by_query = {r["query"]: r for r in h.get("train_results", h.get("results", []))}
+        train_by_query = {
+            r["query"]: r for r in h.get("train_results", h.get("results", []))
+        }
         test_by_query = {r["query"]: r for r in h.get("test_results", [])}
 
         for q in train_queries:
@@ -95,9 +112,15 @@ def generate_html(data: dict, auto_refresh: bool = False, skill_name: str = "") 
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate HTML report from run_loop output")
-    parser.add_argument("input", help="Path to JSON output from run_loop.py (or - for stdin)")
-    parser.add_argument("-o", "--output", default=None, help="Output HTML file (default: stdout)")
+    parser = argparse.ArgumentParser(
+        description="Generate HTML report from run_loop output"
+    )
+    parser.add_argument(
+        "input", help="Path to JSON output from run_loop.py (or - for stdin)"
+    )
+    parser.add_argument(
+        "-o", "--output", default=None, help="Output HTML file (default: stdout)"
+    )
     parser.add_argument("--skill-name", default="", help="Skill name in title")
     args = parser.parse_args()
 

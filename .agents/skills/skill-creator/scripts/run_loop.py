@@ -64,7 +64,9 @@ def parse_skill_md(skill_path: Path) -> tuple[str, str, str]:
     return name, description, content
 
 
-def split_eval_set(eval_set: list[dict], holdout: float, seed: int = 42) -> tuple[list[dict], list[dict]]:
+def split_eval_set(
+    eval_set: list[dict], holdout: float, seed: int = 42
+) -> tuple[list[dict], list[dict]]:
     """Split eval set into train/test with stratification by should_trigger."""
     random.seed(seed)
 
@@ -132,12 +134,18 @@ def run_loop(
         )
 
         train_queries = {q["query"] for q in train_set}
-        train_result_list = [r for r in all_results["results"] if r["query"] in train_queries]
-        test_result_list = [r for r in all_results["results"] if r["query"] not in train_queries]
+        train_result_list = [
+            r for r in all_results["results"] if r["query"] in train_queries
+        ]
+        test_result_list = [
+            r for r in all_results["results"] if r["query"] not in train_queries
+        ]
 
         train_passed = sum(1 for r in train_result_list if r["pass"])
         train_total = len(train_result_list)
-        test_passed = sum(1 for r in test_result_list if r["pass"]) if test_set else None
+        test_passed = (
+            sum(1 for r in test_result_list if r["pass"]) if test_set else None
+        )
         test_total = len(test_result_list) if test_set else None
 
         train_results = {
@@ -190,7 +198,9 @@ def run_loop(
                 "test_size": len(test_set),
                 "history": history,
             }
-            live_report_path.write_text(generate_html(partial, auto_refresh=True, skill_name=name))
+            live_report_path.write_text(
+                generate_html(partial, auto_refresh=True, skill_name=name)
+            )
 
         if train_total > 0 and train_passed == train_total:
             exit_reason = f"all_passed (iteration {iteration})"
@@ -200,7 +210,9 @@ def run_loop(
             exit_reason = f"max_iterations ({max_iterations})"
             break
 
-        blinded_history = [{k: v for k, v in h.items() if not k.startswith("test_")} for h in history]
+        blinded_history = [
+            {k: v for k, v in h.items() if not k.startswith("test_")} for h in history
+        ]
         current_description = improve_description(
             skill_name=name,
             skill_content=content,
@@ -258,12 +270,22 @@ def main():
     parser = argparse.ArgumentParser(description="Run eval + improve loop")
     parser.add_argument("--eval-set", required=True, help="Path to eval set JSON file")
     parser.add_argument("--skill-path", required=True, help="Path to skill directory")
-    parser.add_argument("--description", default=None, help="Override starting description")
-    parser.add_argument("--num-workers", type=int, default=8, help="Number of parallel workers")
-    parser.add_argument("--timeout", type=int, default=60, help="Timeout per query in seconds")
-    parser.add_argument("--max-iterations", type=int, default=5, help="Max improvement iterations")
+    parser.add_argument(
+        "--description", default=None, help="Override starting description"
+    )
+    parser.add_argument(
+        "--num-workers", type=int, default=8, help="Number of parallel workers"
+    )
+    parser.add_argument(
+        "--timeout", type=int, default=60, help="Timeout per query in seconds"
+    )
+    parser.add_argument(
+        "--max-iterations", type=int, default=5, help="Max improvement iterations"
+    )
     parser.add_argument("--runs-per-query", type=int, default=3, help="Runs per query")
-    parser.add_argument("--trigger-threshold", type=float, default=0.5, help="Trigger threshold")
+    parser.add_argument(
+        "--trigger-threshold", type=float, default=0.5, help="Trigger threshold"
+    )
     parser.add_argument("--holdout", type=float, default=0.4, help="Holdout fraction")
     parser.add_argument("--model", required=True, help="Model for improvement")
     parser.add_argument("--verbose", action="store_true", help="Print progress")
@@ -282,10 +304,15 @@ def main():
     if args.report != "none":
         if args.report == "auto":
             timestamp = time.strftime("%Y%m%d_%H%M%S")
-            live_report_path = Path(tempfile.gettempdir()) / f"skill_description_report_{skill_path.name}_{timestamp}.html"
+            live_report_path = (
+                Path(tempfile.gettempdir())
+                / f"skill_description_report_{skill_path.name}_{timestamp}.html"
+            )
         else:
             live_report_path = Path(args.report)
-        live_report_path.write_text("<html><body><h1>Starting optimization loop...</h1></body></html>")
+        live_report_path.write_text(
+            "<html><body><h1>Starting optimization loop...</h1></body></html>"
+        )
         open_path(live_report_path)
     else:
         live_report_path = None
@@ -321,9 +348,13 @@ def main():
     if results_dir:
         (results_dir / "results.json").write_text(json_output)
     if live_report_path:
-        live_report_path.write_text(generate_html(output, auto_refresh=False, skill_name=name))
+        live_report_path.write_text(
+            generate_html(output, auto_refresh=False, skill_name=name)
+        )
     if results_dir and live_report_path:
-        (results_dir / "report.html").write_text(generate_html(output, auto_refresh=False, skill_name=name))
+        (results_dir / "report.html").write_text(
+            generate_html(output, auto_refresh=False, skill_name=name)
+        )
 
 
 if __name__ == "__main__":

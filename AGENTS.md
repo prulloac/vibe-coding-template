@@ -43,8 +43,8 @@
 ## Guidelines for AI Agents
 
 1. **Use existing skills** when available rather than reinventing workflows
-2. **Follow project conventions** - match the existing code style
-3. **Run lint/typecheck** before completing significant changes
-4. **Commit responsibly** - use the `git-commit-workflow` skill for commits
-5. **Test changes** when applicable
-6. **Never commit secrets** - avoid committing `.env`, credentials, or keys
+1. **Follow project conventions** - match the existing code style
+1. **Run lint/typecheck** before completing significant changes
+1. **Commit responsibly** - use the `git-commit-workflow` skill for commits
+1. **Test changes** when applicable
+1. **Never commit secrets** - avoid committing `.env`, credentials, or keys

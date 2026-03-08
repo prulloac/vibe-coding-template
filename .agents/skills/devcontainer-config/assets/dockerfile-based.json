@@ -5,18 +5,18 @@
     "context": "..",
     "args": {}
   },
-  
+
   "features": {},
-  
+
   "customizations": {
     "vscode": {
       "extensions": []
     }
   },
-  
+
   "forwardPorts": [],
-  
+
   "postCreateCommand": "",
-  
+
   "remoteUser": "vscode"
 }

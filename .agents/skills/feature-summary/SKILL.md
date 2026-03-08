@@ -1,7 +1,6 @@
----
-name: feature-summary
-description: Create comprehensive feature documentation summaries that describe current and future capabilities. Use after feature-breakdown to document what a feature does, its business value, technical implementation, and roadmap. Ideal for creating user-facing documentation and feature catalogs in `docs/features/<feature-name>/` format.
----
+______________________________________________________________________
+
+## name: feature-summary description: Create comprehensive feature documentation summaries that describe current and future capabilities. Use after feature-breakdown to document what a feature does, its business value, technical implementation, and roadmap. Ideal for creating user-facing documentation and feature catalogs in `docs/features/<feature-name>/` format.
 
 # Feature Summary Skill
 
@@ -12,6 +11,7 @@ This skill focuses on **feature documentation and communication**, transforming 
 ## When to Use
 
 Use this skill when you have a **completed feature** (or a detailed feature breakdown) and need to:
+
 - Create comprehensive user-facing documentation
 - Build a feature catalog or knowledge base
 - Document business features for stakeholder communication
@@ -35,14 +35,17 @@ Use this skill when you have a **completed feature** (or a detailed feature brea
 Recommended (but not strictly required):
 
 1. **Feature breakdown** (`docs/features/[feature-name]/breakdown.md`)
+
    - Provides detailed task list and component architecture
    - Helps identify all feature aspects to document
-   
-2. **Feature implementation** (completed or well-understood)
+
+1. **Feature implementation** (completed or well-understood)
+
    - Access to working code or specifications
    - Understanding of current status
 
-3. **Audience understanding**
+1. **Audience understanding**
+
    - Who will read this documentation?
    - What do they need to know?
 
@@ -73,21 +76,25 @@ docs/features/[feature-name]/
 When this skill completes, it creates:
 
 1. **Primary Output: Feature Summary** (`docs/features/[feature-name]/summary.md`)
+
    - Comprehensive feature documentation
    - 150-250 lines covering all major aspects
    - Serves multiple audiences (users, developers, stakeholders)
    - Includes feature type classification
    - **Example**: `docs/features/git-blame-overlay/summary.md`
 
-2. **Optional: Configuration Reference** (`docs/features/[feature-name]/configuration.md`)
+1. **Optional: Configuration Reference** (`docs/features/[feature-name]/configuration.md`)
+
    - Detailed configuration options and examples
    - For features with significant customization
-   
-3. **Optional: Reference Guide** (`docs/features/[feature-name]/reference.md`)
+
+1. **Optional: Reference Guide** (`docs/features/[feature-name]/reference.md`)
+
    - Technical implementation details for developers
    - Architecture decisions and patterns
-   
-4. **Supporting Structure**:
+
+1. **Supporting Structure**:
+
    - `docs/features/[feature-name]/breakdown.md` - Implementation tasks (created by feature-breakdown skill)
    - `docs/features/[feature-name]/implementation-progress.md` - Tracking file (created by execution-tracking skill)
 
@@ -126,19 +133,22 @@ Comprehensive Feature Documentation
 **Input**: Feature specification, breakdown, or implementation
 
 1. **Identify feature aspects**:
+
    - What does it do? (Core functionality)
    - Why is it valuable? (Business value)
    - How do users interact with it? (User experience)
    - What are the key capabilities? (Feature list)
    - What are the limitations? (Edge cases and constraints)
 
-2. **Extract technical details**:
+1. **Extract technical details**:
+
    - How is it implemented? (Architecture, components)
    - What are the technical requirements? (Dependencies, prerequisites)
    - Where is the code located? (Source file references)
    - What patterns or technologies are used?
 
-3. **Understand current state**:
+1. **Understand current state**:
+
    - Version number and release status
    - When was it introduced?
    - What improvements or fixes have been made?
@@ -148,31 +158,32 @@ Comprehensive Feature Documentation
 
 Assign the feature to one or more categories:
 
-| Category | Description | Examples |
-|----------|-------------|----------|
-| **Core Functionality** | Essential feature defining the product's primary purpose | Git blame overlay, authentication system |
-| **Customization** | Allows users to personalize behavior and appearance | Output patterns, color customization |
-| **User Experience** | Improves usability, visual integration, and workflow | Theme adaptation, command palette |
-| **Accessibility** | Supports users with different abilities and needs | Color options, keyboard shortcuts, ARIA labels |
-| **Performance** | Optimizes speed and resource usage | Caching, lazy loading, pagination |
-| **Extended Functionality** | Non-essential features that enhance core capability | Advanced filtering, export options |
-| **Developer Experience** | Improves developer productivity and experience | Debugging tools, API documentation |
+| Category                   | Description                                              | Examples                                       |
+| -------------------------- | -------------------------------------------------------- | ---------------------------------------------- |
+| **Core Functionality**     | Essential feature defining the product's primary purpose | Git blame overlay, authentication system       |
+| **Customization**          | Allows users to personalize behavior and appearance      | Output patterns, color customization           |
+| **User Experience**        | Improves usability, visual integration, and workflow     | Theme adaptation, command palette              |
+| **Accessibility**          | Supports users with different abilities and needs        | Color options, keyboard shortcuts, ARIA labels |
+| **Performance**            | Optimizes speed and resource usage                       | Caching, lazy loading, pagination              |
+| **Extended Functionality** | Non-essential features that enhance core capability      | Advanced filtering, export options             |
+| **Developer Experience**   | Improves developer productivity and experience           | Debugging tools, API documentation             |
 
 ## Output Format
 
 Feature summaries include these key sections (in order):
 
 1. **Feature Header** - Name, overview, status, version, feature type
-2. **Business Value** - Why it matters, specific benefits
-3. **What It Does** - Core functionality with user experience and examples
-4. **Key Features** - Capabilities and extended functionality
-5. **Configuration** (if applicable) - Options and examples
-6. **Technical Implementation** - Code references and architecture
-7. **User Interactions** - Workflows and commands
-8. **Status and Roadmap** - Current status, limitations, future enhancements
-9. **Related Features** - Cross-references to related features
+1. **Business Value** - Why it matters, specific benefits
+1. **What It Does** - Core functionality with user experience and examples
+1. **Key Features** - Capabilities and extended functionality
+1. **Configuration** (if applicable) - Options and examples
+1. **Technical Implementation** - Code references and architecture
+1. **User Interactions** - Workflows and commands
+1. **Status and Roadmap** - Current status, limitations, future enhancements
+1. **Related Features** - Cross-references to related features
 
 **For a complete template with examples and detailed guidelines**, see:
+
 - [`assets/documentation-template.md`](assets/documentation-template.md) - Blank template for creating new features
 - [`examples/example-feature-summary-core.md`](examples/example-feature-summary-core.md) - Core functionality example
 - [`examples/example-feature-summary-customization.md`](examples/example-feature-summary-customization.md) - Customization example
@@ -181,21 +192,22 @@ Feature summaries include these key sections (in order):
 ## Feature Type Classification
 
 Every feature should be classified with a primary type and optional secondary types. This helps users understand:
+
 - **What is this feature?** (Its purpose)
 - **Is it essential?** (Core vs. optional)
 - **How does it relate to other features?** (Ecosystem awareness)
 
 ### Quick Reference
 
-| Type | Icon | Purpose | Example |
-|------|------|---------|---------|
-| **Core Functionality** | ⭐ | Essential, defines product purpose | Git blame overlay |
-| **Customization** | 🎨 | Personalization & preferences | Output patterns |
-| **User Experience** | 👥 | Usability & visual integration | Theme-aware styling |
-| **Accessibility** | ♿ | Support for diverse users | Color options |
-| **Performance** | 🚀 | Speed & resource optimization | Caching system |
-| **Extended Functionality** | ➕ | Optional enhancements | Export options |
-| **Developer Experience** | 🛠️ | Developer productivity | API docs |
+| Type                       | Icon | Purpose                            | Example             |
+| -------------------------- | ---- | ---------------------------------- | ------------------- |
+| **Core Functionality**     | ⭐   | Essential, defines product purpose | Git blame overlay   |
+| **Customization**          | 🎨   | Personalization & preferences      | Output patterns     |
+| **User Experience**        | 👥   | Usability & visual integration     | Theme-aware styling |
+| **Accessibility**          | ♿   | Support for diverse users          | Color options       |
+| **Performance**            | 🚀   | Speed & resource optimization      | Caching system      |
+| **Extended Functionality** | ➕   | Optional enhancements              | Export options      |
+| **Developer Experience**   | 🛠️   | Developer productivity             | API docs            |
 
 **For detailed guidance on each type**, see [`references/feature-type-reference.md`](references/feature-type-reference.md)
 
@@ -204,18 +216,21 @@ Every feature should be classified with a primary type and optional secondary ty
 ### Writing for Multiple Audiences
 
 **For Users**:
+
 - Use clear, non-technical language
 - Explain benefits and use cases
 - Provide concrete examples
 - Include configuration examples
 
 **For Developers**:
+
 - Include code references and file paths
 - Explain architecture and design decisions
 - Document patterns and conventions
 - Link to technical documentation
 
 **For Stakeholders**:
+
 - Lead with business value
 - Emphasize impact and ROI
 - Focus on status and roadmap
@@ -226,9 +241,9 @@ Every feature should be classified with a primary type and optional secondary ty
 When assigning feature types:
 
 1. **Identify primary category**: What is this feature's main purpose?
-2. **Note secondary categories**: Can it serve multiple purposes?
-3. **Explain classification**: Why does this categorization make sense?
-4. **Consider user perception**: How do users think about this feature?
+1. **Note secondary categories**: Can it serve multiple purposes?
+1. **Explain classification**: Why does this categorization make sense?
+1. **Consider user perception**: How do users think about this feature?
 
 ### Technical Accuracy
 
@@ -265,19 +280,21 @@ The feature-summary skill works as part of a larger feature documentation ecosys
 ### Recommended Skill Sequence
 
 1. **feature-breakdown** (1-2 hrs) - Decompose feature into tasks and acceptance criteria
-2. **feature-summary** (1-2 hrs) - Create user-facing documentation
-3. **feature-planning** (1-2 hrs) - Sequence tasks for execution
-4. **execution-tracking** (ongoing) - Monitor implementation progress
+1. **feature-summary** (1-2 hrs) - Create user-facing documentation
+1. **feature-planning** (1-2 hrs) - Sequence tasks for execution
+1. **execution-tracking** (ongoing) - Monitor implementation progress
 
 ### Key Concepts
 
 **feature-breakdown creates** (`docs/features/[name]/breakdown.md`):
+
 - Internal task list
 - Component architecture
 - Acceptance criteria
 - Validation plan
 
 **feature-summary creates** (`docs/features/[name]/summary.md`):
+
 - User-facing documentation
 - Business value explanation
 - Configuration examples

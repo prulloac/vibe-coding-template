@@ -1,7 +1,6 @@
----
-name: devcontainer-config
-description: Comprehensive guide for creating, editing, and validating devcontainer.json configuration files. Use when working with Development Container configurations for any scenario including creating new devcontainer.json files, modifying existing configurations, troubleshooting dev container issues, adding features or lifecycle scripts, configuring ports and environment variables, setting up multi-container environments with Docker Compose, or understanding devcontainer properties and their usage.
----
+______________________________________________________________________
+
+## name: devcontainer-config description: Comprehensive guide for creating, editing, and validating devcontainer.json configuration files. Use when working with Development Container configurations for any scenario including creating new devcontainer.json files, modifying existing configurations, troubleshooting dev container issues, adding features or lifecycle scripts, configuring ports and environment variables, setting up multi-container environments with Docker Compose, or understanding devcontainer properties and their usage.
 
 # Dev Container Configuration
 
@@ -16,16 +15,19 @@ This skill provides comprehensive guidance for working with `devcontainer.json` 
 Choose the appropriate base configuration:
 
 **1. Image-based** - Use an existing container image:
+
 - Best for: Standard development environments, quick setup
 - Template: `assets/basic-image.json`
 - Required property: `image`
 
 **2. Dockerfile-based** - Build from a custom Dockerfile:
+
 - Best for: Custom environments, specific tool versions
 - Template: `assets/dockerfile-based.json`
 - Required property: `build.dockerfile`
 
 **3. Docker Compose** - Multi-container environments:
+
 - Best for: Apps with databases, microservices
 - Template: `assets/docker-compose.json`
 - Required properties: `dockerComposeFile`, `service`
@@ -33,10 +35,10 @@ Choose the appropriate base configuration:
 ### Basic Workflow
 
 1. **Start with template**: Copy the appropriate template from `assets/`
-2. **Configure basics**: Set `name`, add `features`, configure `customizations`
-3. **Add lifecycle scripts**: Set `postCreateCommand`, `postStartCommand`, etc.
-4. **Configure ports**: Add `forwardPorts` and `portsAttributes` as needed
-5. **Validate**: Run `scripts/validate.py` to check for issues
+1. **Configure basics**: Set `name`, add `features`, configure `customizations`
+1. **Add lifecycle scripts**: Set `postCreateCommand`, `postStartCommand`, etc.
+1. **Configure ports**: Add `forwardPorts` and `portsAttributes` as needed
+1. **Validate**: Run `scripts/validate.py` to check for issues
 
 ## Common Configuration Tasks
 
@@ -95,6 +97,7 @@ Configure commands that run at different stages:
 ```
 
 **Command formats:**
+
 - String: Runs in shell, supports `&&` and pipes
 - Array: Direct execution without shell
 - Object: Parallel execution of multiple commands
@@ -206,6 +209,7 @@ python scripts/validate.py /path/to/devcontainer.json
 ```
 
 The validator checks for:
+
 - Required properties based on scenario
 - Proper lifecycle script formats
 - Valid port configurations
@@ -213,6 +217,7 @@ The validator checks for:
 - Common configuration issues
 
 Example output:
+
 ```
 ============================================================
 Validation Results for: devcontainer.json
@@ -230,10 +235,12 @@ Validation Results for: devcontainer.json
 ## Reference Documentation
 
 For detailed property information:
+
 - **references/properties.md**: Complete reference of all devcontainer.json properties
 - **references/patterns.md**: Real-world examples and common patterns
 
 Use these references when:
+
 - Looking up specific property syntax
 - Understanding property interactions
 - Finding examples for specific scenarios
@@ -255,25 +262,30 @@ Default values: `${localEnv:VAR:default_value}`
 ## Troubleshooting
 
 ### Container won't start
+
 - Check that required properties are present (`image`, `build.dockerfile`, or `dockerComposeFile`)
 - Validate JSON syntax
 - Check that referenced files (Dockerfile, docker-compose.yml) exist
 
 ### Permission issues
+
 - Set `updateRemoteUserUID: true` on Linux
 - Configure `containerUser` and `remoteUser` appropriately
 
 ### Ports not forwarding
+
 - Ensure application listens on `0.0.0.0` not just `localhost`
 - Check `forwardPorts` configuration
 - Review `portsAttributes` settings
 
 ### Features not installing
+
 - Verify feature IDs are correct
 - Check network connectivity
 - Use `overrideFeatureInstallOrder` if dependencies exist
 
 ### Lifecycle scripts failing
+
 - Check script syntax (string vs array vs object)
 - Review script output in dev container log
 - Ensure required tools are available in container

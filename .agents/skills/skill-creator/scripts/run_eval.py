@@ -11,6 +11,7 @@ import uuid
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from pathlib import Path
 
+
 def parse_skill_md(skill_path: Path) -> tuple[str, str, str]:
     """Parse SKILL.md and return (name, description, full_content)."""
     content = (skill_path / "SKILL.md").read_text()
@@ -58,7 +59,10 @@ def find_project_root() -> Path:
     """Find project root by locating .git, .agents, .opencode, or .claude."""
     current = Path.cwd()
     for parent in [current, *current.parents]:
-        if any((parent / marker).exists() for marker in (".git", ".agents", ".opencode", ".claude")):
+        if any(
+            (parent / marker).exists()
+            for marker in (".git", ".agents", ".opencode", ".claude")
+        ):
             return parent
     return current
 
@@ -208,7 +212,11 @@ def run_eval(
         item = query_items[query]
         trigger_rate = sum(triggers) / len(triggers)
         should_trigger = bool(item["should_trigger"])
-        did_pass = trigger_rate >= trigger_threshold if should_trigger else trigger_rate < trigger_threshold
+        did_pass = (
+            trigger_rate >= trigger_threshold
+            if should_trigger
+            else trigger_rate < trigger_threshold
+        )
         results.append(
             {
                 "query": query,
@@ -231,16 +239,30 @@ def run_eval(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Run trigger evaluation for a skill description")
+    parser = argparse.ArgumentParser(
+        description="Run trigger evaluation for a skill description"
+    )
     parser.add_argument("--eval-set", required=True, help="Path to eval set JSON file")
     parser.add_argument("--skill-path", required=True, help="Path to skill directory")
-    parser.add_argument("--description", default=None, help="Override description to test")
-    parser.add_argument("--num-workers", type=int, default=8, help="Number of parallel workers")
-    parser.add_argument("--timeout", type=int, default=60, help="Timeout per query in seconds")
-    parser.add_argument("--runs-per-query", type=int, default=3, help="Number of runs per query")
-    parser.add_argument("--trigger-threshold", type=float, default=0.5, help="Trigger rate threshold")
+    parser.add_argument(
+        "--description", default=None, help="Override description to test"
+    )
+    parser.add_argument(
+        "--num-workers", type=int, default=8, help="Number of parallel workers"
+    )
+    parser.add_argument(
+        "--timeout", type=int, default=60, help="Timeout per query in seconds"
+    )
+    parser.add_argument(
+        "--runs-per-query", type=int, default=3, help="Number of runs per query"
+    )
+    parser.add_argument(
+        "--trigger-threshold", type=float, default=0.5, help="Trigger rate threshold"
+    )
     parser.add_argument("--model", default=None, help="Model to use for opencode run")
-    parser.add_argument("--verbose", action="store_true", help="Print progress to stderr")
+    parser.add_argument(
+        "--verbose", action="store_true", help="Print progress to stderr"
+    )
     args = parser.parse_args()
 
     eval_set = json.loads(Path(args.eval_set).read_text())
@@ -270,7 +292,9 @@ def main():
 
     if args.verbose:
         summary = output["summary"]
-        print(f"Results: {summary['passed']}/{summary['total']} passed", file=sys.stderr)
+        print(
+            f"Results: {summary['passed']}/{summary['total']} passed", file=sys.stderr
+        )
         for r in output["results"]:
             status = "PASS" if r["pass"] else "FAIL"
             print(

@@ -1,36 +1,39 @@
----
-name: markdown-crossref-validator
-description: Validate cross-references in markdown documents, ensuring links and references point to existing sections, headings, or files.
----
+______________________________________________________________________
+
+## name: markdown-crossref-validator description: Validate cross-references in markdown documents, ensuring links and references point to existing sections, headings, or files.
 
 # Markdown Cross-Reference Validator
 
 ## When to use this skill
+
 Use this skill when the user asks to validate or check cross-references in markdown files. This includes verifying that internal links (e.g., [text](#heading)) point to existing headings, and that file references (e.g., [text](file.md)) point to existing files.
 
 ## Algorithm & Workflow
 
 ### Phase 1: Document Preparation
+
 1. **Identify target file(s)**: Determine which markdown file(s) to validate
-2. **Read content**: Load the full markdown document(s) into memory
-3. **Establish base path**: Determine the root directory for relative file references
+1. **Read content**: Load the full markdown document(s) into memory
+1. **Establish base path**: Determine the root directory for relative file references
 
 ### Phase 2: Heading Extraction
+
 1. **Scan for headings**: Find all lines matching regex `^#+\s+(.*)$`
-2. **Build anchor map**: For each heading:
+1. **Build anchor map**: For each heading:
    - Extract heading text: `# Introduction` → `Introduction`
    - Convert to anchor ID: lowercase, replace spaces with hyphens, remove special chars
    - Store mapping: `introduction` → heading level (1-6)
-3. **Handle special cases**: Account for heading IDs, custom anchors using HTML comments
-4. **Normalize anchors**: Ensure consistent anchor formatting for comparison
+1. **Handle special cases**: Account for heading IDs, custom anchors using HTML comments
+1. **Normalize anchors**: Ensure consistent anchor formatting for comparison
 
 ### Phase 3: Link Extraction
+
 1. **Find all link patterns**:
    - Inline links: `[text](url)` using regex `\[([^\]]+)\]\(([^)]+)\)`
    - Reference links: `[text][ref]` using regex `\[([^\]]+)\]\[([^\]]+)\]`
    - Reference definitions: `[ref]: url` using regex `^\s*\[([^\]]+)\]:\s*(.+)$`
    - HTML links: `<a href="url">text</a>`
-2. **Categorize links**:
+1. **Categorize links**:
    - Internal anchors: `#heading-name`
    - File references: `path/to/file.md`
    - Combined: `path/to/file.md#section`
@@ -40,41 +43,48 @@ Use this skill when the user asks to validate or check cross-references in markd
 ### Phase 4: Link Validation
 
 #### For Internal Anchor Links (`#anchor`)
+
 1. Extract anchor identifier
-2. Normalize anchor (lowercase, hyphenate)
-3. Check against anchor map from Phase 2
-4. Record as ✓ Valid or ✗ Broken
+1. Normalize anchor (lowercase, hyphenate)
+1. Check against anchor map from Phase 2
+1. Record as ✓ Valid or ✗ Broken
 
 #### For File References (`path/to/file.md`)
+
 1. Resolve relative path from current document location
-2. Check file existence in project
-3. If file + anchor (`path/to/file.md#section`):
+1. Check file existence in project
+1. If file + anchor (`path/to/file.md#section`):
    - Verify file exists
    - Parse target file for headings
    - Verify anchor exists in target file
-4. Record as ✓ Valid or ✗ Broken with reason
+1. Record as ✓ Valid or ✗ Broken with reason
 
 #### For External Links (`http://`, `https://`)
+
 1. Mark as external (scope: not validated for internal consistency)
-2. Optionally note for manual review
+1. Optionally note for manual review
 
 ### Phase 5: Issue Categorization
+
 Classify all broken references by type:
+
 - **Missing Heading**: Anchor exists but no matching heading in file
 - **Missing File**: File reference path doesn't exist
 - **Invalid Anchor in Target**: File exists but referenced section doesn't
 - **Malformed Reference**: Link syntax is invalid or unparseable
 
 ### Phase 6: Report Generation
+
 1. **Create summary**: Total links checked, valid count, broken count, broken percentage
-2. **Group issues**: Organize by file and issue type
-3. **Provide context**: Show the line number and actual link text
-4. **Suggest fixes**: Recommend corrected anchor names or file paths
-5. **Verify output**: Ensure report is complete and accurate
+1. **Group issues**: Organize by file and issue type
+1. **Provide context**: Show the line number and actual link text
+1. **Suggest fixes**: Recommend corrected anchor names or file paths
+1. **Verify output**: Ensure report is complete and accurate
 
 ## Validation & Verification
 
 ### Validation Checklist
+
 - ✅ All markdown files are readable and parseable
 - ✅ All heading anchors are properly extracted and normalized
 - ✅ All link patterns (inline, reference, HTML) are detected
@@ -85,16 +95,18 @@ Classify all broken references by type:
 - ✅ All broken references are identified with context
 
 ### Report Verification Steps
+
 1. Random sample 5-10 links and manually verify they match report findings
-2. Check that issue count matches actual broken references
-3. Verify all line numbers and file paths are accurate
-4. Confirm suggestions for fixes are actionable
+1. Check that issue count matches actual broken references
+1. Verify all line numbers and file paths are accurate
+1. Confirm suggestions for fixes are actionable
 
 ## Concrete Examples
 
 ### Example 1: Simple Document with Internal Links
 
 **Input: `docs/guide.md`**
+
 ```markdown
 # Getting Started Guide
 
@@ -121,6 +133,7 @@ Check [Non-existent Section](#missing-section) for help.
 ```
 
 **Validation Report:**
+
 ```
 ═══════════════════════════════════════════════════════════
 MARKDOWN CROSS-REFERENCE VALIDATION REPORT
@@ -167,7 +180,7 @@ BROKEN REFERENCES ✗
   Issue: MISSING HEADING
   Anchor: #missing-section
   Status: No heading found matching "missing-section"
-  
+
   Suggestion: Available sections in document:
     - #getting-started-guide (h1)
     - #table-of-contents (h2)
@@ -194,12 +207,14 @@ troubleshooting (Level 2) → Line 25
 **Input: Multiple files in `docs/` directory**
 
 **Files:**
+
 - `docs/index.md` - Main documentation index
 - `docs/guide/installation.md` - Installation guide
 - `docs/guide/config.md` - Configuration guide
 - `docs/api/endpoints.md` - API reference
 
 **Content: `docs/index.md`**
+
 ```markdown
 # Documentation Index
 
@@ -215,6 +230,7 @@ See [Installation](guide/installation.md#system-requirements) for details.
 ```
 
 **Validation Report:**
+
 ```
 ═══════════════════════════════════════════════════════════
 MARKDOWN CROSS-REFERENCE VALIDATION REPORT
@@ -262,7 +278,7 @@ BROKEN REFERENCES ✗
   Issue: MISSING FILE
   Path: docs/api/endpoints.md
   Status: File not found in project
-  
+
   Suggestion: Did you mean?
     - docs/api/reference.md (exists)
     - docs/endpoints.md (exists)
@@ -272,7 +288,7 @@ BROKEN REFERENCES ✗
   Issue: MISSING FILE
   Path: docs/support/help.md
   Status: File not found in project
-  
+
   Suggestion: No similar files found. Check path spelling.
 
 ✗ Line 7: [Basic Setup](#quick-start)
@@ -280,7 +296,7 @@ BROKEN REFERENCES ✗
   Issue: MISSING HEADING
   Anchor: #quick-start
   Status: Anchor not found (likely typo: #quickstart exists)
-  
+
   Suggestion: Did you mean #quickstart?
 
 ───────────────────────────────────────────────────────────
@@ -305,6 +321,7 @@ Cross-file reference summary:
 ### Example 3: Reference-Style Links
 
 **Input: `docs/readme.md`**
+
 ```markdown
 # Project Documentation
 
@@ -320,6 +337,7 @@ Invalid reference: [Missing Reference][unknown]
 ```
 
 **Validation Report:**
+
 ```
 ═══════════════════════════════════════════════════════════
 MARKDOWN CROSS-REFERENCE VALIDATION REPORT
@@ -375,7 +393,7 @@ VALIDATION RESULTS
   Reference defined: No
   Status: UNDEFINED REFERENCE
   Issue: Reference label "[unknown]" not found in definitions
-  
+
   Suggestion: Available references in document:
     - [gs]
     - [api]
@@ -385,17 +403,18 @@ VALIDATION RESULTS
 ```
 
 ## Tools to use
+
 - Use file reading tools to access markdown files.
 - Use grep or parsing to extract links and headings.
 - For file existence, use directory listing tools.
 
 ## Quick Reference: Link Patterns
 
-| Pattern | Example | Type |
-|---------|---------|------|
-| Inline link | `[text](#anchor)` | Internal anchor |
-| Inline file | `[text](file.md)` | File reference |
-| Combined | `[text](file.md#section)` | File with anchor |
-| Reference-style | `[text][ref]` + `[ref]: url` | Reference link |
-| HTML link | `<a href="#id">text</a>` | HTML anchor |
-| External | `[text](https://example.com)` | External URL |
+| Pattern         | Example                       | Type             |
+| --------------- | ----------------------------- | ---------------- |
+| Inline link     | `[text](#anchor)`             | Internal anchor  |
+| Inline file     | `[text](file.md)`             | File reference   |
+| Combined        | `[text](file.md#section)`     | File with anchor |
+| Reference-style | `[text][ref]` + `[ref]: url`  | Reference link   |
+| HTML link       | `<a href="#id">text</a>`      | HTML anchor      |
+| External        | `[text](https://example.com)` | External URL     |

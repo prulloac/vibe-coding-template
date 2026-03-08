@@ -10,13 +10,13 @@ Use the plan agent to analyze code and review suggestions without making any cod
 
 You can switch between agents during a session or invoke them with the `@` mention.
 
----
+______________________________________________________________________
 
 ## Types
 
 There are two types of agents in OpenCode; primary agents and subagents.
 
----
+______________________________________________________________________
 
 ### Primary agents
 
@@ -28,7 +28,7 @@ You can use the **Tab** key to switch between primary agents during a session.
 
 OpenCode comes with two built-in primary agents, **Build** and **Plan**. We'll look at these below.
 
----
+______________________________________________________________________
 
 ### Subagents
 
@@ -36,13 +36,13 @@ Subagents are specialized assistants that primary agents can invoke for specific
 
 OpenCode comes with two built-in subagents, **General** and **Explore**. We'll look at this below.
 
----
+______________________________________________________________________
 
 ## Built-in
 
 OpenCode comes with two built-in primary agents and two built-in subagents.
 
----
+______________________________________________________________________
 
 ### Use build
 
@@ -50,7 +50,7 @@ OpenCode comes with two built-in primary agents and two built-in subagents.
 
 Build is the **default** primary agent with all tools enabled. This is the standard agent for development work where you need full access to file operations and system commands.
 
----
+______________________________________________________________________
 
 ### Use plan
 
@@ -58,12 +58,12 @@ Build is the **default** primary agent with all tools enabled. This is the stand
 
 A restricted agent designed for planning and analysis. We use a permission system to give you more control and prevent unintended changes. By default, all of the following are set to `ask`:
 
--   `file edits`: All writes, patches, and edits
--   `bash`: All bash commands
+- `file edits`: All writes, patches, and edits
+- `bash`: All bash commands
 
 This agent is useful when you want the LLM to analyze code, suggest changes, or create plans without making any actual modifications to your codebase.
 
----
+______________________________________________________________________
 
 ### Use general
 
@@ -71,7 +71,7 @@ This agent is useful when you want the LLM to analyze code, suggest changes, or 
 
 A general-purpose agent for researching complex questions and executing multi-step tasks. Has full tool access (except todo), so it can make file changes when needed. Use this to run multiple units of work in parallel.
 
----
+______________________________________________________________________
 
 ### Use explore
 
@@ -79,7 +79,7 @@ A general-purpose agent for researching complex questions and executing multi-st
 
 A fast, read-only agent for exploring codebases. Cannot modify files. Use this when you need to quickly find files by patterns, search code for keywords, or answer questions about the codebase.
 
----
+______________________________________________________________________
 
 ### Use compaction
 
@@ -87,7 +87,7 @@ A fast, read-only agent for exploring codebases. Cannot modify files. Use this w
 
 Hidden system agent that compacts long context into a smaller summary. It runs automatically when needed and is not selectable in the UI.
 
----
+______________________________________________________________________
 
 ### Use title
 
@@ -95,7 +95,7 @@ Hidden system agent that compacts long context into a smaller summary. It runs a
 
 Hidden system agent that generates short session titles. It runs automatically and is not selectable in the UI.
 
----
+______________________________________________________________________
 
 ### Use summary
 
@@ -103,37 +103,36 @@ Hidden system agent that generates short session titles. It runs automatically a
 
 Hidden system agent that creates session summaries. It runs automatically and is not selectable in the UI.
 
----
+______________________________________________________________________
 
 ## Usage
 
-1.  For primary agents, use the **Tab** key to cycle through them during a session. You can also use your configured `switch_agent` keybind.
-    
-2.  Subagents can be invoked:
-    
-    -   **Automatically** by primary agents for specialized tasks based on their descriptions.
-        
-    -   Manually by **@ mentioning** a subagent in your message. For example.
-        
-        ```
-        @general help me search for this function
-        ```
-        
-3.  **Navigation between sessions**: When subagents create their own child sessions, you can navigate between the parent session and all child sessions using:
-    
-    -   **<Leader>+Right** (or your configured `session_child_cycle` keybind) to cycle forward through parent → child1 → child2 → … → parent
-    -   **<Leader>+Left** (or your configured `session_child_cycle_reverse` keybind) to cycle backward through parent ← child1 ← child2 ← … ← parent
-        
-    This allows you to seamlessly switch between the main conversation and specialized subagent work.
-    
+1. For primary agents, use the **Tab** key to cycle through them during a session. You can also use your configured `switch_agent` keybind.
 
----
+1. Subagents can be invoked:
+
+   - **Automatically** by primary agents for specialized tasks based on their descriptions.
+
+   - Manually by **@ mentioning** a subagent in your message. For example.
+
+     ```
+     @general help me search for this function
+     ```
+
+1. **Navigation between sessions**: When subagents create their own child sessions, you can navigate between the parent session and all child sessions using:
+
+   - **<Leader>+Right** (or your configured `session_child_cycle` keybind) to cycle forward through parent → child1 → child2 → … → parent
+   - **<Leader>+Left** (or your configured `session_child_cycle_reverse` keybind) to cycle backward through parent ← child1 ← child2 ← … ← parent
+
+   This allows you to seamlessly switch between the main conversation and specialized subagent work.
+
+______________________________________________________________________
 
 ## Configure
 
 You can customize the built-in agents or create your own through configuration. Agents can be configured in two ways:
 
----
+______________________________________________________________________
 
 ### JSON
 
@@ -145,14 +144,14 @@ opencode.json
 {  "$schema": "https://opencode.ai/config.json",  "agent": {    "build": {      "mode": "primary",      "model": "anthropic/claude-sonnet-4-20250514",      "prompt": "{file:./prompts/build.txt}",      "tools": {        "write": true,        "edit": true,        "bash": true      }    },    "plan": {      "mode": "primary",      "model": "anthropic/claude-haiku-4-20250514",      "tools": {        "write": false,        "edit": false,        "bash": false      }    },    "code-reviewer": {      "description": "Reviews code for best practices and potential issues",      "mode": "subagent",      "model": "anthropic/claude-sonnet-4-20250514",      "prompt": "You are a code reviewer. Focus on security, performance, and maintainability.",      "tools": {        "write": false,        "edit": false      }    }  }}
 ```
 
----
+______________________________________________________________________
 
 ### Markdown
 
 You can also define agents using markdown files. Place them in:
 
--   Global: `~/.config/opencode/agents/`
--   Per-project: `.opencode/agents/`
+- Global: `~/.config/opencode/agents/`
+- Per-project: `.opencode/agents/`
 
 ~/.config/opencode/agents/review.md
 
@@ -165,13 +164,13 @@ Provide constructive feedback without making direct changes.
 
 The markdown file name becomes the agent name. For example, `review.md` creates a `review` agent.
 
----
+______________________________________________________________________
 
 ## Options
 
 Let's look at these configuration options in detail.
 
----
+______________________________________________________________________
 
 ### Description
 
@@ -185,7 +184,7 @@ opencode.json
 
 This is a **required** config option.
 
----
+______________________________________________________________________
 
 ### Temperature
 
@@ -201,9 +200,9 @@ opencode.json
 
 Temperature values typically range from 0.0 to 1.0:
 
--   **0.0-0.2**: Very focused and deterministic responses, ideal for code analysis and planning
--   **0.3-0.5**: Balanced responses with some creativity, good for general development tasks
--   **0.6-1.0**: More creative and varied responses, useful for brainstorming and exploration
+- **0.0-0.2**: Very focused and deterministic responses, ideal for code analysis and planning
+- **0.3-0.5**: Balanced responses with some creativity, good for general development tasks
+- **0.6-1.0**: More creative and varied responses, useful for brainstorming and exploration
 
 opencode.json
 
@@ -213,7 +212,7 @@ opencode.json
 
 If no temperature is specified, OpenCode uses model-specific defaults; typically 0 for most models, 0.55 for Qwen models.
 
----
+______________________________________________________________________
 
 ### Max steps
 
@@ -233,7 +232,7 @@ Caution
 
 The legacy `maxSteps` field is deprecated. Use `steps` instead.
 
----
+______________________________________________________________________
 
 ### Disable
 
@@ -245,7 +244,7 @@ opencode.json
 {  "agent": {    "review": {      "disable": true    }  }}
 ```
 
----
+______________________________________________________________________
 
 ### Prompt
 
@@ -259,7 +258,7 @@ opencode.json
 
 This path is relative to where the config file is located. So this works for both the global OpenCode config and the project specific config.
 
----
+______________________________________________________________________
 
 ### Model
 
@@ -277,7 +276,7 @@ opencode.json
 
 The model ID in your OpenCode config uses the format `provider/model-id`. For example, if you're using [OpenCode Zen](https://opencode.ai/docs/zen), you would use `opencode/gpt-5.1-codex` for GPT 5.1 Codex.
 
----
+______________________________________________________________________
 
 ### Tools
 
@@ -303,15 +302,15 @@ opencode.json
 
 [Learn more about tools](https://opencode.ai/docs/tools).
 
----
+______________________________________________________________________
 
 ### Permissions
 
 You can configure permissions to manage what actions an agent can take. Currently, the permissions for the `edit`, `bash`, and `webfetch` tools can be configured to:
 
--   `"ask"` — Prompt for approval before running the tool
--   `"allow"` — Allow all operations without approval
--   `"deny"` — Disable the tool
+- `"ask"` — Prompt for approval before running the tool
+- `"allow"` — Allow all operations without approval
+- `"deny"` — Disable the tool
 
 opencode.json
 
@@ -362,7 +361,7 @@ opencode.json
 
 [Learn more about permissions](https://opencode.ai/docs/permissions).
 
----
+______________________________________________________________________
 
 ### Mode
 
@@ -376,7 +375,7 @@ opencode.json
 
 The `mode` option can be set to `primary`, `subagent`, or `all`. If no `mode` is specified, it defaults to `all`.
 
----
+______________________________________________________________________
 
 ### Hidden
 
@@ -394,7 +393,7 @@ Note
 
 Only applies to `mode: subagent` agents.
 
----
+______________________________________________________________________
 
 ### Task permissions
 
@@ -416,7 +415,7 @@ Tip
 
 Users can always invoke any subagent directly via the `@` autocomplete menu, even if the agent's task permissions would deny it.
 
----
+______________________________________________________________________
 
 ### Color
 
@@ -430,7 +429,7 @@ opencode.json
 {  "agent": {    "creative": {      "color": "#ff6b6b"    },    "code-reviewer": {      "color": "accent"    }  }}
 ```
 
----
+______________________________________________________________________
 
 ### Top P
 
@@ -444,7 +443,7 @@ opencode.json
 
 Values range from 0.0 to 1.0. Lower values are more focused, higher values more diverse.
 
----
+______________________________________________________________________
 
 ### Additional
 
@@ -464,7 +463,7 @@ Tip
 
 Run `opencode models` to see a list of the available models.
 
----
+______________________________________________________________________
 
 ## Create agents
 
@@ -478,25 +477,25 @@ opencode agent create
 
 This interactive command will:
 
-1.  Ask where to save the agent; global or project-specific.
-2.  Description of what the agent should do.
-3.  Generate an appropriate system prompt and identifier.
-4.  Let you select which tools the agent can access.
-5.  Finally, create a markdown file with the agent configuration.
+1. Ask where to save the agent; global or project-specific.
+1. Description of what the agent should do.
+1. Generate an appropriate system prompt and identifier.
+1. Let you select which tools the agent can access.
+1. Finally, create a markdown file with the agent configuration.
 
----
+______________________________________________________________________
 
 ## Use cases
 
 Here are some common use cases for different agents.
 
--   **Build agent**: Full development work with all tools enabled
--   **Plan agent**: Analysis and planning without making changes
--   **Review agent**: Code review with read-only access plus documentation tools
--   **Debug agent**: Focused on investigation with bash and read tools enabled
--   **Docs agent**: Documentation writing with file operations but no system commands
+- **Build agent**: Full development work with all tools enabled
+- **Plan agent**: Analysis and planning without making changes
+- **Review agent**: Code review with read-only access plus documentation tools
+- **Debug agent**: Focused on investigation with bash and read tools enabled
+- **Docs agent**: Documentation writing with file operations but no system commands
 
----
+______________________________________________________________________
 
 ## Examples
 
@@ -506,7 +505,7 @@ Tip
 
 Do you have an agent you'd like to share? [Submit a PR](https://github.com/anomalyco/opencode).
 
----
+______________________________________________________________________
 
 ### Documentation agent
 
@@ -519,7 +518,7 @@ Focus on:
 - Clear explanations- Proper structure- Code examples- User-friendly language
 ```
 
----
+______________________________________________________________________
 
 ### Security auditor
 

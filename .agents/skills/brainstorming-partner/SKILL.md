@@ -1,7 +1,6 @@
----
-name: brainstorming-partner
-description: Brainstorm ideas with a reliable AI partner using proven frameworks and evaluations. Triggers for topics requiring idea generation, problem-solving, innovation, feature ideation, strategic planning, or creative exploration. Combines SCAMPER, Six Thinking Hats, Mind Mapping, Lateral Thinking, Divergence-Convergence, and Forced Connections frameworks with Feasibility/Impact/Novelty evaluation to assess and rank ideas before presenting them for interactive refinement.
----
+______________________________________________________________________
+
+## name: brainstorming-partner description: Brainstorm ideas with a reliable AI partner using proven frameworks and evaluations. Triggers for topics requiring idea generation, problem-solving, innovation, feature ideation, strategic planning, or creative exploration. Combines SCAMPER, Six Thinking Hats, Mind Mapping, Lateral Thinking, Divergence-Convergence, and Forced Connections frameworks with Feasibility/Impact/Novelty evaluation to assess and rank ideas before presenting them for interactive refinement.
 
 # Brainstorming Partner
 
@@ -10,6 +9,7 @@ description: Brainstorm ideas with a reliable AI partner using proven frameworks
 Brainstorming Partner is an interactive skill that helps you generate, evaluate, and refine ideas using multiple proven brainstorming frameworks. Instead of brainstorming alone, you get a reliable AI partner that applies six distinct frameworks to your challenge, evaluates each idea's feasibility, impact, and novelty, and presents ranked results for iterative refinement.
 
 **Use this skill when you need to:**
+
 - Generate innovative ideas for products, features, or services
 - Solve complex business or technical problems
 - Explore multiple perspectives on a challenge
@@ -21,6 +21,7 @@ Brainstorming Partner is an interactive skill that helps you generate, evaluate,
 ### 1. Present Your Challenge
 
 Start by describing what you want to brainstorm. Provide:
+
 - **Topic or Challenge**: The problem, opportunity, or area you want to explore
 - **Context**: Any constraints, goals, or background relevant to the brainstorming
 - **Desired Outcomes**: What success looks like (optional but helpful)
@@ -55,6 +56,7 @@ See `references/evaluation_metrics.md` for detailed rubrics and scoring guidance
 ### 4. Ranked Results & Interactive Iteration
 
 Ideas are ranked by composite score and presented with:
+
 - Individual metric scores with reasoning
 - Overall assessment (Strong/Good/Fair/Weak)
 - Framework source (which technique generated it)
@@ -88,6 +90,7 @@ python scripts/evaluate_ideas.py ideas.json \
 ```
 
 This produces:
+
 - Individual scores for each metric
 - Composite rankings
 - Score distribution statistics
@@ -96,6 +99,7 @@ This produces:
 ### Testing the Skill
 
 Test prompts are available in `evals/evals.json` covering:
+
 - Product feature brainstorming
 - Business problem-solving
 - Creative campaign ideation
@@ -151,6 +155,7 @@ Test prompts are available in `evals/evals.json` covering:
 ### SCAMPER
 
 Systematically applies seven techniques to existing solutions:
+
 - **Substitute**: Replace components or attributes
 - **Combine**: Merge with other products or ideas
 - **Adapt**: Adjust for other purposes
@@ -164,6 +169,7 @@ Systematically applies seven techniques to existing solutions:
 ### Six Thinking Hats
 
 Uses six thinking modes as "hats" for parallel thinking:
+
 - **White Hat**: Facts and data—what do we know?
 - **Red Hat**: Emotions and intuition—what do we feel?
 - **Black Hat**: Critical thinking—what could go wrong?
@@ -176,6 +182,7 @@ Uses six thinking modes as "hats" for parallel thinking:
 ### Mind Mapping
 
 Creates hierarchical structure showing relationships:
+
 - Central theme with primary and secondary branches
 - Shows problem aspects, stakeholders, solutions, and connections
 - Identifies gaps and relationships visually
@@ -185,6 +192,7 @@ Creates hierarchical structure showing relationships:
 ### Lateral Thinking
 
 Uses random stimuli to break habitual patterns:
+
 - Force connections between unrelated concepts and your challenge
 - Explore unexpected associations
 - Follow tangential paths to novel solutions
@@ -194,6 +202,7 @@ Uses random stimuli to break habitual patterns:
 ### Divergence-Convergence
 
 Separates generation from evaluation:
+
 - **Divergence**: Generate many ideas without judgment
 - **Convergence**: Evaluate and filter ideas systematically
 
@@ -202,6 +211,7 @@ Separates generation from evaluation:
 ### Forced Connections
 
 Combines unrelated concepts and domains:
+
 - List key attributes of your challenge
 - Combine with concepts from different fields
 - Explore implications of combinations
@@ -213,13 +223,14 @@ Combines unrelated concepts and domains:
 After evaluation, iterate with your partner:
 
 1. **Dive Deeper**: Ask for more details on high-scoring ideas
-2. **Combine Ideas**: Merge complementary ideas from different frameworks
-3. **Refine Weak Ideas**: Explore how to improve lower-scoring ideas
-4. **Explore Trade-offs**: Understand feasibility vs. impact trade-offs
-5. **Generate More**: Request additional ideas in specific directions
-6. **Prioritize**: Decide which ideas to pursue based on your strategy
+1. **Combine Ideas**: Merge complementary ideas from different frameworks
+1. **Refine Weak Ideas**: Explore how to improve lower-scoring ideas
+1. **Explore Trade-offs**: Understand feasibility vs. impact trade-offs
+1. **Generate More**: Request additional ideas in specific directions
+1. **Prioritize**: Decide which ideas to pursue based on your strategy
 
 Example conversation:
+
 - "Can you elaborate on the top three ideas?"
 - "How could we make the high-novelty but low-feasibility ideas more doable?"
 - "Which combination of these ideas would be most impactful?"
@@ -228,21 +239,27 @@ Example conversation:
 ## Core Capabilities
 
 ### 1. Multi-Framework Idea Generation
+
 Applies six proven brainstorming frameworks to generate diverse perspectives on your challenge.
 
 ### 2. Feasibility-Impact-Novelty Evaluation
+
 Scores each idea on three dimensions to provide balanced assessment of viability and value.
 
 ### 3. Ranked Presentation
+
 Ideas ordered by composite score with detailed reasoning for each metric.
 
 ### 4. Framework Transparency
+
 Each idea tagged with source framework so you understand which technique generated it.
 
 ### 5. Interactive Iteration
+
 Refine ideas, combine approaches, and generate new ideas based on feedback.
 
 ### 6. Contextual Adaptation
+
 Frameworks applied flexibly to any brainstorming scenario: products, processes, content, strategy, technical decisions, etc.
 
 ## Scripts Reference
@@ -252,6 +269,7 @@ Frameworks applied flexibly to any brainstorming scenario: products, processes, 
 Generates brainstorming ideas using all six frameworks.
 
 **Usage:**
+
 ```bash
 python generate_ideas.py "Topic or challenge" \
   --context "Additional context" \
@@ -261,6 +279,7 @@ python generate_ideas.py "Topic or challenge" \
 **Output**: JSON file with ideas organized by framework.
 
 **Parameters:**
+
 - `topic` (required): Your brainstorming topic
 - `--context`: Additional constraints or background
 - `--output`: Output file path (default: ideas.json)
@@ -270,6 +289,7 @@ python generate_ideas.py "Topic or challenge" \
 Evaluates ideas on Feasibility, Impact, and Novelty metrics.
 
 **Usage:**
+
 ```bash
 python evaluate_ideas.py ideas.json \
   --context "Your context" \
@@ -280,6 +300,7 @@ python evaluate_ideas.py ideas.json \
 **Output**: JSON file with scored and ranked ideas.
 
 **Parameters:**
+
 - `input_file` (required): Ideas JSON from generate_ideas.py
 - `--context`: Context for evaluation
 - `--topic`: Original brainstorming topic
@@ -291,23 +312,23 @@ python evaluate_ideas.py ideas.json \
 ### Preparation
 
 1. **Be Specific**: The clearer your challenge, the better the ideas
-2. **Provide Context**: Share constraints, goals, and background
-3. **Set Expectations**: What does success look like?
+1. **Provide Context**: Share constraints, goals, and background
+1. **Set Expectations**: What does success look like?
 
 ### During Brainstorming
 
 1. **Suspend Judgment**: Don't dismiss ideas immediately
-2. **Explore All Frameworks**: Each generates different idea types
-3. **Look for Patterns**: Which frameworks generate your best ideas?
-4. **Combine Ideas**: Often the best solution merges multiple ideas
+1. **Explore All Frameworks**: Each generates different idea types
+1. **Look for Patterns**: Which frameworks generate your best ideas?
+1. **Combine Ideas**: Often the best solution merges multiple ideas
 
 ### After Evaluation
 
 1. **Consider Trade-offs**: High feasibility might mean lower novelty (and vice versa)
-2. **Think About Portfolio**: Mix of safe bets + moonshots
-3. **Look for Quick Wins**: High feasibility + high impact = immediate action
-4. **Identify Refinement**: What would make lower-scoring ideas viable?
-5. **Iterate**: The second round often produces better results
+1. **Think About Portfolio**: Mix of safe bets + moonshots
+1. **Look for Quick Wins**: High feasibility + high impact = immediate action
+1. **Identify Refinement**: What would make lower-scoring ideas viable?
+1. **Iterate**: The second round often produces better results
 
 ## Tips for Better Results
 

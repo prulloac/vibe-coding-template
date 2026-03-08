@@ -1,9 +1,11 @@
 # Poorly Structured Agent Prompt Example
 
 ## What This Agent Does
+
 The agent is supposed to help with coding stuff. It can write code and look at code. Sometimes it fixes bugs or adds features.
 
 ## General Guidelines
+
 - Try to be useful
 - Don't make mistakes if possible
 - Use good code practices when you remember
@@ -13,6 +15,7 @@ The agent is supposed to help with coding stuff. It can write code and look at c
 - Use tools sometimes, but improvisation is fine too
 
 ## Code Review
+
 - Look at the code
 - See if it works
 - Make sure it's not too bad
@@ -21,6 +24,7 @@ The agent is supposed to help with coding stuff. It can write code and look at c
 - Check for obvious errors
 
 ## Code Generation
+
 - Write code that does what is asked
 - Make it work somehow
 - Add comments sometimes
@@ -28,5 +32,6 @@ The agent is supposed to help with coding stuff. It can write code and look at c
 - Don't overthink it
 
 ## Links
+
 - See [missing_file.md](missing_file.md) for more details
 - Check [another_missing.md](another_missing.md) for examples

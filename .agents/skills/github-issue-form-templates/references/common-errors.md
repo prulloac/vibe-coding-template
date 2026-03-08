@@ -3,13 +3,14 @@
 Troubleshooting guide for GitHub issue form validation errors.
 
 ## Table of Contents
-1. [Syntax Errors](#syntax-errors)
-2. [Field Type Errors](#field-type-errors)
-3. [Attribute Errors](#attribute-errors)
-4. [Validation Errors](#validation-errors)
-5. [Troubleshooting Checklist](#troubleshooting-checklist)
 
----
+1. [Syntax Errors](#syntax-errors)
+1. [Field Type Errors](#field-type-errors)
+1. [Attribute Errors](#attribute-errors)
+1. [Validation Errors](#validation-errors)
+1. [Troubleshooting Checklist](#troubleshooting-checklist)
+
+______________________________________________________________________
 
 ## Syntax Errors
 
@@ -18,12 +19,14 @@ Troubleshooting guide for GitHub issue form validation errors.
 **Error**: `YAML parsing error` or `Unexpected character`
 
 **Common causes:**
+
 - Incorrect indentation (YAML requires consistent spacing)
 - Missing colons after keys
 - Improper list formatting
 - Unmatched quotes or pipes
 
 **Example - Incorrect indentation:**
+
 ```yaml
 # ✗ Wrong: Mixed indentation
 - type: input
@@ -33,6 +36,7 @@ Troubleshooting guide for GitHub issue form validation errors.
 ```
 
 **Fix:**
+
 ```yaml
 # ✓ Correct: Consistent indentation
 - type: input
@@ -43,6 +47,7 @@ Troubleshooting guide for GitHub issue form validation errors.
 ```
 
 **Example - Missing colon:**
+
 ```yaml
 # ✗ Wrong
 - type: input
@@ -51,6 +56,7 @@ Troubleshooting guide for GitHub issue form validation errors.
 ```
 
 **Fix:**
+
 ```yaml
 # ✓ Correct
 - type: input
@@ -58,7 +64,7 @@ Troubleshooting guide for GitHub issue form validation errors.
     label: Email
 ```
 
----
+______________________________________________________________________
 
 ## Field Type Errors
 
@@ -69,6 +75,7 @@ Troubleshooting guide for GitHub issue form validation errors.
 **Cause**: Using a field type that doesn't exist
 
 **Valid field types:**
+
 - `markdown`
 - `input`
 - `textarea`
@@ -77,6 +84,7 @@ Troubleshooting guide for GitHub issue form validation errors.
 - `hidden`
 
 **Example - Invalid type:**
+
 ```yaml
 # ✗ Wrong: 'text' is not a valid type
 - type: text
@@ -85,6 +93,7 @@ Troubleshooting guide for GitHub issue form validation errors.
 ```
 
 **Fix:**
+
 ```yaml
 # ✓ Use 'input' instead
 - type: input
@@ -99,6 +108,7 @@ Troubleshooting guide for GitHub issue form validation errors.
 **Cause**: Forgot to specify the field type
 
 **Example - Missing type:**
+
 ```yaml
 # ✗ Wrong
 - id: email
@@ -107,6 +117,7 @@ Troubleshooting guide for GitHub issue form validation errors.
 ```
 
 **Fix:**
+
 ```yaml
 # ✓ Correct: Include type
 - type: input
@@ -115,7 +126,7 @@ Troubleshooting guide for GitHub issue form validation errors.
     label: Email
 ```
 
----
+______________________________________________________________________
 
 ## Attribute Errors
 
@@ -126,6 +137,7 @@ Troubleshooting guide for GitHub issue form validation errors.
 **Cause**: Field type requires certain attributes that are missing
 
 **Required attributes by field type:**
+
 - `markdown`: `value`
 - `input`: `label`
 - `textarea`: `label`
@@ -134,6 +146,7 @@ Troubleshooting guide for GitHub issue form validation errors.
 - `hidden`: `label`, `value`
 
 **Example - Missing label:**
+
 ```yaml
 # ✗ Wrong
 - type: input
@@ -143,6 +156,7 @@ Troubleshooting guide for GitHub issue form validation errors.
 ```
 
 **Fix:**
+
 ```yaml
 # ✓ Correct: Include label
 - type: input
@@ -161,6 +175,7 @@ Troubleshooting guide for GitHub issue form validation errors.
 **Common attribute issues:**
 
 **Dropdown options must be array:**
+
 ```yaml
 # ✗ Wrong: Options as string
 - type: dropdown
@@ -176,6 +191,7 @@ Troubleshooting guide for GitHub issue form validation errors.
 ```
 
 **Checkbox options must have label:**
+
 ```yaml
 # ✗ Wrong: Options as strings
 - type: checkboxes
@@ -193,6 +209,7 @@ Troubleshooting guide for GitHub issue form validation errors.
 ```
 
 **Multiple should be boolean:**
+
 ```yaml
 # ✗ Wrong: String value
 - type: dropdown
@@ -205,7 +222,7 @@ Troubleshooting guide for GitHub issue form validation errors.
     multiple: true
 ```
 
----
+______________________________________________________________________
 
 ## Validation Errors
 
@@ -216,6 +233,7 @@ Troubleshooting guide for GitHub issue form validation errors.
 **Cause**: Regex pattern syntax error
 
 **Example - Unescaped special characters:**
+
 ```yaml
 # ✗ Wrong: Special char not escaped
 validations:
@@ -227,6 +245,7 @@ validations:
 ```
 
 **Example - Missing anchors:**
+
 ```yaml
 # ✗ Works but incomplete
 validations:
@@ -244,6 +263,7 @@ validations:
 **Cause**: Default index is out of range
 
 **Example - Index too high:**
+
 ```yaml
 # ✗ Wrong: Only 3 options (indices 0-2), default is 5
 - type: dropdown
@@ -264,7 +284,7 @@ validations:
     default: 1
 ```
 
----
+______________________________________________________________________
 
 ## ID and Naming Errors
 
@@ -275,6 +295,7 @@ validations:
 **Cause**: Two fields have the same `id`
 
 **Example - Duplicate IDs:**
+
 ```yaml
 # ✗ Wrong: Both have id: email
 - type: input
@@ -289,6 +310,7 @@ validations:
 ```
 
 **Fix:**
+
 ```yaml
 # ✓ Correct: Different IDs
 - type: input
@@ -309,12 +331,14 @@ validations:
 **Cause**: ID contains uppercase, spaces, or special characters
 
 **ID rules:**
+
 - Lowercase letters only
 - Hyphens allowed (not underscores)
 - No spaces
 - No special characters
 
 **Example - Invalid ID:**
+
 ```yaml
 # ✗ Wrong: Uppercase and spaces
 - type: input
@@ -322,13 +346,14 @@ validations:
 ```
 
 **Fix:**
+
 ```yaml
 # ✓ Correct: Lowercase with hyphens
 - type: input
   id: contact-email
 ```
 
----
+______________________________________________________________________
 
 ## Render Attribute Errors
 
@@ -339,12 +364,14 @@ validations:
 **Cause**: Invalid value for `render` attribute
 
 **Valid render values:**
+
 - `markdown` (for formatted text)
 - `shell` (for terminal output)
 - `python` (for Python code)
 - No value (for plain text)
 
 **Example - Invalid render:**
+
 ```yaml
 # ✗ Wrong: 'html' is not valid
 - type: textarea
@@ -353,6 +380,7 @@ validations:
 ```
 
 **Fix:**
+
 ```yaml
 # ✓ Correct: Use valid render type
 - type: textarea
@@ -360,7 +388,7 @@ validations:
     render: markdown
 ```
 
----
+______________________________________________________________________
 
 ## Body and Top-Level Errors
 
@@ -371,6 +399,7 @@ validations:
 **Cause**: No `body` key at top level or it's empty
 
 **Example - Missing body:**
+
 ```yaml
 # ✗ Wrong: No body section
 name: Bug Report
@@ -378,6 +407,7 @@ description: Report a bug
 ```
 
 **Fix:**
+
 ```yaml
 # ✓ Correct: Include body
 name: Bug Report
@@ -395,11 +425,13 @@ body:
 **Cause**: Missing top-level `name` or `description`
 
 **Required top-level fields:**
+
 - `name` - Template display name
 - `description` - Template description
 - `body` - Form fields
 
 **Example - Missing fields:**
+
 ```yaml
 # ✗ Wrong: Missing description
 name: Bug Report
@@ -408,6 +440,7 @@ body:
 ```
 
 **Fix:**
+
 ```yaml
 # ✓ Correct: All required fields
 name: Bug Report
@@ -416,7 +449,7 @@ body:
   - type: input
 ```
 
----
+______________________________________________________________________
 
 ## Project and Assignee Errors
 
@@ -427,10 +460,12 @@ body:
 **Cause**: Project format incorrect
 
 **Project format:**
+
 - `org-name/project-number`
 - Example: `my-org/1`
 
 **Example - Invalid format:**
+
 ```yaml
 # ✗ Wrong formats
 projects: ["my-org/my-project"]
@@ -439,6 +474,7 @@ projects: ["1"]
 ```
 
 **Fix:**
+
 ```yaml
 # ✓ Correct format
 projects:
@@ -447,9 +483,10 @@ projects:
 ```
 
 **Note**: Project assignment requires write permissions. If it fails, check:
+
 1. Project ID is correct (number, not name)
-2. User has write access
-3. Consider using project's auto-add workflow instead
+1. User has write access
+1. Consider using project's auto-add workflow instead
 
 ### Invalid Assignee
 
@@ -458,6 +495,7 @@ projects:
 **Cause**: Username doesn't exist or isn't accessible
 
 **Example - Invalid username:**
+
 ```yaml
 # ✗ Wrong: Username doesn't exist
 assignees:
@@ -465,6 +503,7 @@ assignees:
 ```
 
 **Fix:**
+
 ```yaml
 # ✓ Correct: Real username
 assignees:
@@ -472,7 +511,7 @@ assignees:
   - github-user
 ```
 
----
+______________________________________________________________________
 
 ## Troubleshooting Checklist
 
@@ -494,15 +533,14 @@ When your form has validation errors:
 ## Test Your Form
 
 1. Push form file to `.github/ISSUE_TEMPLATE/`
-2. Go to repository Issues tab
-3. Click "New Issue"
-4. Check if template appears in menu
-5. Try creating an issue to test validations
-6. Check console for detailed errors
+1. Go to repository Issues tab
+1. Click "New Issue"
+1. Check if template appears in menu
+1. Try creating an issue to test validations
+1. Check console for detailed errors
 
 ## Getting Help
 
 - Check [Field Types Reference](field-types.md)
 - Review [Validation Patterns](validations.md)
 - See GitHub's form schema docs: https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema
-

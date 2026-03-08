@@ -4,18 +4,18 @@ This document explains how to integrate feature-summary with feature-breakdown, 
 
 ## Quick Integration Matrix
 
-| Integration | Use Case | How It Works |
-|-------------|----------|-------------|
-| breakdown → summary | Document planned feature | Use breakdown tasks to ensure docs are complete |
-| summary → planning | Plan feature development | Reference future enhancements section |
-| planning → summary | Update roadmap | Add timeline info to roadmap section |
-| tracking → summary | Update during development | Update status section weekly |
+| Integration         | Use Case                  | How It Works                                    |
+| ------------------- | ------------------------- | ----------------------------------------------- |
+| breakdown → summary | Document planned feature  | Use breakdown tasks to ensure docs are complete |
+| summary → planning  | Plan feature development  | Reference future enhancements section           |
+| planning → summary  | Update roadmap            | Add timeline info to roadmap section            |
+| tracking → summary  | Update during development | Update status section weekly                    |
 
----
+______________________________________________________________________
 
 ## Workflow 1: Document an Existing Feature
 
-**Duration**: 1-2 hours  
+**Duration**: 1-2 hours
 **Skills used**: feature-summary only
 
 ```
@@ -36,11 +36,11 @@ This document explains how to integrate feature-summary with feature-breakdown, 
 
 **Example**: Document the "Git Blame Overlay" feature after implementation
 
----
+______________________________________________________________________
 
 ## Workflow 2: Plan and Document a New Feature
 
-**Duration**: 4-8 hours  
+**Duration**: 4-8 hours
 **Skills used**: feature-breakdown → feature-summary → feature-planning
 
 ### Step 1: Create Feature Breakdown
@@ -109,11 +109,11 @@ Management:
 └─ Reports status
 ```
 
----
+______________________________________________________________________
 
 ## Workflow 3: Maintain Documentation During Development
 
-**Duration**: 15 minutes per week  
+**Duration**: 15 minutes per week
 **Skills used**: feature-summary updates
 
 ### During Development
@@ -150,7 +150,7 @@ Post-release:
 └─ Update roadmap with next phase
 ```
 
----
+______________________________________________________________________
 
 ## Integration: breakdown → summary
 
@@ -180,6 +180,7 @@ Testing plan           →   Part of "How to test" in docs
 ### Example: Git Blame Overlay
 
 **From breakdown.md**:
+
 ```
 Tasks:
   - Implement BlameProvider class
@@ -196,6 +197,7 @@ Acceptance Criteria:
 ```
 
 **Used in summary.md**:
+
 ```
 ## What It Does
 When a user clicks a line, an overlay appears with:
@@ -214,7 +216,7 @@ Components:
 Users can customize the output format...
 ```
 
----
+______________________________________________________________________
 
 ## Integration: planning → summary
 
@@ -237,6 +239,7 @@ To summary.md "Future Enhancements":
 ### Example
 
 **From planning document**:
+
 ```
 v0.0.3 (Feb 2025): Keyboard shortcuts
 v0.0.4 (Mar 2025): Multiple overlays
@@ -244,6 +247,7 @@ v0.0.5 (Apr 2025): Blame history
 ```
 
 **In summary.md**:
+
 ```
 ## Future Enhancements (Out of Scope - v0.0.2)
 
@@ -254,7 +258,7 @@ v0.0.5 (Apr 2025): Blame history
 See [implementation-sequence.md](../features/git-blame-overlay/implementation-sequence.md) for details.
 ```
 
----
+______________________________________________________________________
 
 ## Integration: tracking → summary
 
@@ -275,6 +279,7 @@ Bugs fixed                      →   Update "Current Status"
 ### Example Update Cycle
 
 **Week 1 - docs/features/git-blame-overlay/implementation-progress.md**:
+
 ```
 Completed:
 - BlameProvider implementation ✅
@@ -289,6 +294,7 @@ Blockers:
 ```
 
 **Update summary doc**:
+
 ```
 ## Current Status
 
@@ -297,13 +303,14 @@ Blockers:
 🚧 Configurable output format (in progress)
 ```
 
----
+______________________________________________________________________
 
 ## Common Pitfalls to Avoid
 
 ### ❌ Pitfall 1: Copying Task Lists Verbatim
 
 **Wrong**:
+
 ```markdown
 ## Implementation
 
@@ -315,6 +322,7 @@ Blockers:
 ```
 
 **Right**:
+
 ```markdown
 ## Technical Implementation
 
@@ -342,7 +350,7 @@ The feature uses three main components:
 
 **Solution**: Always add "Related Features" section with links
 
----
+______________________________________________________________________
 
 ## File References
 
@@ -359,7 +367,7 @@ Example markdown:
 [View implementation plan](./implementation-sequence.md)
 ```
 
----
+______________________________________________________________________
 
 ## Integration with Other Documentation
 
@@ -376,7 +384,7 @@ Feature-summary docs can also reference:
    └─ Link to technical implementation section
 ```
 
----
+______________________________________________________________________
 
 ## Recommended Tools & Processes
 
@@ -415,35 +423,39 @@ Weekly: Track progress in execution-tracking
 └─ Auto-validate links between docs
 ```
 
----
+______________________________________________________________________
 
 ## Quick Reference: When to Use Each Skill
 
 ### Use feature-summary when:
+
 - ✅ Feature exists and works
 - ✅ Need user-facing documentation
 - ✅ Want to create feature catalog
 - ✅ Need to classify feature type
 
 ### Use feature-breakdown when:
+
 - ✅ Planning a new feature
 - ✅ Need to decompose into tasks
 - ✅ Want acceptance criteria
 - ✅ Creating implementation plan
 
 ### Use feature-planning when:
+
 - ✅ Have breakdown document
 - ✅ Need execution sequence
 - ✅ Want to identify dependencies
 - ✅ Need timeline
 
 ### Use execution-tracking when:
+
 - ✅ Team is actively building
 - ✅ Have implementation-sequence.md
 - ✅ Need progress updates
 - ✅ Want blocker tracking
 
----
+______________________________________________________________________
 
 ## See Also
 

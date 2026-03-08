@@ -1,7 +1,6 @@
----
-name: git-commit-workflow
-description: Skill for committing git changes following repository guidelines. Use when needing to commit staged or unstaged changes by reading CONTRIBUTING files for standards, analyzing changes with git status and diff, grouping related files, and performing commits according to guidelines or conventional commits as fallback.
----
+______________________________________________________________________
+
+## name: git-commit-workflow description: Skill for committing git changes following repository guidelines. Use when needing to commit staged or unstaged changes by reading CONTRIBUTING files for standards, analyzing changes with git status and diff, grouping related files, and performing commits according to guidelines or conventional commits as fallback.
 
 # Git Commit Workflow
 
@@ -14,24 +13,29 @@ This skill provides a structured workflow for committing git changes that respec
 Follow these steps to commit changes:
 
 ### 1. Read Repository Guidelines
+
 - Look for CONTRIBUTING, CONTRIBUTING.md, or similar files in the repository root
 - Extract commit message standards, guidelines, and any specific requirements
 - If no guidelines found, prepare to use conventional commits as fallback
 
 ### 2. Assess Current Changes
+
 - Run `git status` to see all modified, added, and untracked files
 - Note staged vs unstaged changes
 
 ### 3. Analyze Changes in Detail
+
 - Run `git diff` (and `git diff --staged` if needed) to understand what changes were made
 - Review the nature of changes: bug fixes, features, refactoring, documentation, etc.
 
 ### 4. Group Related Changes
+
 - Logically group files by related changes
 - See [references/grouping_changes.md](references/grouping_changes.md) for guidance on grouping strategies
 - Avoid mixing unrelated changes in the same commit
 
 ### 5. Perform Commits
+
 - If CONTRIBUTING guidelines exist, follow their commit message format and grouping requirements
 - If no guidelines, use conventional commits standard: See [references/conventional_commits.md](references/conventional_commits.md)
 - Stage appropriate files for each commit
@@ -41,6 +45,7 @@ Follow these steps to commit changes:
 ## Resources
 
 ### references/
+
 - `grouping_changes.md`: Guidance on how to group related file changes into logical commits
 - `conventional_commits.md`: Reference for conventional commits specification
 
@@ -55,6 +60,7 @@ Follow these steps to commit changes:
 ```
 
 **Common types:**
+
 - `feat`: A new feature
 - `fix`: A bug fix
 - `refactor`: Code change that neither fixes a bug nor adds a feature
@@ -65,6 +71,7 @@ Follow these steps to commit changes:
 - `chore`: Changes to build scripts, dependencies, or other non-source changes
 
 **Examples:**
+
 - `feat(api): add user authentication endpoints`
 - `fix(validation): handle null values in validation utility`
 - `docs: update installation instructions`
@@ -75,6 +82,7 @@ Follow these steps to commit changes:
 ### Example 1: Multi-Step Commit with Conventional Format
 
 **Initial Repository State:**
+
 ```
 $ git status
 On branch main
@@ -92,6 +100,7 @@ Untracked files:
 ```
 
 **Step 1: Analyze Changes**
+
 ```
 $ git diff src/auth/login.ts
   - Added password validation
@@ -117,17 +126,21 @@ $ git diff .gitignore
 **Step 2: Group Related Changes**
 
 Group 1 (Feature: Authentication):
+
 - src/auth/login.ts
 - src/auth/logout.ts
 - src/auth/middleware.ts
 
 Group 2 (Tests):
+
 - tests/auth.test.ts
 
 Group 3 (Documentation):
+
 - docs/README.md
 
 Group 4 (Configuration):
+
 - .gitignore
 
 **Step 3-4: Create Commits**
@@ -179,6 +192,7 @@ $ git commit -m "chore: update .gitignore for environment files
 ```
 
 **Final Result:**
+
 ```
 $ git log --oneline -4
 l0m1n2o chore: update .gitignore for environment files
@@ -197,6 +211,7 @@ nothing to commit, working tree clean
 ### Example 2: Bug Fix with Related Test Update
 
 **Initial State:**
+
 ```
 $ git status
 On branch main
@@ -211,6 +226,7 @@ $ git diff src/utils/date-parser.ts
 ```
 
 **Commit Process:**
+
 ```
 $ git add src/utils/date-parser.ts tests/utils/date-parser.test.ts
 $ git commit -m "fix(utils): correct date parsing for timezone offsets
@@ -226,6 +242,7 @@ $ git commit -m "fix(utils): correct date parsing for timezone offsets
 ```
 
 **Output Summary:**
+
 ```
 ✅ COMMIT SUCCESSFUL
 
@@ -245,6 +262,7 @@ Working Directory: Clean
 ### Example 3: Refactoring with Multiple Files
 
 **Initial State:**
+
 ```
 $ git status
 On branch main
@@ -264,6 +282,7 @@ $ git diff --stat
 ```
 
 **Commit Process:**
+
 ```
 $ git add src/components/Button.tsx src/components/Form.tsx src/styles/colors.css
 $ git commit -m "refactor: extract shared styling logic to utility functions
@@ -290,6 +309,7 @@ $ git commit -m "test(components): update tests after styling refactor
 ```
 
 **Commit History View:**
+
 ```
 $ git log --oneline -2
 x9y0z1a test(components): update tests after styling refactor

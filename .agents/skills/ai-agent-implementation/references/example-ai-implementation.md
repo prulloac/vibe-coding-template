@@ -6,7 +6,7 @@ Complete walkthrough of implementing a real feature: **User Authentication Syste
 
 This example shows how feature-breakdown → feature-planning → ai-agent-implementation flows in practice.
 
----
+______________________________________________________________________
 
 ## Part 0: Feature Context
 
@@ -16,20 +16,21 @@ This example shows how feature-breakdown → feature-planning → ai-agent-imple
 
 **Why we're building it**: New feature, critical for security, needed for user-specific features downstream.
 
----
+______________________________________________________________________
 
 ## Part 1: Feature Breakdown (What we're building)
 
 *Output from feature-breakdown skill*
 
 The breakdown identified 12 tasks organized into 3 areas:
+
 1. **Backend**: Database schema, API endpoints, authentication logic
-2. **Frontend**: Login/register forms, session handling
-3. **Integration**: End-to-end tests, security audit
+1. **Frontend**: Login/register forms, session handling
+1. **Integration**: End-to-end tests, security audit
 
 Key acceptance criteria: User can register, log in, API validates tokens, tokens expire, logout clears session.
 
----
+______________________________________________________________________
 
 ## Part 2: Execution Sequence (Task Order)
 
@@ -38,6 +39,7 @@ Key acceptance criteria: User can register, log in, API validates tokens, tokens
 Planning analyzed dependencies and created this sequence:
 
 **Batch 1: Backend Foundation**
+
 - Task 1: Create users database table (schema, migrations)
 - Task 2: Implement password hashing & validation
 - Task 3: Create authentication API endpoints (register, login, logout)
@@ -45,6 +47,7 @@ Planning analyzed dependencies and created this sequence:
 *Why these 3*: Related, foundational for other work, can test in parallel.
 
 **Batch 2: Frontend & Session**
+
 - Task 4: Build login/register UI forms
 - Task 5: Add session management (store tokens, refresh logic)
 - Task 6: Implement logout and cleanup
@@ -52,6 +55,7 @@ Planning analyzed dependencies and created this sequence:
 *Why these 3*: Depend on Batch 1 APIs, can build in parallel, all needed for complete flow.
 
 **Batch 3: Integration & Testing**
+
 - Task 7: End-to-end authentication flow tests
 - Task 8: Security audit (password policies, token expiration)
 - Task 9: Error handling and edge cases
@@ -60,7 +64,7 @@ Planning analyzed dependencies and created this sequence:
 
 **Critical Path**: Batch 1 → Batch 2 → Batch 3 (strict dependency order).
 
----
+______________________________________________________________________
 
 ## Part 3: Execution - Batch 1
 
@@ -81,7 +85,7 @@ You prepare Batch 1:
 
 ### Task 1: Create users database table
 
-**Description**: 
+**Description**:
 Create PostgreSQL table for users with: id, email, password_hash, created_at, updated_at.
 Add indexes on email (for login lookups).
 Create migration file that can be run/reverted.
@@ -139,13 +143,13 @@ GET /auth/me: → current user
 
 **Purpose**: Build backend foundation. After this batch, backend can fully authenticate users.
 
-**Dependencies**: 
+**Dependencies**:
 - PostgreSQL database available
 - Node.js + bcrypt library installed
 
 **Integration**: Frontend will depend on these endpoints being available
 
-**Expected Outcome**: 
+**Expected Outcome**:
 - Backend can register, authenticate, and verify users
 - Ready for frontend integration
 
@@ -291,7 +295,7 @@ And update implementation-progress.md:
 - **Expected Start**: [Next agent session]
 ```
 
----
+______________________________________________________________________
 
 ## Part 4: Execution - Batch 2
 
@@ -312,7 +316,7 @@ Now you prepare Batch 2, having learned from Batch 1:
 
 Batch 1 is complete. The backend APIs are available:
 - POST /auth/register
-- POST /auth/login  
+- POST /auth/login
 - POST /auth/logout
 - GET /auth/me
 
@@ -331,7 +335,7 @@ Include "I have an account" link between forms.
 
 **Acceptance Criteria**:
 - [ ] Register form: email + password inputs + validation
-- [ ] Login form: email + password inputs + validation  
+- [ ] Login form: email + password inputs + validation
 - [ ] Forms show error messages on invalid input
 - [ ] Forms disable submit while submitting
 - [ ] Can switch between login/register views
@@ -388,16 +392,16 @@ Create logout flow:
 
 ## Batch Overview
 
-**Purpose**: 
+**Purpose**:
 Build frontend UI and session management. After this batch, users can:
 1. Register → create account
 2. Log in → get token, stay logged in
 3. Log out → clear session, return to login
 
-**Dependencies**: 
+**Dependencies**:
 All met - Batch 1 backend is complete and running
 
-**Integration**: 
+**Integration**:
 - Forms call /auth/register and /auth/login endpoints (Task 4 → backend)
 - Session management stores token and provides to app (Task 5 used by Task 4 & 6)
 - Logout clears session and redirects (Task 6 uses Task 5)
@@ -530,7 +534,7 @@ Update progress:
 - **Status**: ✅ Complete
 - **Tasks**: Task 1, 2, 3
 
-### Batch 2: Frontend & Session  
+### Batch 2: Frontend & Session
 - **Status**: ✅ Complete (1 minor issue fixed)
 - **Tasks**: Task 4, 5, 6
 - **Issues**: Frontend validation ≠ backend validation (fixed)
@@ -545,7 +549,7 @@ Update progress:
 - **Tasks**: Task 7, 8, 9
 ```
 
----
+______________________________________________________________________
 
 ## Part 5: Execution - Batch 3 (with blocker)
 
@@ -629,7 +633,7 @@ Task 8: Security audit
   - Token expiration implemented, but refresh token logic not implemented
   - Backend generates JWT but doesn't have refresh token endpoint
   - Frontend doesn't have refresh token logic
-  
+
 BLOCKED on Task 8 - Refresh token flow not implemented
 ```
 
@@ -646,20 +650,20 @@ Agent reports blocker. You triage:
 
 **Affected Tasks**: Task 8
 
-**Description**: 
+**Description**:
 Feature supports token expiration (good), but no refresh token flow.
 After token expires, user forced to log in again (not ideal).
 Refresh token flow would let user stay logged in longer.
 
-**Cause**: 
+**Cause**:
 Original spec didn't clarify refresh token requirement.
 We implemented basic token expiration but didn't include refresh mechanism.
 
-**Impact**: 
+**Impact**:
 Security audit fails (token expiration without refresh not production-ready).
 Users have poor experience (logged out frequently).
 
-**Resolution**: 
+**Resolution**:
 We have 2 options:
 1. Add refresh token flow (backend endpoint + frontend logic) - more work, better UX
 2. Increase token expiration to longer (e.g., 24 hours) - simpler, acceptable for MVP
@@ -690,7 +694,7 @@ Agent redoes Task 8:
 Task 8: Security audit (UPDATED)
 - Password requirements: ✅
 - Token expiration: Check backend...
-  - Current: 1 hour expiration ❌ 
+  - Current: 1 hour expiration ❌
   - Need: 24 hour expiration
   - Updating: Changed JWT expiration to 24 hours ✅
 - XSS check in forms: ✅ No unsanitized inputs
@@ -734,7 +738,7 @@ Task 9 COMPLETE
 ## Integration Status
 
 - Backend: ✅ All security measures in place
-- Frontend: ✅ Handles expiration gracefully  
+- Frontend: ✅ Handles expiration gracefully
 - Tests: ✅ Full coverage of auth flows
 
 ## Feature Complete ✅
@@ -743,7 +747,7 @@ User Authentication System fully implemented and tested.
 Users can register, log in, maintain sessions, and log out.
 ```
 
----
+______________________________________________________________________
 
 ## Summary: The Complete Flow
 
@@ -753,7 +757,7 @@ Feature Spec (Input)
 Breakdown skill (WHAT)
     → Output: 12 tasks with acceptance criteria
     ↓
-Planning skill (ORDER)  
+Planning skill (ORDER)
     → Output: 3 batches, strict dependency order
     ↓
 Batch 1 → Agent A (2 hours)
@@ -773,18 +777,18 @@ Feature Complete ✅
 **Issues**: 1 minor validation mismatch, 1 design blocker (both resolved quickly)
 **Result**: Complete, tested, production-ready authentication system
 
----
+______________________________________________________________________
 
 ## Key Lessons from Example
 
 1. **Batching works**: 3 batches of 1-3 tasks each = focused sessions, clear handoffs
-2. **Blockers happen**: When they do, triage fast (30 min vs 4 hours saved)
-3. **Integration matters**: Verify between batches (Task 4/5/6 form + session + logout all needed together)
-4. **Document everything**: Session summaries help next agent understand what happened
-5. **Flexibility wins**: When blocker found, quick design decision (defer refresh tokens) kept progress moving
-6. **Validation alignment**: Minor issue (form validation ≠ backend) caught in Batch 2, fixed in 30 min
+1. **Blockers happen**: When they do, triage fast (30 min vs 4 hours saved)
+1. **Integration matters**: Verify between batches (Task 4/5/6 form + session + logout all needed together)
+1. **Document everything**: Session summaries help next agent understand what happened
+1. **Flexibility wins**: When blocker found, quick design decision (defer refresh tokens) kept progress moving
+1. **Validation alignment**: Minor issue (form validation ≠ backend) caught in Batch 2, fixed in 30 min
 
----
+______________________________________________________________________
 
 ## See Also
 

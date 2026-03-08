@@ -1,21 +1,21 @@
 # Example: Feature Planning Output (Execution Sequence)
 
-**Feature**: User Authentication System  
-**Based On**: Feature Breakdown - User Authentication System  
+**Feature**: User Authentication System
+**Based On**: Feature Breakdown - User Authentication System
 **Created**: February 19, 2026
 **Location**: `docs/features/user-authentication/implementation-sequence.md`
 
----
+______________________________________________________________________
 
 ## Overview
 
 This execution sequence organizes 12 tasks from the feature breakdown into an optimal execution order. Tasks are grouped into 3 batches that can execute sequentially, with opportunities for parallelization within each batch.
 
-**Total Tasks**: 12  
-**Batches**: 3  
+**Total Tasks**: 12
+**Batches**: 3
 **Critical Path**: Batch 1 → Batch 2 → Batch 3 (strict dependency chain)
 
----
+______________________________________________________________________
 
 ## Dependency Graph
 
@@ -38,7 +38,7 @@ Batch 3: Integration & Testing (Tasks 7-9)
   └─ Task 9: Error handling
 ```
 
----
+______________________________________________________________________
 
 ## Batch 1: Backend Foundation
 
@@ -50,12 +50,13 @@ Batch 3: Integration & Testing (Tasks 7-9)
 
 **Parallel With**: None
 
-**Description**: 
+**Description**:
 Create PostgreSQL table for users with: id, email, password_hash, created_at, updated_at.
 Add indexes on email (for login lookups).
 Create migration file that can be run/reverted.
 
 **Acceptance Criteria**:
+
 - [ ] Migration file created and versioned
 - [ ] Table has all required fields (id, email, password_hash, created_at, updated_at)
 - [ ] Email field is indexed for fast lookups
@@ -64,9 +65,9 @@ Create migration file that can be run/reverted.
 
 **Integration Point**: Task 2 will use this schema to store hashed passwords
 
-**Effort Estimate**: Small (< 1 hour)
+**Effort Estimate**: Small (\< 1 hour)
 
----
+______________________________________________________________________
 
 ### Task 2: Implement password hashing & validation
 
@@ -82,6 +83,7 @@ Use bcrypt library. Configure reasonable cost factor.
 Include validation: min length, strength requirements.
 
 **Acceptance Criteria**:
+
 - [ ] Passwords hashed with bcrypt
 - [ ] Can verify plaintext against hash
 - [ ] Validation rejects weak passwords (min 8 chars, requires uppercase + number)
@@ -90,9 +92,9 @@ Include validation: min length, strength requirements.
 
 **Integration Point**: Task 3 will call these functions when users register/login
 
-**Effort Estimate**: Small (< 1 hour)
+**Effort Estimate**: Small (\< 1 hour)
 
----
+______________________________________________________________________
 
 ### Task 3: Create authentication API endpoints
 
@@ -109,6 +111,7 @@ POST /auth/logout: → success
 GET /auth/me: → current user (requires valid token)
 
 **Acceptance Criteria**:
+
 - [ ] POST /auth/register: creates user, hashes password, returns user object
 - [ ] POST /auth/login: validates credentials, returns JWT token with 24-hour expiration
 - [ ] POST /auth/logout: returns success (or invalidates session)
@@ -121,7 +124,7 @@ GET /auth/me: → current user (requires valid token)
 
 **Effort Estimate**: Medium (2-3 hours)
 
----
+______________________________________________________________________
 
 ## Batch 1 Summary
 
@@ -133,7 +136,7 @@ GET /auth/me: → current user (requires valid token)
 
 **Success Criteria for Batch**: All 3 tasks complete, all acceptance criteria met, API responding correctly to register/login/logout requests
 
----
+______________________________________________________________________
 
 ## Batch 2: Frontend & Session
 
@@ -151,6 +154,7 @@ Forms capture email and password, display validation errors.
 Include "I have an account" link to switch between register and login.
 
 **Acceptance Criteria**:
+
 - [ ] RegisterForm: email + password inputs + validation
 - [ ] LoginForm: email + password inputs + validation
 - [ ] Forms show error messages on invalid input (red text, clear messaging)
@@ -163,7 +167,7 @@ Include "I have an account" link to switch between register and login.
 
 **Effort Estimate**: Medium (2-3 hours)
 
----
+______________________________________________________________________
 
 ### Task 5: Add session management (store tokens, refresh logic)
 
@@ -175,6 +179,7 @@ Include "I have an account" link to switch between register and login.
 
 **Description**:
 Create session utility:
+
 - store(token): Save JWT token to localStorage
 - get(): Retrieve token from localStorage
 - clear(): Remove token from storage
@@ -183,6 +188,7 @@ Create session utility:
 Create user context to provide current user globally throughout the app.
 
 **Acceptance Criteria**:
+
 - [ ] Token stored in localStorage
 - [ ] Token persists across page reloads
 - [ ] Token cleared on logout
@@ -195,7 +201,7 @@ Create user context to provide current user globally throughout the app.
 
 **Effort Estimate**: Small (1-2 hours)
 
----
+______________________________________________________________________
 
 ### Task 6: Implement logout and cleanup
 
@@ -207,6 +213,7 @@ Create user context to provide current user globally throughout the app.
 
 **Description**:
 Create logout flow:
+
 - Add logout button visible when user is logged in
 - Logout button calls backend POST /auth/logout
 - Session token cleared from storage (via Task 5 utility)
@@ -215,6 +222,7 @@ Create logout flow:
 - Clear any user-specific state (shopping cart, preferences, etc.)
 
 **Acceptance Criteria**:
+
 - [ ] Logout button visible in header when user authenticated
 - [ ] Logout button calls POST /auth/logout endpoint
 - [ ] Token removed from localStorage
@@ -227,7 +235,7 @@ Create logout flow:
 
 **Effort Estimate**: Small (1-2 hours)
 
----
+______________________________________________________________________
 
 ## Batch 2 Summary
 
@@ -239,7 +247,7 @@ Create logout flow:
 
 **Success Criteria for Batch**: Users can register, log in (token persists), and log out. Full auth flow works end-to-end.
 
----
+______________________________________________________________________
 
 ## Batch 3: Integration & Testing
 
@@ -253,6 +261,7 @@ Create logout flow:
 
 **Description**:
 Write integration tests for the complete authentication flow:
+
 - Test: Register new user → user created → can log in
 - Test: Login with valid credentials → token returned → stays logged in
 - Test: Logout → token removed → gets redirected → can login again
@@ -260,6 +269,7 @@ Write integration tests for the complete authentication flow:
 - Test: Access protected endpoint without token → returns 401
 
 **Acceptance Criteria**:
+
 - [ ] Register-to-login flow works end-to-end
 - [ ] Token persists across page reloads
 - [ ] Logout clears token completely
@@ -273,7 +283,7 @@ Write integration tests for the complete authentication flow:
 
 **Effort Estimate**: Medium (2-3 hours)
 
----
+______________________________________________________________________
 
 ### Task 8: Security audit
 
@@ -285,6 +295,7 @@ Write integration tests for the complete authentication flow:
 
 **Description**:
 Conduct security audit:
+
 - Verify passwords meet minimum complexity (8+ chars, uppercase, number)
 - Verify tokens expire after 24 hours
 - Verify no sensitive data in logs or console
@@ -293,6 +304,7 @@ Conduct security audit:
 - Check API for SQL injection vulnerabilities
 
 **Acceptance Criteria**:
+
 - [ ] Passwords require 8+ characters
 - [ ] Passwords require at least one uppercase letter
 - [ ] Passwords require at least one number
@@ -307,7 +319,7 @@ Conduct security audit:
 
 **Effort Estimate**: Medium (2-3 hours)
 
----
+______________________________________________________________________
 
 ### Task 9: Error handling and edge cases
 
@@ -319,6 +331,7 @@ Conduct security audit:
 
 **Description**:
 Test error scenarios and edge cases:
+
 - Duplicate email registration (should reject with 409)
 - Case-insensitive email lookup (john@example.com = John@example.com)
 - Concurrent login attempts from same user
@@ -328,6 +341,7 @@ Test error scenarios and edge cases:
 - Rapid successive logout attempts (idempotent)
 
 **Acceptance Criteria**:
+
 - [ ] Duplicate email rejected with 409 Conflict
 - [ ] Email lookups case-insensitive
 - [ ] Concurrent logins handled correctly
@@ -342,7 +356,7 @@ Test error scenarios and edge cases:
 
 **Effort Estimate**: Medium (2-3 hours)
 
----
+______________________________________________________________________
 
 ## Batch 3 Summary
 
@@ -354,7 +368,7 @@ Test error scenarios and edge cases:
 
 **Success Criteria for Batch**: All tests pass, security audit passes, no critical vulnerabilities, feature is production-ready.
 
----
+______________________________________________________________________
 
 ## Overall Execution Flow
 
@@ -384,33 +398,35 @@ Feature Complete ✅
 **Critical Path**: Batch 1 → Batch 2 → Batch 3 (cannot overlap)
 
 **Parallelization within batches**:
+
 - Batch 1: Start Task 1 & 2 together, then Task 3 (saves ~1 hour)
 - Batch 2: Start Task 4 & 5 together, then Task 6 (saves ~1.5 hours)
 - Batch 3: All 3 tasks simultaneous (saves ~6 hours)
 
----
+______________________________________________________________________
 
 ## How to Use This Sequence
 
 1. **Send to AI Agent**: Copy Batch 1 context and send to agent with instructions to execute all 3 tasks
-2. **Monitor Progress**: As agent works, note any blockers or issues
-3. **Verify Completion**: Check that all acceptance criteria are met before moving to next batch
-4. **Handoff**: Provide Batch 2 context to next agent with notes from Batch 1
-5. **Repeat**: Continue for Batch 3
+1. **Monitor Progress**: As agent works, note any blockers or issues
+1. **Verify Completion**: Check that all acceptance criteria are met before moving to next batch
+1. **Handoff**: Provide Batch 2 context to next agent with notes from Batch 1
+1. **Repeat**: Continue for Batch 3
 
----
+______________________________________________________________________
 
 ## Task Reference
 
 For full task details, see the Feature Breakdown document: `user-authentication-breakdown.md`
 
 Each task includes:
+
 - Component mapping
 - Acceptance criteria
 - Testing approach
 - Integration requirements
 
----
+______________________________________________________________________
 
 ## See Also
 

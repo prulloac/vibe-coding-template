@@ -1,7 +1,6 @@
----
-name: system-prompt-validator
-description: Validate agent system prompts (such as agents.md) for being objective-driven, clear, readable, free of duplicated intentions, without missing or broken links, and ensuring required sections like general agentic guidelines, code review, and code generation are present. Use when validating or reviewing agent prompt files.
----
+______________________________________________________________________
+
+## name: system-prompt-validator description: Validate agent system prompts (such as agents.md) for being objective-driven, clear, readable, free of duplicated intentions, without missing or broken links, and ensuring required sections like general agentic guidelines, code review, and code generation are present. Use when validating or reviewing agent prompt files.
 
 # System Prompt Validator
 
@@ -25,10 +24,10 @@ Agent prompts must be:
 To validate an agent prompt file:
 
 1. Review the prompt against each criterion in the checklist
-2. Check for required sections by scanning headings
-3. Verify links by confirming referenced files exist
-4. Identify any duplicated content or unclear language
-5. Fix identified issues
+1. Check for required sections by scanning headings
+1. Verify links by confirming referenced files exist
+1. Identify any duplicated content or unclear language
+1. Fix identified issues
 
 ## Validation Checklist
 
@@ -42,6 +41,7 @@ To validate an agent prompt file:
 ## Resources
 
 ### references/
+
 - `validation_guide.md`: Detailed guide on validation criteria and examples - see [validation_guide.md](references/validation_guide.md)
 - `examples/good_prompt.md`: Example of a well-structured agent prompt - see [good_prompt.md](examples/good_prompt.md)
 - `examples/good_prompt2.md`: Additional example from Andrej Karpathy's CLAUDE.md - see [good_prompt2.md](examples/good_prompt2.md)

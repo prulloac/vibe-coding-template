@@ -1,7 +1,6 @@
----
-name: feature-planning
-description: Sequence tasks from a feature breakdown into an optimal execution order, identify dependencies and parallelization opportunities, and create an agent-ready execution sequence. Use when you have a feature breakdown and need to determine the correct order to build tasks and which can run in parallel.
----
+______________________________________________________________________
+
+## name: feature-planning description: Sequence tasks from a feature breakdown into an optimal execution order, identify dependencies and parallelization opportunities, and create an agent-ready execution sequence. Use when you have a feature breakdown and need to determine the correct order to build tasks and which can run in parallel.
 
 # Feature Planning Skill
 
@@ -12,6 +11,7 @@ This skill focuses on **task sequencing and dependency analysis**, transforming 
 ## When to Use
 
 Use this skill when you have a **feature breakdown document** and need to:
+
 - Determine the correct order to execute tasks
 - Identify which tasks block other tasks
 - Find opportunities for parallelization
@@ -20,7 +20,8 @@ Use this skill when you have a **feature breakdown document** and need to:
 
 **Key indicator**: You're asking "In what order should these tasks be done?" and "Which can happen in parallel?"
 
-**Do NOT use this skill if**: 
+**Do NOT use this skill if**:
+
 - You only have a feature spec/idea (use feature-breakdown first to identify all tasks)
 - You need calendar dates and deadlines (not the focus of this skill)
 
@@ -31,15 +32,18 @@ Use this skill when you have a **feature breakdown document** and need to:
 Before using this skill:
 
 1. **Verify you have completed `feature-breakdown` first**
+
    - If you only have a feature spec or idea → STOP and use `feature-breakdown` skill first
    - If you have a feature breakdown document → Continue below
 
-2. **Expected inputs from feature-breakdown**:
+1. **Expected inputs from feature-breakdown**:
+
    - `docs/features/[feature-name]-breakdown.md` file exists
    - Contains all 8 required sections
    - Has a complete task list with dependencies and acceptance criteria
 
 **If you don't have a breakdown document**:
+
 - Load the `feature-breakdown` skill first
 - Follow its workflow to decompose your feature spec into tasks
 - Once you have `docs/features/[feature-name]/breakdown.md`, return here
@@ -88,12 +92,14 @@ Ready for Execution
 **Input**: Feature breakdown document
 
 1. **Read breakdown structure**:
+
    - Extract all tasks with their IDs and descriptions
    - Document all dependencies (which tasks block which)
    - Note component mappings
    - List acceptance criteria for each task
 
-2. **Validate task quality**:
+1. **Validate task quality**:
+
    - Confirm each task has acceptance criteria
    - Verify dependencies are explicitly stated
    - Identify any circular dependencies
@@ -102,17 +108,20 @@ Ready for Execution
 ### Phase 2: Build Dependency Graph
 
 1. **Map all task dependencies**:
+
    - Create visual representation of what blocks what
    - Identify sequential tasks (must complete in order)
    - Identify parallel tasks (can run simultaneously)
    - Flag any circular dependencies or issues
 
-2. **Identify critical path** (longest dependency chain):
+1. **Identify critical path** (longest dependency chain):
+
    - Calculate total length of each dependency chain
    - Mark the longest chain as critical path
    - Note tasks on critical path that cannot slip
 
-3. **Group related work**:
+1. **Group related work**:
+
    - Group tasks by component
    - Identify natural groupings for batching
    - Recognize integration points requiring coordination
@@ -120,12 +129,14 @@ Ready for Execution
 ### Phase 3: Determine Execution Sequence
 
 1. **Order tasks respecting dependencies**:
+
    - Start with tasks that have no dependencies (can start immediately)
    - Place dependent tasks after their prerequisites
    - Group parallel tasks together
    - Organize by logical component flow
 
-2. **Identify parallelization opportunities**:
+1. **Identify parallelization opportunities**:
+
    - Mark which tasks CAN run simultaneously
    - Group parallel tasks for batch execution
    - Document why tasks can/cannot run in parallel
@@ -160,23 +171,25 @@ Generate the sequenced task list with this structure:
 **Organization principles**:
 
 1. **Order tasks sequentially** - respect dependencies
-2. **Group parallel tasks** - related parallel work together
-3. **Mark critical path** - indicate which tasks determine overall completion
-4. **Note integration points** - show what requires coordination
-5. **Include all details** - make each task self-contained and clear
+1. **Group parallel tasks** - related parallel work together
+1. **Mark critical path** - indicate which tasks determine overall completion
+1. **Note integration points** - show what requires coordination
+1. **Include all details** - make each task self-contained and clear
 
 ### Phase 5: Identify Batch Groupings
 
 For single developer + AI agent execution:
 
 1. **Group tasks into logical batches** (1-3 tasks per batch):
+
    - Batch 1: Foundation/Setup tasks
    - Batch 2: Component A implementation
    - Batch 3: Component B implementation
    - Batch 4: Integration & Testing
    - Etc.
 
-2. **Each batch should**:
+1. **Each batch should**:
+
    - Be executable without waiting for other work
    - Have clear success criteria
    - Be able to complete before next batch starts
@@ -248,11 +261,13 @@ Execute batches sequentially, using this sequence as the source of truth.
 ### Parallelization
 
 Tasks can run in parallel if:
+
 - They have no dependencies on each other
 - They work on different components
 - They don't share resources
 
 Tasks must run sequentially if:
+
 - One's output feeds into the other's input
 - They modify the same file/component
 - One sets up infrastructure the other needs
@@ -262,9 +277,10 @@ Tasks must run sequentially if:
 The critical path is what determines overall completion. If ANY task on the critical path slips, the entire feature slips.
 
 **Identify critical path by**:
+
 1. Calculate total length of each dependency chain
-2. Find the longest chain
-3. These are the critical tasks
+1. Find the longest chain
+1. These are the critical tasks
 
 ## Common Pitfalls to Avoid
 
@@ -281,5 +297,6 @@ The critical path is what determines overall completion. If ANY task on the crit
 ## See Also
 
 For reference materials, see the included reference documents:
+
 - `sequencing-guide.md`: How to analyze and sequence dependencies
 - `batch-organization.md`: How to group tasks for execution

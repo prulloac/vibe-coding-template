@@ -36,9 +36,9 @@ Handoffs enable you to create guided sequential workflows that transition betwee
 
 Handoffs are useful for orchestrating multi-step workflows that give developers control for reviewing and approving each step before moving to the next one. For example:
 
--   **Planning → Implementation**: Generate a plan in planning agent, then hand off to implementation agent to start coding.
--   **Implementation → Review**: Complete implementation, then switch to a code review agent to check for quality and security issues.
--   **Write Failing Tests → Write Passing Tests**: Generate failing tests that are easier to review than big implementations, then hand off to make those tests pass by implementing the required code changes.
+- **Planning → Implementation**: Generate a plan in planning agent, then hand off to implementation agent to start coding.
+- **Implementation → Review**: Complete implementation, then switch to a code review agent to check for quality and security issues.
+- **Write Failing Tests → Write Passing Tests**: Generate failing tests that are easier to review than big implementations, then hand off to make those tests pass by implementing the required code changes.
 
 To define handoffs in your agent file, add them to the frontmatter. Each handoff specifies the target agent, the button label, and an optional prompt to send:
 
@@ -69,25 +69,25 @@ VS Code detects any `.md` files in the `.github/agents` folder of your workspace
 
 The header is formatted as YAML frontmatter with the following fields:
 
-| Field | Description |
-|-------|-------------|
-| `description` | A brief description of the custom agent, shown as placeholder text in the chat input field. |
-| `name` | The name of the custom agent. If not specified, the file name is used. |
-| `argument-hint` | Optional hint text shown in the chat input field to guide users on how to interact with the custom agent. |
-| `tools` | A list of tool or tool set names that are available for this custom agent. Can include built-in tools, tool sets, MCP tools, or tools contributed by extensions. To include all tools of an MCP server, use the `<server name>/*` format. Learn more about [tools in chat](https://code.visualstudio.com/docs/copilot/agents/agent-tools). |
-| `agents` | A list of agent names that are available as [subagents](https://code.visualstudio.com/docs/copilot/agents/subagents) in this agent. Use `*` to allow all agents, or an empty array `[]` to prevent any subagent use. If you specify `agents`, ensure the `agent` tool is included in the `tools` property. |
-| `model` | The AI model to use when running the prompt. Specify a single model name (string) or a prioritized list of models (array). When you specify an array, the system tries each model in order until an available one is found. If not specified, the currently selected model in model picker is used. |
-| `user-invokable` | Optional boolean flag to control whether the agent appears in the agents dropdown in chat (default is `true`). Set to `false` to create agents that are only accessible as [subagents](https://code.visualstudio.com/docs/copilot/agents/subagents) or programmatically. |
-| `disable-model-invocation` | Optional boolean flag to prevent the agent from being invoked as a subagent by other agents (default is `false`). |
-| `infer` | **Deprecated.** Use `user-invokable` and `disable-model-invocation` instead. Previously, `infer: true` (the default) made the agent both visible in the picker and available as a subagent. `infer: false` hid it from both. The new fields give you independent control: use `user-invokable: false` to hide from the picker while still allowing subagent invocation, or `disable-model-invocation: true` to prevent subagent invocation while keeping it in the picker. |
-| `target` | The target environment or context for the custom agent (`vscode` or `github-copilot`). |
-| `mcp-servers` | Optional list of Model Context Protocol (MCP) server config json to use with [custom agents in GitHub Copilot](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent/create-custom-agents) (target: `github-copilot`). |
-| `handoffs` | Optional list of suggested next actions or prompts to transition between custom agents. Handoff buttons appear as interactive suggestions after a chat response completes. |
-| `handoffs.label` | The display text shown on the handoff button. |
-| `handoffs.agent` | The target agent identifier to switch to. |
-| `handoffs.prompt` | The prompt text to send to the target agent. |
-| `handoffs.send` | Optional boolean flag to auto-submit the prompt (default is `false`) |
-| `handoffs.model` | Optional language model to use when the handoff executes. Use the qualified model name in the format `Model Name (vendor)`, for example `GPT-5 (copilot)` or `Claude Sonnet 4.5 (copilot)`. |
+| Field                      | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `description`              | A brief description of the custom agent, shown as placeholder text in the chat input field.                                                                                                                                                                                                                                                                                                                                                                                |
+| `name`                     | The name of the custom agent. If not specified, the file name is used.                                                                                                                                                                                                                                                                                                                                                                                                     |
+| `argument-hint`            | Optional hint text shown in the chat input field to guide users on how to interact with the custom agent.                                                                                                                                                                                                                                                                                                                                                                  |
+| `tools`                    | A list of tool or tool set names that are available for this custom agent. Can include built-in tools, tool sets, MCP tools, or tools contributed by extensions. To include all tools of an MCP server, use the `<server name>/*` format. Learn more about [tools in chat](https://code.visualstudio.com/docs/copilot/agents/agent-tools).                                                                                                                                 |
+| `agents`                   | A list of agent names that are available as [subagents](https://code.visualstudio.com/docs/copilot/agents/subagents) in this agent. Use `*` to allow all agents, or an empty array `[]` to prevent any subagent use. If you specify `agents`, ensure the `agent` tool is included in the `tools` property.                                                                                                                                                                 |
+| `model`                    | The AI model to use when running the prompt. Specify a single model name (string) or a prioritized list of models (array). When you specify an array, the system tries each model in order until an available one is found. If not specified, the currently selected model in model picker is used.                                                                                                                                                                        |
+| `user-invokable`           | Optional boolean flag to control whether the agent appears in the agents dropdown in chat (default is `true`). Set to `false` to create agents that are only accessible as [subagents](https://code.visualstudio.com/docs/copilot/agents/subagents) or programmatically.                                                                                                                                                                                                   |
+| `disable-model-invocation` | Optional boolean flag to prevent the agent from being invoked as a subagent by other agents (default is `false`).                                                                                                                                                                                                                                                                                                                                                          |
+| `infer`                    | **Deprecated.** Use `user-invokable` and `disable-model-invocation` instead. Previously, `infer: true` (the default) made the agent both visible in the picker and available as a subagent. `infer: false` hid it from both. The new fields give you independent control: use `user-invokable: false` to hide from the picker while still allowing subagent invocation, or `disable-model-invocation: true` to prevent subagent invocation while keeping it in the picker. |
+| `target`                   | The target environment or context for the custom agent (`vscode` or `github-copilot`).                                                                                                                                                                                                                                                                                                                                                                                     |
+| `mcp-servers`              | Optional list of Model Context Protocol (MCP) server config json to use with [custom agents in GitHub Copilot](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent/create-custom-agents) (target: `github-copilot`).                                                                                                                                                                                                                                |
+| `handoffs`                 | Optional list of suggested next actions or prompts to transition between custom agents. Handoff buttons appear as interactive suggestions after a chat response completes.                                                                                                                                                                                                                                                                                                 |
+| `handoffs.label`           | The display text shown on the handoff button.                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `handoffs.agent`           | The target agent identifier to switch to.                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `handoffs.prompt`          | The prompt text to send to the target agent.                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| `handoffs.send`            | Optional boolean flag to auto-submit the prompt (default is `false`)                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `handoffs.model`           | Optional language model to use when the handoff executes. Use the qualified model name in the format `Model Name (vendor)`, for example `GPT-5 (copilot)` or `Claude Sonnet 4.5 (copilot)`.                                                                                                                                                                                                                                                                                |
 
 Note
 
@@ -177,12 +177,12 @@ Implement changes following existing code patterns. Make minimal, focused edits.
 
 Agent files in the `.claude/agents` folder use plain `.md` files and support Claude-specific frontmatter properties:
 
-| Field | Description |
-|-------|-------------|
-| `name` | Agent name (required) |
-| `description` | What the agent does |
-| `tools` | Comma-separated string of allowed tools (for example, `"Read, Grep, Glob, Bash"`) |
-| `disallowedTools` | Comma-separated string of tools to block |
+| Field             | Description                                                                       |
+| ----------------- | --------------------------------------------------------------------------------- |
+| `name`            | Agent name (required)                                                             |
+| `description`     | What the agent does                                                               |
+| `tools`           | Comma-separated string of allowed tools (for example, `"Read, Grep, Glob, Bash"`) |
+| `disallowedTools` | Comma-separated string of tools to block                                          |
 
 VS Code maps Claude-specific tool names to the corresponding VS Code tools. Both the VS Code `.agent.md` format (with YAML arrays for tools) and the Claude format (with comma-separated strings) are supported.
 
@@ -200,7 +200,7 @@ Type `/agents` in the chat input to quickly open the **Configure Custom Agents**
 
 1. Select **Configure Custom Agents** from the agents dropdown and then select **Create new custom agent** or run the **Chat: New Custom Agent** command in the Command Palette (⇧⌘P (Windows, Linux Ctrl+Shift+P)).
 
-2. Choose the location where the custom agent file should be created.
+1. Choose the location where the custom agent file should be created.
 
    - **Workspace**: Create the custom agent definition file in the `.github/agents` folder of your workspace to only use it within that workspace.
    - **User profile**: Create the custom agent definition file in the [current profile folder](https://code.visualstudio.com/docs/configure/profiles) to use it across all your workspaces.
@@ -210,9 +210,9 @@ Type `/agents` in the chat input to quickly open the **Configure Custom Agents**
 
    You can configure additional locations where VS Code searches for custom agent files by using the `chat.agentFilesLocations` setting. This is useful for sharing agents across projects or keeping them in a central location outside your workspace.
 
-3. Enter a file name for the custom agent. This is the default name that appears in the agents dropdown.
+1. Enter a file name for the custom agent. This is the default name that appears in the agents dropdown.
 
-4. Provide the details for the custom agent in the newly created `.agent.md` file.
+1. Provide the details for the custom agent in the newly created `.agent.md` file.
 
    - Fill in the YAML frontmatter at the top of the file to configure the custom agent's name, description, tools, and other settings.
    - Add instructions for the custom agent in the body of the file.
@@ -225,7 +225,7 @@ If you have multiple custom agents, you can customize which ones appear in the a
 
 1. Select **Configure Custom Agents** from the agents dropdown.
 
-2. Hover over a custom agent in the list, and then select the eye icon to show or hide it from the agents dropdown.
+1. Hover over a custom agent in the list, and then select the eye icon to show or hide it from the agents dropdown.
 
 ## Tool list priority
 
@@ -234,8 +234,8 @@ You can specify the list of available tools for both a custom agent and prompt f
 The list of available tools in chat is determined by the following priority order:
 
 1. Tools specified in the prompt file (if any)
-2. Tools from the referenced custom agent in the prompt file (if any)
-3. Default tools for the selected agent (any)
+1. Tools from the referenced custom agent in the prompt file (if any)
+1. Default tools for the selected agent (any)
 
 ## Share custom agents across teams
 
@@ -271,7 +271,7 @@ Custom agents can come from different sources: built-in agents, user-defined age
 To identify the source of a custom agent:
 
 1. Select **Configure Custom Agents** from the agents dropdown.
-2. Hover over the custom agent in the list. The source location is displayed in a tooltip.
+1. Hover over the custom agent in the list. The source location is displayed in a tooltip.
 
 Tip
 

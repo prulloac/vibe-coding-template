@@ -144,22 +144,23 @@ body:
 
 ## Key Conversions
 
-| Markdown | YAML Equivalent |
-|----------|-----------------|
-| `name:` | `name:` (unchanged) |
-| `about:` | `description:` |
-| `title:` | `title:` (unchanged) |
-| `labels:` | `labels:` (now array format) |
-| `assignees:` | `assignees:` (now array format) |
-| HTML comments `<!-- -->` | `type: markdown` intro |
-| Section headers `### Header` | `label:` in field |
-| Section descriptions | `description:` in field |
-| Placeholder text in comments | `placeholder:` in field |
-| Text input areas | `type: input` or `type: textarea` |
+| Markdown                     | YAML Equivalent                   |
+| ---------------------------- | --------------------------------- |
+| `name:`                      | `name:` (unchanged)               |
+| `about:`                     | `description:`                    |
+| `title:`                     | `title:` (unchanged)              |
+| `labels:`                    | `labels:` (now array format)      |
+| `assignees:`                 | `assignees:` (now array format)   |
+| HTML comments `<!-- -->`     | `type: markdown` intro            |
+| Section headers `### Header` | `label:` in field                 |
+| Section descriptions         | `description:` in field           |
+| Placeholder text in comments | `placeholder:` in field           |
+| Text input areas             | `type: input` or `type: textarea` |
 
 ## Step-by-Step Conversion Process
 
 ### Step 1: Set Up Header
+
 ```yaml
 name: Bug Report
 description: File a bug report
@@ -169,7 +170,9 @@ body:
 ```
 
 ### Step 2: Add Introduction
+
 If your markdown had an intro comment, convert to markdown field:
+
 ```yaml
 - type: markdown
   attributes:
@@ -179,7 +182,9 @@ If your markdown had an intro comment, convert to markdown field:
 ```
 
 ### Step 3: Convert Environment Section
+
 Markdown environment section:
+
 ```markdown
 ### Environment
 - OS:
@@ -188,6 +193,7 @@ Markdown environment section:
 ```
 
 Becomes individual input fields:
+
 ```yaml
 - type: input
   id: os
@@ -205,7 +211,9 @@ Becomes individual input fields:
 ```
 
 ### Step 4: Convert Description Sections
+
 Markdown section with instructions:
+
 ```markdown
 ### Steps To Reproduce
 1. Go to...
@@ -213,6 +221,7 @@ Markdown section with instructions:
 ```
 
 Becomes textarea with placeholder:
+
 ```yaml
 - type: textarea
   id: steps
@@ -228,6 +237,7 @@ Becomes textarea with placeholder:
 ### Step 5: Convert Special Sections
 
 **For log/code output** - Use `render: shell` or `render: markdown`:
+
 ```yaml
 - type: textarea
   id: logs
@@ -237,6 +247,7 @@ Becomes textarea with placeholder:
 ```
 
 **For screenshots** - Keep as textarea with helpful placeholder:
+
 ```yaml
 - type: textarea
   id: screenshots
@@ -246,7 +257,9 @@ Becomes textarea with placeholder:
 ```
 
 ### Step 6: Add Validations
+
 Mark required fields and add patterns where helpful:
+
 ```yaml
 - type: input
   id: version
@@ -258,33 +271,34 @@ Mark required fields and add patterns where helpful:
 ```
 
 ### Step 7: Test and Deploy
+
 1. Create `.github/ISSUE_TEMPLATE/bug-report.yml`
-2. Commit and push
-3. Go to Issues → New Issue → select template
-4. Test that form works correctly
-5. Delete old markdown template once verified
+1. Commit and push
+1. Go to Issues → New Issue → select template
+1. Test that form works correctly
+1. Delete old markdown template once verified
 
 ## Benefits of Converting to YAML
 
-| Benefit | Example |
-|---------|---------|
+| Benefit             | Example                                  |
+| ------------------- | ---------------------------------------- |
 | **Structured data** | Machine can parse responses consistently |
-| **Required fields** | Prevent incomplete reports |
-| **Validation** | Ensure version format correct |
-| **Auto-assignment** | Automatically assign to maintainers |
-| **Auto-labels** | Consistent labeling |
-| **Better UX** | Guided form instead of free-text |
-| **Consistency** | All reports have same structure |
+| **Required fields** | Prevent incomplete reports               |
+| **Validation**      | Ensure version format correct            |
+| **Auto-assignment** | Automatically assign to maintainers      |
+| **Auto-labels**     | Consistent labeling                      |
+| **Better UX**       | Guided form instead of free-text         |
+| **Consistency**     | All reports have same structure          |
 
 ## Common Conversion Tips
 
 1. **Progressive disclosure**: Put essential fields first, optional later
-2. **Use textareas wisely**: Multi-line text that needs more than one line
-3. **Add regex validation**: Enforce format (versions, emails, etc.)
-4. **Provide placeholders**: Help users understand what to enter
-5. **Use markdown rendering**: For logs and code snippets (`render: shell`)
-6. **Keep it short**: Aim for 7-10 fields maximum
-7. **Test before deploying**: Push and verify form renders correctly
+1. **Use textareas wisely**: Multi-line text that needs more than one line
+1. **Add regex validation**: Enforce format (versions, emails, etc.)
+1. **Provide placeholders**: Help users understand what to enter
+1. **Use markdown rendering**: For logs and code snippets (`render: shell`)
+1. **Keep it short**: Aim for 7-10 fields maximum
+1. **Test before deploying**: Push and verify form renders correctly
 
 ## Migration Checklist
 
@@ -297,4 +311,3 @@ Mark required fields and add patterns where helpful:
 - [ ] Verify all fields work correctly
 - [ ] Delete old markdown template (don't forget!)
 - [ ] Update contributing docs to reference new form
-

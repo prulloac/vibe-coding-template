@@ -25,6 +25,7 @@ Thank you for your interest in contributing!
 ## Issue Submission
 
 When reporting a bug, please include:
+
 - A clear, descriptive title
 - Steps to reproduce the issue
 - Expected vs actual behavior
@@ -34,6 +35,7 @@ When reporting a bug, please include:
 ## Feature Requests
 
 For feature requests, please include:
+
 - A clear description of the feature
 - Use cases and why this feature would be valuable
 - Any ideas for implementation (optional)
@@ -109,14 +111,13 @@ chore(deps): update lodash to version 4.17.21
 ## Pull Requests
 
 1. Fork the repository and create a branch from `main`
-2. Make your changes following the coding guidelines
-3. Add or update tests as appropriate
-4. Ensure all tests pass
-5. Update documentation if needed
-6. Keep your commit history clean:
+1. Make your changes following the coding guidelines
+1. Add or update tests as appropriate
+1. Ensure all tests pass
+1. Update documentation if needed
+1. Keep your commit history clean:
    - The number of commits should not exceed the number of files changed
    - Consider rebasing and squashing commits to consolidate related changes
    - Each commit should represent a meaningful, atomic change
-7. Submit a pull request with a clear description of the changes
-8. Respond to any feedback or review comments
-
+1. Submit a pull request with a clear description of the changes
+1. Respond to any feedback or review comments

@@ -94,14 +94,14 @@ Executed in order during container setup:
 1. **initializeCommand** (string/array/object): Runs on host during initialization
    - May run multiple times per session
    - Cloud: runs in cloud where source is located
-2. **onCreateCommand** (string/array/object): First command inside container after creation
+1. **onCreateCommand** (string/array/object): First command inside container after creation
    - Cloud: used for caching/prebuilding, no user-scoped secrets
-3. **updateContentCommand** (string/array/object): Runs when new content available
+1. **updateContentCommand** (string/array/object): Runs when new content available
    - Cloud: periodically executed to refresh containers
-4. **postCreateCommand** (string/array/object): Final setup command
+1. **postCreateCommand** (string/array/object): Final setup command
    - Cloud: has access to user secrets
-5. **postStartCommand** (string/array/object): Runs each time container starts
-6. **postAttachCommand** (string/array/object): Runs each time tool attaches
+1. **postStartCommand** (string/array/object): Runs each time container starts
+1. **postAttachCommand** (string/array/object): Runs each time tool attaches
 
 ### waitFor
 
@@ -146,19 +146,25 @@ Available in string values:
 ## Command Formats
 
 ### String Format
+
 Goes through a shell, supports && and other shell syntax:
+
 ```json
 "postCreateCommand": "npm install && npm run build"
 ```
 
 ### Array Format
+
 Direct execution without shell:
+
 ```json
 "postCreateCommand": ["npm", "install"]
 ```
 
 ### Object Format
+
 Parallel execution of multiple commands:
+
 ```json
 "postCreateCommand": {
   "server": "npm start",

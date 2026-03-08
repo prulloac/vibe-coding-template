@@ -10,7 +10,7 @@ Custom commands let you specify a prompt you want to run when that command is ex
 
 Custom commands are in addition to the built-in commands like `/init`, `/undo`, `/redo`, `/share`, `/help`. [Learn more](https://opencode.ai/docs/tui#commands).
 
----
+______________________________________________________________________
 
 ## [Create command files](#create-command-files)
 
@@ -33,13 +33,13 @@ Use the command by typing `/` followed by the command name.
 "/test"
 ```
 
----
+______________________________________________________________________
 
 ## [Configure](#configure)
 
 You can add custom commands through the OpenCode config or by creating markdown files in the `commands/` directory.
 
----
+______________________________________________________________________
 
 ### [JSON](#json)
 
@@ -57,14 +57,14 @@ Now you can run this command in the TUI:
 /test
 ```
 
----
+______________________________________________________________________
 
 ### [Markdown](#markdown)
 
 You can also define commands using markdown files. Place them in:
 
--   Global: `~/.config/opencode/commands/`
--   Per-project: `.opencode/commands/`
+- Global: `~/.config/opencode/commands/`
+- Per-project: `.opencode/commands/`
 
 ~/.config/opencode/commands/test.md
 
@@ -79,13 +79,13 @@ The markdown file name becomes the command name. For example, `test.md` lets you
 /test
 ```
 
----
+______________________________________________________________________
 
 ## [Prompt config](#prompt-config)
 
 The prompts for the custom commands support several special placeholders and syntax.
 
----
+______________________________________________________________________
 
 ### [Arguments](#arguments)
 
@@ -108,10 +108,10 @@ And `$ARGUMENTS` will be replaced with `Button`.
 
 You can also access individual arguments using positional parameters:
 
--   `$1` - First argument
--   `$2` - Second argument
--   `$3` - Third argument
--   And so on…
+- `$1` - First argument
+- `$2` - Second argument
+- `$3` - Third argument
+- And so on…
 
 For example:
 
@@ -130,11 +130,11 @@ Run the command:
 
 This replaces:
 
--   `$1` with `config.json`
--   `$2` with `src`
--   `$3` with `{ "key": "value" }`
+- `$1` with `config.json`
+- `$2` with `src`
+- `$3` with `{ "key": "value" }`
 
----
+______________________________________________________________________
 
 ### [Shell output](#shell-output)
 
@@ -162,7 +162,7 @@ Review these changes and suggest any improvements.
 
 Commands run in your project’s root directory and their output becomes part of the prompt.
 
----
+______________________________________________________________________
 
 ### [File references](#file-references)
 
@@ -177,13 +177,13 @@ Review the component in @src/components/Button.tsx.Check for performance issues 
 
 The file content gets included in the prompt automatically.
 
----
+______________________________________________________________________
 
 ## [Options](#options)
 
 Let’s look at the configuration options in detail.
 
----
+______________________________________________________________________
 
 ### [Template](#template)
 
@@ -197,7 +197,7 @@ opencode.json
 
 This is a **required** config option.
 
----
+______________________________________________________________________
 
 ### [Description](#description)
 
@@ -211,7 +211,7 @@ opencode.json
 
 This is shown as the description in the TUI when you type in the command.
 
----
+______________________________________________________________________
 
 ### [Agent](#agent)
 
@@ -225,7 +225,7 @@ opencode.json
 
 This is an **optional** config option. If not specified, defaults to your current agent.
 
----
+______________________________________________________________________
 
 ### [Subtask](#subtask)
 
@@ -239,7 +239,7 @@ opencode.json
 
 This is an **optional** config option.
 
----
+______________________________________________________________________
 
 ### [Model](#model)
 
@@ -253,7 +253,7 @@ opencode.json
 
 This is an **optional** config option.
 
----
+______________________________________________________________________
 
 ## [Built-in](#built-in)
 

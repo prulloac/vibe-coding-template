@@ -1,7 +1,6 @@
----
-name: custom-agent-creator
-description: Skill to create custom agents for VS Code Copilot or OpenCode, helping users configure and generate agent files with proper formatting and configurations. Use when users want to create specialized AI assistants for VS Code Copilot (.agent.md files) or OpenCode (JSON/markdown agent configs) with specific tools, prompts, models, and behaviors. If the user is not specific about the target platform, ask them to specify Copilot or OpenCode.
----
+______________________________________________________________________
+
+## name: custom-agent-creator description: Skill to create custom agents for VS Code Copilot or OpenCode, helping users configure and generate agent files with proper formatting and configurations. Use when users want to create specialized AI assistants for VS Code Copilot (.agent.md files) or OpenCode (JSON/markdown agent configs) with specific tools, prompts, models, and behaviors. If the user is not specific about the target platform, ask them to specify Copilot or OpenCode.
 
 # Custom Agent Creator
 
@@ -12,12 +11,16 @@ This skill guides the creation of custom agents for either VS Code Copilot or Op
 ## Workflow
 
 ### Step 1: Determine Target Platform
+
 If the user hasn't specified, ask whether they want to create an agent for:
+
 - **VS Code Copilot** (.agent.md files)
 - **OpenCode** (JSON/markdown configs)
 
 ### Step 2: Gather Agent Specifications
+
 Collect detailed information about the agent:
+
 - **Agent Name**: Clear, descriptive identifier (e.g., "code-reviewer", "planner")
 - **Description**: Brief explanation of what the agent does and when to use it
 - **Role/Purpose**: Specific task the agent is designed for (e.g., "security auditing", "documentation writing")
@@ -26,24 +29,32 @@ Collect detailed information about the agent:
 - **Additional Config**: Temperature, steps limit, handoffs, etc.
 
 ### Step 3: Validate Requirements
+
 Ensure all required fields are provided:
+
 - Copilot: name, description, tools list
 - OpenCode: description, mode (primary/subagent), tool permissions
 
 ### Step 4: Generate Configuration File
+
 Create the appropriate file based on platform:
+
 - **Copilot**: Generate `.agent.md` with YAML frontmatter + markdown body
 - **OpenCode**: Generate markdown config file with YAML frontmatter
 
 ### Step 5: Add Specialized Instructions
+
 Write clear, actionable instructions in the file body:
+
 - Define the agent's role and expertise
 - Specify key behaviors and guidelines
 - Include workflow steps if applicable
 - Provide tool usage guidance
 
 ### Step 6: Configure Tools & Permissions
+
 Set appropriate tool access levels:
+
 - **Copilot**: Specify tool names in `tools` array
 - **OpenCode**: Set individual tool permissions (true/false/"ask")
 
@@ -52,10 +63,12 @@ Set appropriate tool access levels:
 Custom agents for VS Code Copilot are defined in `.agent.md` files with YAML frontmatter.
 
 **File Structure**:
+
 - Frontmatter: YAML with fields like `description`, `name`, `tools`, `model`, `handoffs`
 - Body: Markdown instructions for the agent
 
 **Common Fields**:
+
 - `description`: Brief description shown in chat input
 - `tools`: List of available tools
 - `model`: AI model to use
@@ -68,6 +81,7 @@ See [references/copilot-agents.md](references/copilot-agents.md) for complete do
 Agents for OpenCode can be defined in JSON config or Markdown files.
 
 **Configuration Options**:
+
 - `description`: Required description
 - `mode`: "primary" or "subagent"
 - `model`: Model identifier
@@ -82,16 +96,19 @@ See [references/opencode-agents.md](references/opencode-agents.md) for complete 
 After generating the agent configuration, verify the following:
 
 ### 1. File Structure Validation
+
 - ✅ File exists in correct location (`.github/agents/` for Copilot, `.opencode/agents/` for OpenCode)
 - ✅ File has correct extension (`.agent.md` for Copilot, `.md` for OpenCode)
 - ✅ File name matches agent identifier (e.g., `code-reviewer.agent.md`)
 
 ### 2. Frontmatter Validation
+
 - ✅ YAML frontmatter is syntactically valid
 - ✅ Required fields present: `description`, `name` (Copilot) or `mode` (OpenCode)
 - ✅ No invalid field values (e.g., tools exist, models are supported, temperature is 0.0-1.0)
 
 ### 3. Instructions Validation
+
 - ✅ Agent body contains clear, actionable instructions
 - ✅ Instructions are specific to the agent's role
 - ✅ Tool references are correct (use `#tool:toolName` format for Copilot)
@@ -99,18 +116,21 @@ After generating the agent configuration, verify the following:
 ### 4. Platform-Specific Validation
 
 **For Copilot agents:**
+
 - ✅ Tools list contains valid Copilot tools
 - ✅ Model names are valid (check Copilot's supported models)
 - ✅ Handoffs reference existing agents (if configured)
 - ✅ File can be loaded in VS Code without errors
 
 **For OpenCode agents:**
+
 - ✅ Mode is either "primary" or "subagent"
 - ✅ Tool permissions are boolean or "ask"/"allow"/"deny" (for permissions)
 - ✅ Temperature value is between 0.0 and 1.0
 - ✅ File can be loaded by OpenCode config parser
 
 ### 5. Functionality Verification
+
 - ✅ Agent can be invoked/selected in the UI
 - ✅ Tools specified are actually available and functional
 - ✅ Instructions are followed when the agent is used
@@ -295,9 +315,11 @@ You are an expert at creating comprehensive implementation plans.
 ## Resources
 
 ### references/
+
 - `copilot-agents.md`: Full documentation for Copilot custom agents
 - `opencode-agents.md`: Full documentation for OpenCode agents
 
 ### assets/
+
 - `copilot-template.agent.md`: Template for Copilot agent files
 - `opencode-template.md`: Template for OpenCode agent files

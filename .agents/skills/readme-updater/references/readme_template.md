@@ -1,10 +1,10 @@
-# <PROJECT_NAME>
+# \<PROJECT_NAME>
 
-![GitHub stars](https://img.shields.io/github/stars/<OWNER>/<REPO>)
-![GitHub issues](https://img.shields.io/github/issues/<OWNER>/<REPO>)
-![GitHub license](https://img.shields.io/github/license/<OWNER>/<REPO>)
+![GitHub stars](https://img.shields.io/github/stars/%3COWNER%3E/%3CREPO%3E)
+![GitHub issues](https://img.shields.io/github/issues/%3COWNER%3E/%3CREPO%3E)
+![GitHub license](https://img.shields.io/github/license/%3COWNER%3E/%3CREPO%3E)
 
-<PROJECT_DESCRIPTION>
+\<PROJECT_DESCRIPTION>
 
 ## Features
 
@@ -38,7 +38,7 @@ cd <REPO>
 
 ### Examples
 
-<EXAMPLES_SECTION>
+\<EXAMPLES_SECTION>
 
 ## Configuration
 
@@ -50,7 +50,7 @@ Contributions are welcome! Please read the [CONTRIBUTING.md](CONTRIBUTING.md) fo
 
 ## License
 
-This project is licensed under the <LICENSE_NAME> License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the \<LICENSE_NAME> License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 

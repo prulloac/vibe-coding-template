@@ -38,10 +38,10 @@ Use this template as a reference for creating clear, well-defined implementation
 ### Description Elements
 
 1. **Action**: What will be created/modified (endpoint, component, table, etc.)
-2. **Input**: What data/input involved
-3. **Processing**: What validation/transformation happens
-4. **Output**: What gets returned/persisted
-5. **Edge cases**: Brief mention of error handling
+1. **Input**: What data/input involved
+1. **Processing**: What validation/transformation happens
+1. **Output**: What gets returned/persisted
+1. **Edge cases**: Brief mention of error handling
 
 ## Writing Good Acceptance Criteria
 
@@ -80,12 +80,14 @@ Use this template as a reference for creating clear, well-defined implementation
 ### Small Tasks (1-2 days)
 
 Characteristics:
+
 - Single component or small module
 - Straightforward requirements
 - Limited or no external integrations
 - Easy to test in isolation
 
 Example:
+
 ```
 Task: Create password reset confirmation endpoint
 - Single endpoint, two inputs (token, new_password)
@@ -97,12 +99,14 @@ Task: Create password reset confirmation endpoint
 ### Medium Tasks (2-3 days)
 
 Characteristics:
+
 - Multiple components or moderate complexity
 - Some integration between systems
 - Multiple validation paths or edge cases
 - Requires coordination with other tasks
 
 Example:
+
 ```
 Task: Implement user authentication API
 - Multiple endpoints (register, login, logout, session)
@@ -114,12 +118,14 @@ Task: Implement user authentication API
 ### Large Tasks (3+ days - usually should be split)
 
 Characteristics:
+
 - Multiple major components
 - Complex business logic
 - Heavy external integrations
 - Usually should be broken down further
 
 Example:
+
 ```
 Task: Build complete admin dashboard
   → This should be broken into:
@@ -136,6 +142,7 @@ Task: Build complete admin dashboard
 ### Dependency Types
 
 **Sequential** (must complete first):
+
 ```
 Task 1: Create database schema
 Task 2: Implement API endpoint
@@ -143,6 +150,7 @@ Task 2: Implement API endpoint
 ```
 
 **Parallel** (can start simultaneously):
+
 ```
 Task A: Build login form component
 Task B: Build password reset form component
@@ -150,6 +158,7 @@ Task B: Build password reset form component
 ```
 
 **Critical Path** (affects timeline):
+
 ```
 Task 1 → Task 2 → Task 3 → Task 4
 These tasks block everything else
@@ -162,6 +171,7 @@ These tasks block everything else
 ```
 
 NOT:
+
 ```markdown
 **Dependencies**: None - we can start right away!
 ```
@@ -277,7 +287,7 @@ NOT:
 - [ ] Previous sessions remain valid after profile update
 - [ ] Response time < 300ms under normal load
 
-**Implementation Notes**: 
+**Implementation Notes**:
 - Use transactions to ensure atomicity
 - Email change should trigger re-verification for security
 - Don't allow password change via this endpoint (separate endpoint)
@@ -302,7 +312,7 @@ Before finalizing each task, verify:
 - [ ] Task is not trivial (min 2-4 hours)
 - [ ] Team member can understand without asking
 
----
+______________________________________________________________________
 
 ## See Also
 

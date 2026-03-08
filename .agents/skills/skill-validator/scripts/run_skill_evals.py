@@ -25,7 +25,7 @@ def parse_skill_md(skill_path: Path) -> tuple[str, str]:
     skill_md = skill_path / "SKILL.md"
     if not skill_md.exists():
         raise FileNotFoundError(f"SKILL.md not found in {skill_path}")
-    
+
     content = skill_md.read_text()
     lines = content.split("\n")
 
@@ -37,18 +37,18 @@ def parse_skill_md(skill_path: Path) -> tuple[str, str]:
         if line.strip() == "---":
             end_idx = i
             break
-    
+
     if end_idx is None:
         raise ValueError("SKILL.md missing frontmatter closing")
 
     name = ""
     description = ""
-    
+
     for line in lines[1:end_idx]:
         if line.startswith("name:"):
-            name = line[len("name:"):].strip().strip('"').strip("'")
+            name = line[len("name:") :].strip().strip('"').strip("'")
         elif line.startswith("description:"):
-            value = line[len("description:"):].strip()
+            value = line[len("description:") :].strip()
             if value.startswith(">") or value.startswith("|"):
                 # Multi-line description
                 continuation = []
@@ -70,7 +70,10 @@ def find_project_root() -> Path:
     """Find project root by locating .git, .agents, .opencode, or .claude."""
     current = Path.cwd()
     for parent in [current, *current.parents]:
-        if any((parent / marker).exists() for marker in (".git", ".agents", ".opencode", ".claude")):
+        if any(
+            (parent / marker).exists()
+            for marker in (".git", ".agents", ".opencode", ".claude")
+        ):
             return parent
     return current
 
@@ -94,7 +97,7 @@ def extract_json_events(stdout_text: str) -> list[dict]:
 def was_skill_triggered(events: list[dict], skill_name: str) -> bool:
     """Infer whether skill was triggered by scanning event payloads."""
     needle = skill_name.lower()
-    
+
     def iter_strings(value):
         if isinstance(value, str):
             yield value
@@ -106,7 +109,7 @@ def was_skill_triggered(events: list[dict], skill_name: str) -> bool:
         elif isinstance(value, list):
             for item in value:
                 yield from iter_strings(item)
-    
+
     for event in events:
         for text in iter_strings(event):
             if needle in text.lower():
@@ -132,16 +135,18 @@ def run_single_eval(
         temp_skill_dir.mkdir(parents=True, exist_ok=True)
         skill_md = temp_skill_dir / "SKILL.md"
         skill_md.write_text(
-            "\n".join([
-                "---",
-                f"name: {temp_skill_name}",
-                f"description: {skill_description}",
-                "---",
-                "",
-                f"# {temp_skill_name}",
-                "",
-                "Temporary trigger-eval skill.",
-            ])
+            "\n".join(
+                [
+                    "---",
+                    f"name: {temp_skill_name}",
+                    f"description: {skill_description}",
+                    "---",
+                    "",
+                    f"# {temp_skill_name}",
+                    "",
+                    "Temporary trigger-eval skill.",
+                ]
+            )
         )
 
         cmd = ["opencode", "run", "--format", "json"]
@@ -156,7 +161,7 @@ def run_single_eval(
             cwd=root,
             timeout=timeout,
         )
-        
+
         if result.returncode != 0:
             return False
 
@@ -165,7 +170,7 @@ def run_single_eval(
             return temp_skill_name in result.stdout
 
         return was_skill_triggered(events, temp_skill_name)
-    
+
     except subprocess.TimeoutExpired:
         return False
     except Exception as e:
@@ -180,12 +185,12 @@ def load_evals(eval_file: Path) -> list[dict]:
     """Load eval set from JSON file."""
     if not eval_file.exists():
         raise FileNotFoundError(f"Eval file not found: {eval_file}")
-    
-    with open(eval_file, 'r') as f:
+
+    with open(eval_file, "r") as f:
         data = json.load(f)
-    
+
     # Support both direct list and nested "evals" key
-    return data.get('evals', data) if isinstance(data, dict) else data
+    return data.get("evals", data) if isinstance(data, dict) else data
 
 
 def run_evals(
@@ -201,16 +206,16 @@ def run_evals(
     """Run eval set and return aggregate results."""
     if project_root is None:
         project_root = find_project_root()
-    
+
     skill_name, description = parse_skill_md(skill_path)
-    
+
     with ProcessPoolExecutor(max_workers=num_workers) as executor:
         future_to_query = {}
         for item in eval_set:
-            query = item.get('prompt') or item.get('query')
+            query = item.get("prompt") or item.get("query")
             if not query:
                 continue
-            
+
             for run in range(runs_per_query):
                 future = executor.submit(
                     run_single_eval,
@@ -227,55 +232,57 @@ def run_evals(
 
         for future in as_completed(future_to_query):
             item, run = future_to_query[future]
-            query = item.get('prompt') or item.get('query')
-            
+            query = item.get("prompt") or item.get("query")
+
             if query not in query_results:
                 query_results[query] = {
-                    'item': item,
-                    'runs': [],
-                    'triggered': 0,
-                    'total': 0,
+                    "item": item,
+                    "runs": [],
+                    "triggered": 0,
+                    "total": 0,
                 }
-            
+
             try:
                 triggered = future.result()
-                query_results[query]['runs'].append(triggered)
-                query_results[query]['total'] += 1
+                query_results[query]["runs"].append(triggered)
+                query_results[query]["total"] += 1
                 if triggered:
-                    query_results[query]['triggered'] += 1
+                    query_results[query]["triggered"] += 1
             except Exception as e:
                 print(f"Error in eval: {e}", file=sys.stderr)
-                query_results[query]['total'] += 1
+                query_results[query]["total"] += 1
 
     # Calculate statistics
     total_queries = len(query_results)
-    total_runs = sum(r['total'] for r in query_results.values())
-    successful_triggers = sum(r['triggered'] for r in query_results.values())
+    total_runs = sum(r["total"] for r in query_results.values())
+    successful_triggers = sum(r["triggered"] for r in query_results.values())
     trigger_rate = successful_triggers / total_runs if total_runs > 0 else 0
 
     # Check trigger threshold
     passed = trigger_rate >= trigger_threshold
 
     return {
-        'skill_name': skill_name,
-        'skill_description': description,
-        'passed': passed,
-        'trigger_threshold': trigger_threshold,
-        'trigger_rate': round(trigger_rate, 2),
-        'successful_triggers': successful_triggers,
-        'total_runs': total_runs,
-        'total_queries': total_queries,
-        'results': [
+        "skill_name": skill_name,
+        "skill_description": description,
+        "passed": passed,
+        "trigger_threshold": trigger_threshold,
+        "trigger_rate": round(trigger_rate, 2),
+        "successful_triggers": successful_triggers,
+        "total_runs": total_runs,
+        "total_queries": total_queries,
+        "results": [
             {
-                'id': r['item'].get('id', 'unknown'),
-                'name': r['item'].get('name', 'Unknown'),
-                'query': q,
-                'trigger_rate': round(r['triggered'] / r['total'], 2) if r['total'] > 0 else 0,
-                'runs': r['total'],
-                'triggered': r['triggered'],
+                "id": r["item"].get("id", "unknown"),
+                "name": r["item"].get("name", "Unknown"),
+                "query": q,
+                "trigger_rate": round(r["triggered"] / r["total"], 2)
+                if r["total"] > 0
+                else 0,
+                "runs": r["total"],
+                "triggered": r["triggered"],
             }
             for q, r in query_results.items()
-        ]
+        ],
     }
 
 
@@ -289,42 +296,39 @@ def main():
         "--eval-set",
         type=Path,
         default=None,
-        help="Path to evals JSON file (default: evals/evals.json in skill)"
+        help="Path to evals JSON file (default: evals/evals.json in skill)",
     )
     parser.add_argument(
         "--num-workers",
         type=int,
         default=4,
-        help="Number of parallel workers (default: 4)"
+        help="Number of parallel workers (default: 4)",
     )
     parser.add_argument(
         "--timeout",
         type=int,
         default=30,
-        help="Timeout per eval in seconds (default: 30)"
+        help="Timeout per eval in seconds (default: 30)",
     )
     parser.add_argument(
         "--runs-per-query",
         type=int,
         default=1,
-        help="Number of runs per query (default: 1)"
+        help="Number of runs per query (default: 1)",
     )
     parser.add_argument(
         "--trigger-threshold",
         type=float,
         default=0.5,
-        help="Minimum trigger rate to pass (default: 0.5)"
+        help="Minimum trigger rate to pass (default: 0.5)",
     )
     parser.add_argument(
         "--model",
         default=None,
-        help="LLM model to use (e.g., claude-opus/claude-3-5-sonnet)"
+        help="LLM model to use (e.g., claude-opus/claude-3-5-sonnet)",
     )
     parser.add_argument(
-        "--output",
-        type=Path,
-        default=None,
-        help="Output JSON file for results"
+        "--output", type=Path, default=None, help="Output JSON file for results"
     )
 
     args = parser.parse_args()
@@ -338,7 +342,7 @@ def main():
     eval_file = args.eval_set
     if eval_file is None:
         eval_file = skill_path / "evals" / "evals.json"
-    
+
     if not eval_file.exists():
         print(f"⚠️  No evals file found at {eval_file}", file=sys.stderr)
         print("Skipping eval loop", file=sys.stderr)
@@ -354,7 +358,7 @@ def main():
     # Run evals
     print(f"🧪 Running skill evals from {eval_file}")
     print(f"📊 {len(evals)} eval queries")
-    
+
     results = run_evals(
         skill_path,
         evals,
@@ -368,25 +372,29 @@ def main():
     # Print summary
     print(f"\n{'='*70}")
     print(f"Skill: {results['skill_name']}")
-    print(f"Trigger Rate: {results['trigger_rate']*100:.1f}% ({results['successful_triggers']}/{results['total_runs']} runs)")
+    print(
+        f"Trigger Rate: {results['trigger_rate']*100:.1f}% ({results['successful_triggers']}/{results['total_runs']} runs)"
+    )
     print(f"Status: {'✅ PASSED' if results['passed'] else '❌ FAILED'}")
     print(f"Threshold: {results['trigger_threshold']*100:.1f}%")
     print(f"{'='*70}\n")
 
     # Print per-query results
-    for r in results['results']:
-        status = "✅" if r['trigger_rate'] >= results['trigger_threshold'] else "❌"
+    for r in results["results"]:
+        status = "✅" if r["trigger_rate"] >= results["trigger_threshold"] else "❌"
         print(f"{status} {r['name']}")
         print(f"   Query: {r['query'][:60]}...")
-        print(f"   Trigger Rate: {r['trigger_rate']*100:.1f}% ({r['triggered']}/{r['runs']})")
+        print(
+            f"   Trigger Rate: {r['trigger_rate']*100:.1f}% ({r['triggered']}/{r['runs']})"
+        )
 
     # Write output
     if args.output:
-        with open(args.output, 'w') as f:
+        with open(args.output, "w") as f:
             json.dump(results, f, indent=2)
         print(f"\n💾 Results saved to {args.output}")
 
-    sys.exit(0 if results['passed'] else 1)
+    sys.exit(0 if results["passed"] else 1)
 
 
 if __name__ == "__main__":

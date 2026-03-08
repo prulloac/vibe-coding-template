@@ -1,7 +1,6 @@
----
-name: readme-updater
-description: Use this skill when you need to keep a repository's README.md file updated with project metadata, installation instructions, usage examples, and more. It automates synchronization by analyzing codebase patterns and dependencies.
----
+______________________________________________________________________
+
+## name: readme-updater description: Use this skill when you need to keep a repository's README.md file updated with project metadata, installation instructions, usage examples, and more. It automates synchronization by analyzing codebase patterns and dependencies.
 
 # README Updater
 
@@ -9,11 +8,11 @@ This skill helps maintain a consistent and up-to-date `README.md` file for your 
 
 ## Features
 
-1.  **Project Overview Synchronization**: Updates the project description and features list based on the latest implementation.
-2.  **Installation & Setup Tracking**: Automatically detects project type (Node.js, Python, Rust, etc.) and updates setup/installation commands.
-3.  **Usage Examples Generator**: Scrapes code examples from test suites or `examples/` directory and integrates them into the README.
-4.  **Version and Changelog Linking**: Keeps the current version and links to the `CHANGELOG.md` updated.
-5.  **Dependency Visualization**: Optionally generates or updates a list of main dependencies or a simple architecture overview.
+1. **Project Overview Synchronization**: Updates the project description and features list based on the latest implementation.
+1. **Installation & Setup Tracking**: Automatically detects project type (Node.js, Python, Rust, etc.) and updates setup/installation commands.
+1. **Usage Examples Generator**: Scrapes code examples from test suites or `examples/` directory and integrates them into the README.
+1. **Version and Changelog Linking**: Keeps the current version and links to the `CHANGELOG.md` updated.
+1. **Dependency Visualization**: Optionally generates or updates a list of main dependencies or a simple architecture overview.
 
 ## Workflow
 
@@ -44,42 +43,48 @@ Determine what needs updating:
 Build a profile of the project:
 
 1. **Project metadata**: Name, description, version, repository URL
-2. **Installation instructions**: Commands needed to set up the project
-3. **Usage examples**: Working code examples from tests or examples directory
-4. **Configuration**: Environment variables, config files, custom options
-5. **Dependencies**: List of critical or main dependencies
-6. **Supported platforms**: OS, Node versions, Python versions, etc.
+1. **Installation instructions**: Commands needed to set up the project
+1. **Usage examples**: Working code examples from tests or examples directory
+1. **Configuration**: Environment variables, config files, custom options
+1. **Dependencies**: List of critical or main dependencies
+1. **Supported platforms**: OS, Node versions, Python versions, etc.
 
 ### Step 4: Update README Content
 
 For each section that needs updating:
 
 1. **Project Overview** (Top section):
+
    - Update project title and description
    - Add/update feature list
    - Add badges (downloads, version, license, build status)
 
-2. **Installation Section**:
+1. **Installation Section**:
+
    - Update prerequisite list
    - Provide correct install commands for detected project type
    - Include multiple installation methods if applicable
 
-3. **Usage Section**:
+1. **Usage Section**:
+
    - Add quick start example
    - Update command syntax if changed
    - Include common flags or options
 
-4. **Examples Section**:
+1. **Examples Section**:
+
    - Extract or update code examples
    - Ensure examples actually work with current version
    - Add multiple usage scenarios
 
-5. **Configuration Section**:
+1. **Configuration Section**:
+
    - Document all environment variables
    - List configuration file locations and formats
    - Provide example configurations
 
-6. **Footer Sections**:
+1. **Footer Sections**:
+
    - Update Contributing link if `CONTRIBUTING.md` exists
    - Keep License reference current
    - Update version and changelog links
@@ -114,7 +119,8 @@ Generate comprehensive update summary showing:
 **Files Scanned**: `package.json` (v2.1.0), `README.md` (old, v1.5.0)
 
 **Before:**
-```markdown
+
+````markdown
 # my-awesome-cli
 
 Command-line tool for development tasks.
@@ -123,7 +129,7 @@ Command-line tool for development tasks.
 
 ```bash
 npm install -g my-awesome-cli
-```
+````
 
 ## Usage
 
@@ -134,7 +140,8 @@ my-awesome-cli help
 ## Features
 
 - Task automation
-```
+
+````
 
 **After:**
 ```markdown
@@ -169,7 +176,7 @@ npm install -g my-awesome-cli
 
 # Or use npx (no installation required)
 npx my-awesome-cli --version
-```
+````
 
 ## Usage
 
@@ -192,12 +199,14 @@ my-awesome-cli run build --watch
 ### Examples
 
 **Initialize a new project:**
+
 ```bash
 my-awesome-cli init
 # Follow the interactive prompts to set up your project
 ```
 
 **Create a custom task:**
+
 ```bash
 # Edit .myawesomerc.json
 {
@@ -210,6 +219,7 @@ my-awesome-cli init
 ```
 
 **Run with TypeScript:**
+
 ```bash
 my-awesome-cli run build --ts
 ```
@@ -247,10 +257,12 @@ Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for de
 ## License
 
 This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
+
 ```
 
 **Update Summary:**
 ```
+
 ═══════════════════════════════════════════════════════════
 README UPDATE SUMMARY
 ═══════════════════════════════════════════════════════════
@@ -264,40 +276,46 @@ CHANGES MADE
 ───────────────────────────────────────────────────────────
 
 ✅ Version Updated
-   Old: v1.5.0 → New: v2.1.0
-   Source: package.json
+Old: v1.5.0 → New: v2.1.0
+Source: package.json
 
 ✅ Badges Added
-   - npm version badge
-   - npm downloads badge  
-   - MIT license badge
+
+- npm version badge
+- npm downloads badge
+- MIT license badge
 
 ✅ Features Section Expanded
-   Old: 2 features → New: 5 features with descriptions
+Old: 2 features → New: 5 features with descriptions
 
 ✅ Installation Section Updated
-   - Added prerequisites section
-   - Included npx alternative
-   - Clearer quick start
+
+- Added prerequisites section
+- Included npx alternative
+- Clearer quick start
 
 ✅ Usage Section Enhanced
-   - Reorganized commands
-   - Added watch mode flag
-   - TypeScript examples
+
+- Reorganized commands
+- Added watch mode flag
+- TypeScript examples
 
 ✅ Examples Section Created
-   - Project initialization example
-   - Custom task configuration
-   - TypeScript usage example
+
+- Project initialization example
+- Custom task configuration
+- TypeScript usage example
 
 ✅ Configuration Section Added
-   - Environment variables documented
-   - Config file format with example
-   - Plugin system noted
+
+- Environment variables documented
+- Config file format with example
+- Plugin system noted
 
 ✅ Contributing & License Links Updated
-   - Verified files exist
-   - Links are current
+
+- Verified files exist
+- Links are current
 
 ───────────────────────────────────────────────────────────
 METADATA EXTRACTED
@@ -306,10 +324,11 @@ METADATA EXTRACTED
 Name: my-awesome-cli
 Version: 2.1.0
 Description: Advanced command-line tool for automating development workflows...
-Main Dependencies: 
-  - commander@^11.0.0
-  - chalk@^5.0.0
-  - ora@^7.0.0
+Main Dependencies:
+
+- commander@^11.0.0
+- chalk@^5.0.0
+- ora@^7.0.0
 
 Dev Dependencies: @types/node, typescript, jest
 
@@ -318,7 +337,8 @@ Entry Point: bin/cli.ts
 Supported Node Versions: >=16.0.0
 
 ═══════════════════════════════════════════════════════════
-```
+
+````
 
 ### Example 2: Python Project Update
 
@@ -339,10 +359,11 @@ pip install my-python-lib
 
 from my_python_lib import process
 result = process(data)
-```
+````
 
 **After:**
-```markdown
+
+````markdown
 # my-python-lib
 
 [![PyPI version](https://img.shields.io/pypi/v/my-python-lib)](https://pypi.org/project/my-python-lib/)
@@ -370,7 +391,7 @@ High-performance data processing library for machine learning and data science w
 
 ```bash
 pip install my-python-lib
-```
+````
 
 ### From Conda
 
@@ -478,10 +499,12 @@ Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 ## License
 
 Licensed under Apache License 2.0 - see [LICENSE](LICENSE) for details.
+
 ```
 
 **Update Summary:**
 ```
+
 ═══════════════════════════════════════════════════════════
 README UPDATE SUMMARY
 ═══════════════════════════════════════════════════════════
@@ -495,38 +518,44 @@ CHANGES MADE
 ───────────────────────────────────────────────────────────
 
 ✅ Version Updated
-   Old: v0.2.0 → New: v0.3.0
-   Source: pyproject.toml
+Old: v0.2.0 → New: v0.3.0
+Source: pyproject.toml
 
 ✅ Badges Added
-   - PyPI version badge
-   - Python 3.8+ requirement badge
-   - Apache 2.0 license badge
+
+- PyPI version badge
+- Python 3.8+ requirement badge
+- Apache 2.0 license badge
 
 ✅ Features Section Expanded
-   Old: 1 feature → New: 5 features with descriptions
+Old: 1 feature → New: 5 features with descriptions
 
 ✅ Installation Section Restructured
-   - Added requirements section
-   - PyPI installation method
-   - Conda installation method  
-   - Development installation steps
+
+- Added requirements section
+- PyPI installation method
+- Conda installation method
+- Development installation steps
 
 ✅ Quick Start Section Added
-   - Simple example code
-   - Realistic use case
+
+- Simple example code
+- Realistic use case
 
 ✅ Usage Examples Section Expanded
-   - Basic data processing example
-   - Async processing example
-   - Custom transformations example
+
+- Basic data processing example
+- Async processing example
+- Custom transformations example
 
 ✅ Configuration Section Added
-   - Environment variables documented
-   - Code-based configuration examples
+
+- Environment variables documented
+- Code-based configuration examples
 
 ✅ API Reference Link Added
-   - Points to docs/API_REFERENCE.md
+
+- Points to docs/API_REFERENCE.md
 
 ───────────────────────────────────────────────────────────
 METADATA EXTRACTED
@@ -539,18 +568,21 @@ Python Version: >=3.8
 License: Apache-2.0
 
 Main Dependencies:
-  - numpy>=1.20.0
-  - pandas>=1.3.0
+
+- numpy>=1.20.0
+- pandas>=1.3.0
 
 Dev Dependencies:
-  - pytest
-  - black
-  - mypy
-  - sphinx
+
+- pytest
+- black
+- mypy
+- sphinx
 
 PyPI URL: https://pypi.org/project/my-python-lib/
 
 ═══════════════════════════════════════════════════════════
+
 ```
 
 ## Output Format Example
@@ -570,3 +602,4 @@ When the skill completes an update, it should provide a summary of changes:
 
 - [README Template](references/readme_template.md) - Standard layout for project documentation.
 - [Project Discovery Patterns](references/discovery_patterns.md) - How to find project info across different languages.
+```

@@ -120,9 +120,13 @@ def improve_description(
         r for r in eval_results["results"] if not r["should_trigger"] and not r["pass"]
     ]
 
-    train_score = f"{eval_results['summary']['passed']}/{eval_results['summary']['total']}"
+    train_score = (
+        f"{eval_results['summary']['passed']}/{eval_results['summary']['total']}"
+    )
     if test_results:
-        test_score = f"{test_results['summary']['passed']}/{test_results['summary']['total']}"
+        test_score = (
+            f"{test_results['summary']['passed']}/{test_results['summary']['total']}"
+        )
         scores_summary = f"Train: {train_score}, Test: {test_score}"
     else:
         scores_summary = f"Train: {train_score}"
@@ -143,13 +147,17 @@ Current scores ({scores_summary}):
     if failed_triggers:
         prompt += "FAILED TO TRIGGER (should have triggered but didn't):\n"
         for r in failed_triggers:
-            prompt += f'  - "{r["query"]}" (triggered {r["triggers"]}/{r["runs"]} times)\n'
+            prompt += (
+                f'  - "{r["query"]}" (triggered {r["triggers"]}/{r["runs"]} times)\n'
+            )
         prompt += "\n"
 
     if false_triggers:
         prompt += "FALSE TRIGGERS (triggered but should not have):\n"
         for r in false_triggers:
-            prompt += f'  - "{r["query"]}" (triggered {r["triggers"]}/{r["runs"]} times)\n'
+            prompt += (
+                f'  - "{r["query"]}" (triggered {r["triggers"]}/{r["runs"]} times)\n'
+            )
         prompt += "\n"
 
     if history:
@@ -195,7 +203,9 @@ Respond with ONLY the description wrapped in <new_description>...</new_descripti
     text = _call_opencode(prompt, model)
 
     match = re.search(r"<new_description>(.*?)</new_description>", text, re.DOTALL)
-    description = match.group(1).strip().strip('"') if match else text.strip().strip('"')
+    description = (
+        match.group(1).strip().strip('"') if match else text.strip().strip('"')
+    )
 
     transcript = {
         "iteration": iteration,
@@ -217,7 +227,9 @@ Respond with ONLY the description wrapped in <new_description>...</new_descripti
             f"Respond only with <new_description>...</new_description>."
         )
         shorten_text = _call_opencode(shorten_prompt, model)
-        match = re.search(r"<new_description>(.*?)</new_description>", shorten_text, re.DOTALL)
+        match = re.search(
+            r"<new_description>(.*?)</new_description>", shorten_text, re.DOTALL
+        )
         shortened = (
             match.group(1).strip().strip('"')
             if match
@@ -245,14 +257,18 @@ def main():
         description="Improve a skill description based on eval results"
     )
     parser.add_argument(
-        "--eval-results", required=True, help="Path to eval results JSON (from run_eval.py)"
+        "--eval-results",
+        required=True,
+        help="Path to eval results JSON (from run_eval.py)",
     )
     parser.add_argument("--skill-path", required=True, help="Path to skill directory")
     parser.add_argument(
         "--history", default=None, help="Path to history JSON (previous attempts)"
     )
     parser.add_argument("--model", required=True, help="Model for improvement")
-    parser.add_argument("--verbose", action="store_true", help="Print progress to stderr")
+    parser.add_argument(
+        "--verbose", action="store_true", help="Print progress to stderr"
+    )
     args = parser.parse_args()
 
     skill_path = Path(args.skill_path)

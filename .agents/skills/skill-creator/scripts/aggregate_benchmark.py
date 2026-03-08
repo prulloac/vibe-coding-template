@@ -47,7 +47,9 @@ def load_run_results(iteration_dir: Path):
                 grading = json.loads(grading_file.read_text())
 
                 timing_file = run_dir / "timing.json"
-                timing = json.loads(timing_file.read_text()) if timing_file.exists() else {}
+                timing = (
+                    json.loads(timing_file.read_text()) if timing_file.exists() else {}
+                )
 
                 try:
                     run_number = int(run_dir.name.split("-")[1])
@@ -65,8 +67,12 @@ def load_run_results(iteration_dir: Path):
                         "total": grading.get("summary", {}).get("total", 0),
                         "time_seconds": timing.get("total_duration_seconds", 0.0),
                         "tokens": timing.get("total_tokens", 0),
-                        "tool_calls": grading.get("execution_metrics", {}).get("total_tool_calls", 0),
-                        "errors": grading.get("execution_metrics", {}).get("errors_encountered", 0),
+                        "tool_calls": grading.get("execution_metrics", {}).get(
+                            "total_tool_calls", 0
+                        ),
+                        "errors": grading.get("execution_metrics", {}).get(
+                            "errors_encountered", 0
+                        ),
                     },
                     "expectations": grading.get("expectations", []),
                     "notes": [],
@@ -98,7 +104,11 @@ def build_summary(results):
             "tokens": f"{primary['tokens']['mean'] - baseline['tokens']['mean']:+.0f}",
         }
     else:
-        run_summary["delta"] = {"pass_rate": "+0.00", "time_seconds": "+0.0", "tokens": "+0"}
+        run_summary["delta"] = {
+            "pass_rate": "+0.00",
+            "time_seconds": "+0.0",
+            "tokens": "+0",
+        }
 
     return run_summary
 
@@ -123,7 +133,9 @@ def main():
             "evals_run": sorted({r["eval_id"] for r in runs}),
             "runs_per_configuration": max((r["run_number"] for r in runs), default=1),
         },
-        "runs": sorted(runs, key=lambda r: (r["eval_id"], r["configuration"], r["run_number"])),
+        "runs": sorted(
+            runs, key=lambda r: (r["eval_id"], r["configuration"], r["run_number"])
+        ),
         "run_summary": build_summary(results),
         "notes": [],
     }
@@ -136,10 +148,14 @@ def main():
     for config, summary in benchmark["run_summary"].items():
         if config == "delta":
             continue
-        lines.append(f"- {config}: pass_rate={summary['pass_rate']['mean']:.2f}, time={summary['time_seconds']['mean']:.2f}s, tokens={summary['tokens']['mean']:.0f}")
+        lines.append(
+            f"- {config}: pass_rate={summary['pass_rate']['mean']:.2f}, time={summary['time_seconds']['mean']:.2f}s, tokens={summary['tokens']['mean']:.0f}"
+        )
     lines.append("")
     lines.append(f"- delta pass_rate: {benchmark['run_summary']['delta']['pass_rate']}")
-    lines.append(f"- delta time_seconds: {benchmark['run_summary']['delta']['time_seconds']}")
+    lines.append(
+        f"- delta time_seconds: {benchmark['run_summary']['delta']['time_seconds']}"
+    )
     lines.append(f"- delta tokens: {benchmark['run_summary']['delta']['tokens']}")
     output_md.write_text("\n".join(lines) + "\n")
 

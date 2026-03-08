@@ -58,6 +58,7 @@ This guide covers common configuration patterns and real-world examples.
 ### Web App + Database
 
 devcontainer.json:
+
 ```json
 {
   "name": "Full Stack App",
@@ -86,6 +87,7 @@ devcontainer.json:
 ```
 
 docker-compose.yml:
+
 ```yaml
 version: '3.8'
 services:
@@ -98,7 +100,7 @@ services:
     command: sleep infinity
     environment:
       DATABASE_URL: postgres://postgres:postgres@db:5432/myapp
-  
+
   db:
     image: postgres:15
     restart: unless-stopped

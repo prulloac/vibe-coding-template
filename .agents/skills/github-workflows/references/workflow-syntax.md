@@ -141,14 +141,14 @@ jobs:
 
 ### Runner Labels
 
-| Label | OS |
-|---|---|
-| `ubuntu-latest` | Ubuntu 24.04 (alias updates) |
-| `ubuntu-22.04` | Ubuntu 22.04 |
-| `ubuntu-24.04` | Ubuntu 24.04 |
-| `windows-latest` | Windows Server 2022 |
-| `macos-latest` | macOS 14 (M1) |
-| `macos-13` | macOS 13 (Intel) |
+| Label            | OS                           |
+| ---------------- | ---------------------------- |
+| `ubuntu-latest`  | Ubuntu 24.04 (alias updates) |
+| `ubuntu-22.04`   | Ubuntu 22.04                 |
+| `ubuntu-24.04`   | Ubuntu 24.04                 |
+| `windows-latest` | Windows Server 2022          |
+| `macos-latest`   | macOS 14 (M1)                |
+| `macos-13`       | macOS 13 (Intel)             |
 
 ### Job Outputs
 
@@ -224,18 +224,18 @@ Expressions use `${{ <expression> }}`. Inside `if:`, the `${{ }}` wrapper is opt
 
 ### Key Contexts
 
-| Context | Description | Example |
-|---|---|---|
-| `github` | Event data | `github.sha`, `github.ref_name`, `github.event.pull_request.number` |
-| `env` | Environment variables | `env.MY_VAR` |
-| `secrets` | Repository secrets | `secrets.DEPLOY_KEY` |
-| `vars` | Repository variables | `vars.ENVIRONMENT` |
-| `inputs` | Workflow inputs | `inputs.environment` |
-| `steps` | Step outputs | `steps.<id>.outputs.<name>` |
-| `needs` | Dependent job outputs | `needs.<job>.outputs.<name>` |
-| `runner` | Runner info | `runner.os`, `runner.arch` |
-| `matrix` | Matrix values | `matrix.node-version` |
-| `job` | Job info | `job.status` |
+| Context   | Description           | Example                                                             |
+| --------- | --------------------- | ------------------------------------------------------------------- |
+| `github`  | Event data            | `github.sha`, `github.ref_name`, `github.event.pull_request.number` |
+| `env`     | Environment variables | `env.MY_VAR`                                                        |
+| `secrets` | Repository secrets    | `secrets.DEPLOY_KEY`                                                |
+| `vars`    | Repository variables  | `vars.ENVIRONMENT`                                                  |
+| `inputs`  | Workflow inputs       | `inputs.environment`                                                |
+| `steps`   | Step outputs          | `steps.<id>.outputs.<name>`                                         |
+| `needs`   | Dependent job outputs | `needs.<job>.outputs.<name>`                                        |
+| `runner`  | Runner info           | `runner.os`, `runner.arch`                                          |
+| `matrix`  | Matrix values         | `matrix.node-version`                                               |
+| `job`     | Job info              | `job.status`                                                        |
 
 ### Common Functions
 
@@ -331,15 +331,15 @@ jobs:
 
 ### Default Environment Variables
 
-| Variable | Description |
-|---|---|
-| `GITHUB_SHA` | Commit SHA |
-| `GITHUB_REF` | Full ref (e.g., `refs/heads/main`) |
-| `GITHUB_REF_NAME` | Short ref (e.g., `main`) |
-| `GITHUB_REPOSITORY` | Owner/repo |
-| `GITHUB_ACTOR` | User who triggered |
-| `GITHUB_TOKEN` | Auto-generated token |
-| `RUNNER_OS` | `Linux`, `Windows`, `macOS` |
+| Variable            | Description                        |
+| ------------------- | ---------------------------------- |
+| `GITHUB_SHA`        | Commit SHA                         |
+| `GITHUB_REF`        | Full ref (e.g., `refs/heads/main`) |
+| `GITHUB_REF_NAME`   | Short ref (e.g., `main`)           |
+| `GITHUB_REPOSITORY` | Owner/repo                         |
+| `GITHUB_ACTOR`      | User who triggered                 |
+| `GITHUB_TOKEN`      | Auto-generated token               |
+| `RUNNER_OS`         | `Linux`, `Windows`, `macOS`        |
 
 ## Matrix Strategy
 
@@ -425,27 +425,29 @@ jobs:
 ## Common Pitfalls
 
 1. **Quoting expressions in `if:`**: Bare expressions work, but wrap complex ones:
+
    ```yaml
    if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
    ```
 
-2. **Secret masking**: Secrets are masked in logs. Never echo secrets or write them to files that get uploaded.
+1. **Secret masking**: Secrets are masked in logs. Never echo secrets or write them to files that get uploaded.
 
-3. **GITHUB_TOKEN scope**: The default token has limited permissions. For cross-repo operations use a PAT or GitHub App token.
+1. **GITHUB_TOKEN scope**: The default token has limited permissions. For cross-repo operations use a PAT or GitHub App token.
 
-4. **Checkout depth**: `actions/checkout` defaults to `fetch-depth: 1`. Use `fetch-depth: 0` for full history (tags, changelog generation).
+1. **Checkout depth**: `actions/checkout` defaults to `fetch-depth: 1`. Use `fetch-depth: 0` for full history (tags, changelog generation).
 
-5. **Shell differences**: Default shell on Windows is `pwsh`. Explicitly set `shell: bash` for cross-platform scripts.
+1. **Shell differences**: Default shell on Windows is `pwsh`. Explicitly set `shell: bash` for cross-platform scripts.
 
-6. **Path separators**: Use `/` in paths even on Windows runners when using bash shell.
+1. **Path separators**: Use `/` in paths even on Windows runners when using bash shell.
 
-7. **Concurrency without cancel-in-progress**: Omitting `cancel-in-progress` defaults to `false`, which queues runs instead of cancelling.
+1. **Concurrency without cancel-in-progress**: Omitting `cancel-in-progress` defaults to `false`, which queues runs instead of cancelling.
 
-8. **Schedule drift**: Scheduled workflows may be delayed during periods of high load. Don't rely on exact timing.
+1. **Schedule drift**: Scheduled workflows may be delayed during periods of high load. Don't rely on exact timing.
 
-9. **Environment protection rules**: Deployment jobs referencing an environment with required reviewers will pause until approved.
+1. **Environment protection rules**: Deployment jobs referencing an environment with required reviewers will pause until approved.
 
-10. **Actions version pinning**: Pin actions to full SHA for security:
-    ```yaml
-    uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-    ```
+1. **Actions version pinning**: Pin actions to full SHA for security:
+
+   ```yaml
+   uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+   ```
