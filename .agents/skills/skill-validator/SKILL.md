@@ -67,8 +67,9 @@ Use this skill when you need to validate an agent skill folder, checking its str
      - Detect injection vulnerabilities (prompt, shell, SQL, code)
      - Verify error handling is comprehensive and doesn't leak sensitive data
      - Confirm secrets/credentials are not hardcoded and .env is documented
-     - The security module will flag potential issues for remediation
-     - **Tools**: Use `scripts/security_audit.py` to automatically scan the skill
+      - The security module will flag potential issues for remediation
+      - **Tools**: Use `scripts/security_audit.py` to automatically scan the skill
+      - **Details**: See `references/SECURITY_AUDIT_GUIDE.md` for security check patterns
 
 12. **Summarize and validate execution**:
      - After completing all checks, provide a concise summary of the validation results, confirming the skill's status (valid or invalid), listing any issues, and suggesting fixes.
@@ -352,4 +353,20 @@ The security audit is automatically run as **Step 11** of the validation process
 - Markdown parsing for cross-reference checking and header extraction.
 - Text analysis for readability assessment and duplicate detection.
 - Token counting for weight estimation (approximate: 1.3 tokens/word).
+
+## Validator Scripts & References
+
+**Main validator scripts** (in `scripts/`):
+- `validator.py` - Unified validator that runs all checks (structure, security, evals)
+- `quick_validate.py` - Structure validation for SKILL.md format
+- `run_security_checks.py` - Security vulnerability scanning
+- `run_skill_evals.py` - Skill trigger effectiveness testing
+- `security_audit.py` - Core security detection engine
+
+**Documentation** (in `references/`):
+- `VALIDATOR.md` - Complete guide to the validator system with examples
+- `SECURITY_AUDIT_GUIDE.md` - Detailed security check patterns and remediation
+
+**Test data** (in `tests/`):
+- `security_test_cases.json` - 11 security test scenarios for validator validation
 - **Security audit**: `scripts/security_audit.py` for automated vulnerability scanning (NEW)
