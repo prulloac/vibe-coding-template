@@ -1,0 +1,111 @@
+name: Validate Skills
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  detect-skills:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+    outputs:
+      skills: ${{ steps.detect.outputs.skills }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed skills
+        id: detect
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            CHANGED_FILES=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '.files[].path')
+          else
+            BASE_BRANCH=$(git rev-parse --abbrev-ref origin/HEAD | sed 's|origin/||')
+            CHANGED_FILES=$(git diff --name-only $BASE_BRANCH...HEAD)
+          fi
+
+          SKILLS_JSON="["
+          first=true
+          for file in $CHANGED_FILES; do
+            if [[ "$file" == .agents/skills/*/SKILL.md ]]; then
+              SKILL_NAME=$(echo "$file" | sed 's|.agents/skills/||' | sed 's|/SKILL.md||')
+              if [ "$first" = true ]; then
+                first=false
+              else
+                SKILLS_JSON+=","
+              fi
+              SKILLS_JSON+="\"$SKILL_NAME\""
+            fi
+          done
+          SKILLS_JSON+="]"
+
+          echo "skills=$SKILLS_JSON" >> $GITHUB_OUTPUT
+
+  validate:
+    needs: detect-skills
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    strategy:
+      matrix:
+        skill: ${{ fromJson(needs.detect-skills.outputs.skills) }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_TOKEN }}
+      SKILL_NAME: ${{ matrix.skill }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Copilot CLI
+        run: npm install -g @github/copilot
+
+      - name: Validate skill
+        id: validation
+        run: |
+          cat <<EOF > validate_prompt.txt
+          Run the skill-validator skill to validate the skill "$SKILL_NAME" in the .agents/skills directory.
+
+          Return the full validation report for this specific skill.
+          EOF
+
+          VALIDATION_OUTPUT=$(copilot -s -p "$(cat validate_prompt.txt)" 2>&1)
+          echo "$VALIDATION_OUTPUT" > validation_output.txt
+
+          if echo "$VALIDATION_OUTPUT" | grep -q "🚨\|Critical"; then
+            echo "status=failed" >> $GITHUB_OUTPUT
+          else
+            echo "status=passed" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Post comment on PR
+        if: github.event_name == 'pull_request'
+        run: |
+          STATUS="${{ steps.validation.outputs.status }}"
+          VALIDATION_OUTPUT=$(cat validation_output.txt)
+
+          if [ "$STATUS" = "failed" ]; then
+            echo "status=failed"
+            printf -v COMMENT_BODY '## 🚨 Skill Validation Failed: %s\n\n<details>\n<summary>Validation Output</summary>\n\n%s\n\n</details>\n\nPlease address the issues above before merging.' "$SKILL_NAME" "$VALIDATION_OUTPUT"
+          else
+            printf -v COMMENT_BODY '## ✅ Skill Validation Passed: %s\n\n<details>\n<summary>Validation Output</summary>\n\n%s\n\n</details>' "$SKILL_NAME" "$VALIDATION_OUTPUT"
+          fi
+
+          gh pr comment ${{ github.event.pull_request.number }} --body "$COMMENT_BODY"
+
+  no-skills:
+    needs: detect-skills
+    if: fromJson(needs.detect-skills.outputs.skills) == '[]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: No skills to validate
+        run: echo "No skill changes detected in this PR"

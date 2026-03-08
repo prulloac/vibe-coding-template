@@ -1,6 +1,7 @@
-______________________________________________________________________
-
-## name: reusable-commands description: Create reusable commands for OpenCode or GitHub Copilot. Use this skill when a user wants to automate a repetitive prompt or task by creating a custom slash command.
+---
+name: reusable-commands
+description: Create reusable commands for OpenCode or GitHub Copilot. Use this skill when a user wants to automate a repetitive prompt or task by creating a custom slash command.
+---
 
 # Reusable Commands Skill
 

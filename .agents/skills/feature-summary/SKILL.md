@@ -1,6 +1,7 @@
-______________________________________________________________________
-
-## name: feature-summary description: Create comprehensive feature documentation summaries that describe current and future capabilities. Use after feature-breakdown to document what a feature does, its business value, technical implementation, and roadmap. Ideal for creating user-facing documentation and feature catalogs in `docs/features/<feature-name>/` format.
+---
+name: feature-summary
+description: Create comprehensive feature documentation summaries that describe current and future capabilities. Use after feature-breakdown to document what a feature does, its business value, technical implementation, and roadmap. Ideal for creating user-facing documentation and feature catalogs in `docs/features/<feature-name>/` format.
+---
 
 # Feature Summary Skill
 

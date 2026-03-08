@@ -1,6 +1,7 @@
-______________________________________________________________________
-
-## name: github-create-label description: Create GitHub issue labels using intelligent tool selection. Automatically leverages tools in order of precedence (GitHub MCP Server → GitHub CLI → REST API). Use when you need to create new labels in a repository with optional customization (name, description, color). Includes support for detecting available authentication methods and graceful fallback between tools.
+---
+name: github-create-label
+description: Create GitHub issue labels using intelligent tool selection. Automatically leverages tools in order of precedence (GitHub MCP Server → GitHub CLI → REST API). Use when you need to create new labels in a repository with optional customization (name, description, color). Includes support for detecting available authentication methods and graceful fallback between tools.
+---
 
 # GitHub Create Label Skill
 

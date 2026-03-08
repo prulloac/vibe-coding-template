@@ -1,6 +1,7 @@
-______________________________________________________________________
-
-## name: semver-changelog description: Automate the creation and updating of a CHANGELOG.md file based on Semantic Versioning (SemVer) and "Keep a Changelog" principles. Use this skill when you need to summarize changes between the current HEAD and the latest git tag, or when initializing a new changelog for a project.
+---
+name: semver-changelog
+description: Automate the creation and updating of a CHANGELOG.md file based on Semantic Versioning (SemVer) and "Keep a Changelog" principles. Use this skill when you need to summarize changes between the current HEAD and the latest git tag, or when initializing a new changelog for a project.
+---
 
 # Semver Changelog
 

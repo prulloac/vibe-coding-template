@@ -1,6 +1,7 @@
-______________________________________________________________________
-
-## name: github-pr-comments description: Analyze and manage GitHub pull request comments with automated categorization, severity assessment, and intelligent response handling. Use when working with PR comments to understand feedback patterns, prioritize issues, or automatically address reviewer concerns. Leverages GitHub MCP Server, GitHub CLI (gh), or GitHub REST API in order of precedence.
+---
+name: github-pr-comments
+description: Analyze and manage GitHub pull request comments with automated categorization, severity assessment, and intelligent response handling. Use when working with PR comments to understand feedback patterns, prioritize issues, or automatically address reviewer concerns. Leverages GitHub MCP Server, GitHub CLI (gh), or GitHub REST API in order of precedence.
+---
 
 # GitHub PR Comments
 

@@ -1,6 +1,7 @@
-______________________________________________________________________
-
-## name: git-commit-workflow description: Skill for committing git changes following repository guidelines. Use when needing to commit staged or unstaged changes by reading CONTRIBUTING files for standards, analyzing changes with git status and diff, grouping related files, and performing commits according to guidelines or conventional commits as fallback.
+---
+name: git-commit-workflow
+description: Skill for committing git changes following repository guidelines. Use when needing to commit staged or unstaged changes by reading CONTRIBUTING files for standards, analyzing changes with git status and diff, grouping related files, and performing commits according to guidelines or conventional commits as fallback.
+---
 
 # Git Commit Workflow
 

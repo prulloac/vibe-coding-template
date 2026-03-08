@@ -1,6 +1,7 @@
-______________________________________________________________________
-
-## name: readme-updater description: Use this skill when you need to keep a repository's README.md file updated with project metadata, installation instructions, usage examples, and more. It automates synchronization by analyzing codebase patterns and dependencies.
+---
+name: readme-updater
+description: Use this skill when you need to keep a repository's README.md file updated with project metadata, installation instructions, usage examples, and more. It automates synchronization by analyzing codebase patterns and dependencies.
+---
 
 # README Updater
 

@@ -1,6 +1,7 @@
-______________________________________________________________________
-
-## name: ai-agent-implementation description: Implement feature tasks using AI agents in logical batches, track completion status, identify blockers, and manage task handoffs. Use when you have an execution sequence and need AI agents to build tasks while maintaining progress tracking.
+---
+name: ai-agent-implementation
+description: Implement feature tasks using AI agents in logical batches, track completion status, identify blockers, and manage task handoffs. Use when you have an execution sequence and need AI agents to build tasks while maintaining progress tracking.
+---
 
 # AI Agent Implementation Skill
 
