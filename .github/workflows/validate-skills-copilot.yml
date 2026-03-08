@@ -1,4 +1,4 @@
-name: 🔎 Validate Skills (OpenCode)
+name: 🔎 Validate Skills (Copilot)
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
       contents: read
       pull-requests: read
     env:
-      GITHUB_TOKEN: ${{ github.token }}
+      GH_TOKEN: ${{ github.token }}
     outputs:
       skills: ${{ steps.detect.outputs.skills }}
     steps:
@@ -60,23 +60,29 @@ jobs:
       matrix:
         skill: ${{ fromJson(needs.detect-skills.outputs.skills) }}
     env:
-      GITHUB_TOKEN: ${{ github.token }}
-      OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
+      GH_TOKEN: ${{ github.token }}
+      COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_TOKEN }}
       SKILL_NAME: ${{ matrix.skill }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install OpenCode
-        run: curl -fsSL https://opencode.ai/install | bash
+      - name: Install Copilot CLI
+        run: npm install -g @github/copilot
 
       - name: Validate skill
         id: validation
         run: |
-          VALIDATION_OUTPUT=$(opencode run --agent skill-validator "Run the skill-validator skill to validate the skill '$SKILL_NAME' in the .agents/skills directory. Return the full validation report for this specific skill." 2>&1)
+          cat <<EOF > validate_prompt.txt
+          Run the skill-validator skill to validate the skill "$SKILL_NAME" in the .agents/skills directory.
+
+          Return the full validation report for this specific skill.
+          EOF
+
+          VALIDATION_OUTPUT=$(copilot -s -p "$(cat validate_prompt.txt)" 2>&1)
           echo "$VALIDATION_OUTPUT" > validation_output.txt
 
-          if echo "$VALIDATION_OUTPUT" | grep -qE "🚨|Critical|error|failed|Error"; then
+          if echo "$VALIDATION_OUTPUT" | grep -q "🚨\|Critical"; then
             echo "status=failed" >> $GITHUB_OUTPUT
           else
             echo "status=passed" >> $GITHUB_OUTPUT
@@ -90,9 +96,9 @@ jobs:
 
           if [ "$STATUS" = "failed" ]; then
             echo "status=failed"
-            printf -v COMMENT_BODY '## 🚨 Skill Validation Failed (OpenCode): %s\n\n<details>\n<summary>Validation Output</summary>\n\n%s\n\n</details>\n\nPlease address the issues above before merging.' "$SKILL_NAME" "$VALIDATION_OUTPUT"
+            printf -v COMMENT_BODY '## 🚨 Skill Validation Failed (Copilot): %s\n\n<details>\n<summary>Validation Output</summary>\n\n%s\n\n</details>\n\nPlease address the issues above before merging.' "$SKILL_NAME" "$VALIDATION_OUTPUT"
           else
-            printf -v COMMENT_BODY '## ✅ Skill Validation Passed (OpenCode): %s\n\n<details>\n<summary>Validation Output</summary>\n\n%s\n\n</details>' "$SKILL_NAME" "$VALIDATION_OUTPUT"
+            printf -v COMMENT_BODY '## ✅ Skill Validation Passed (Copilot): %s\n\n<details>\n<summary>Validation Output</summary>\n\n%s\n\n</details>' "$SKILL_NAME" "$VALIDATION_OUTPUT"
           fi
 
           gh pr comment ${{ github.event.pull_request.number }} --body "$COMMENT_BODY"

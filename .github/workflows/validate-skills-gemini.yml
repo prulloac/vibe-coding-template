@@ -1,4 +1,4 @@
-name: Validate Skills (Gemini)
+name: 🔎 Validate Skills (Gemini)
 
 on:
   push:
@@ -147,9 +147,9 @@ jobs:
           fi
 
           if [ "$STATUS" = "failed" ]; then
-            printf -v COMMENT_BODY '## 🚨 Skill Validation Failed: %s\n\n<details>\n<summary>Validation Output</summary>\n\n%s\n\n</details>\n\nPlease address the issues above before merging.' "$SKILL_NAME" "$VALIDATION_OUTPUT"
+            printf -v COMMENT_BODY '## 🚨 Skill Validation Failed (Gemini): %s\n\n<details>\n<summary>Validation Output</summary>\n\n%s\n\n</details>\n\nPlease address the issues above before merging.' "$SKILL_NAME" "$VALIDATION_OUTPUT"
           else
-            printf -v COMMENT_BODY '## ✅ Skill Validation Passed: %s\n\n<details>\n<summary>Validation Output</summary>\n\n%s\n\n</details>' "$SKILL_NAME" "$VALIDATION_OUTPUT"
+            printf -v COMMENT_BODY '## ✅ Skill Validation Passed (Gemini): %s\n\n<details>\n<summary>Validation Output</summary>\n\n%s\n\n</details>' "$SKILL_NAME" "$VALIDATION_OUTPUT"
           fi
 
           gh pr comment ${{ github.event.pull_request.number }} --body "$COMMENT_BODY"
