@@ -1,0 +1,163 @@
+name: Validate Skills (Gemini)
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  detect-skills:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+    outputs:
+      skills: ${{ steps.detect.outputs.skills }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed skills
+        id: detect
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            CHANGED_FILES=$(gh pr view ${{ github.event.pull_request.number }} --json files --jq '.files[].path')
+          else
+            BASE_BRANCH=$(git rev-parse --abbrev-ref origin/HEAD | sed 's|origin/||')
+            CHANGED_FILES=$(git diff --name-only $BASE_BRANCH...HEAD)
+          fi
+
+          SKILLS_JSON="["
+          first=true
+          for file in $CHANGED_FILES; do
+            if [[ "$file" == .agents/skills/*/SKILL.md ]]; then
+              SKILL_NAME=$(echo "$file" | sed 's|.agents/skills/||' | sed 's|/SKILL.md||')
+              if [ "$first" = true ]; then
+                first=false
+              else
+                SKILLS_JSON+=","
+              fi
+              SKILLS_JSON+="\"$SKILL_NAME\""
+            fi
+          done
+          SKILLS_JSON+="]"
+
+          echo "skills=$SKILLS_JSON" >> $GITHUB_OUTPUT
+
+  validate:
+    needs: detect-skills
+    if: needs.detect-skills.outputs.skills != '[]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
+    strategy:
+      matrix:
+        skill: ${{ fromJson(needs.detect-skills.outputs.skills) }}
+    env:
+      SKILL_NAME: ${{ matrix.skill }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Mint identity token
+        id: mint_token
+        if: vars.APP_ID
+        uses: actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          permission-contents: read
+          permission-pull-requests: write
+
+      - name: Run Gemini Skill Validation
+        id: validation
+        uses: google-github-actions/run-gemini-cli@v0
+        env:
+          GITHUB_TOKEN: ${{ steps.mint_token.outputs.token || secrets.GITHUB_TOKEN || github.token }}
+        with:
+          gcp_location: ${{ vars.GOOGLE_CLOUD_LOCATION }}
+          gcp_project_id: ${{ vars.GOOGLE_CLOUD_PROJECT }}
+          gcp_service_account: ${{ vars.SERVICE_ACCOUNT_EMAIL }}
+          gcp_workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
+          gemini_cli_version: ${{ vars.GEMINI_CLI_VERSION }}
+          gemini_debug: ${{ fromJSON(vars.GEMINI_DEBUG || vars.ACTIONS_STEP_DEBUG || false) }}
+          gemini_model: ${{ vars.GEMINI_MODEL }}
+          google_api_key: ${{ secrets.GOOGLE_API_KEY }}
+          use_gemini_code_assist: ${{ vars.GOOGLE_GENAI_USE_GCA }}
+          use_vertex_ai: ${{ vars.GOOGLE_GENAI_USE_VERTEXAI }}
+          upload_artifacts: ${{ vars.UPLOAD_ARTIFACTS }}
+          workflow_name: gemini-validate-skill
+          settings: |-
+            {
+              "model": {
+                "maxSessionTurns": 25
+              },
+              "telemetry": {
+                "enabled": true,
+                "target": "local",
+                "outfile": ".gemini/telemetry.log"
+              },
+              "tools": {
+                "core": [
+                  "run_shell_command(echo)",
+                  "run_shell_command(cat)",
+                  "run_shell_command(printenv)"
+                ]
+              }
+            }
+          prompt: |
+            Run the skill-validator skill to validate the skill "$SKILL_NAME" in the .agents/skills directory.
+
+            Return the full validation report for this specific skill.
+
+      - name: Check validation status
+        id: check_status
+        run: |
+          if [ -f validation_output.txt ]; then
+            VALIDATION_OUTPUT=$(cat validation_output.txt)
+          else
+            VALIDATION_OUTPUT="${{ steps.validation.outputs.result }}"
+          fi
+
+          if echo "$VALIDATION_OUTPUT" | grep -qE "🚨|Critical|error|failed|Error"; then
+            echo "status=failed" >> $GITHUB_OUTPUT
+          else
+            echo "status=passed" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Post comment on PR
+        if: github.event_name == 'pull_request'
+        run: |
+          STATUS="${{ steps.check_status.outputs.status }}"
+
+          if [ -f validation_output.txt ]; then
+            VALIDATION_OUTPUT=$(cat validation_output.txt)
+          else
+            VALIDATION_OUTPUT="${{ steps.validation.outputs.result }}"
+          fi
+
+          if [ "$STATUS" = "failed" ]; then
+            printf -v COMMENT_BODY '## 🚨 Skill Validation Failed: %s\n\n<details>\n<summary>Validation Output</summary>\n\n%s\n\n</details>\n\nPlease address the issues above before merging.' "$SKILL_NAME" "$VALIDATION_OUTPUT"
+          else
+            printf -v COMMENT_BODY '## ✅ Skill Validation Passed: %s\n\n<details>\n<summary>Validation Output</summary>\n\n%s\n\n</details>' "$SKILL_NAME" "$VALIDATION_OUTPUT"
+          fi
+
+          gh pr comment ${{ github.event.pull_request.number }} --body "$COMMENT_BODY"
+
+  no-skills:
+    needs: detect-skills
+    if: needs.detect-skills.outputs.skills == '[]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: No skills to validate
+        run: echo "No skill changes detected in this PR"
