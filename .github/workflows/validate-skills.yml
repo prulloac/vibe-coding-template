@@ -51,6 +51,7 @@ jobs:
 
   validate:
     needs: detect-skills
+    if: needs.detect-skills.outputs.skills != '[]'
     runs-on: ubuntu-latest
     permissions:
       contents: read
