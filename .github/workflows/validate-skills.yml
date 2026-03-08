@@ -104,7 +104,7 @@ jobs:
 
   no-skills:
     needs: detect-skills
-    if: fromJson(needs.detect-skills.outputs.skills) == '[]'
+    if: needs.detect-skills.outputs.skills == '[]'
     runs-on: ubuntu-latest
     steps:
       - name: No skills to validate
