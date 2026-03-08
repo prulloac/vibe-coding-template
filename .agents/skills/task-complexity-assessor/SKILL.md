@@ -54,22 +54,26 @@ Categorize the task:
 
 Discover available skills dynamically by examining their frontmatter:
 
-1. **List skill directories** with `ls .agents/skills/`
-2. **Read each skill's frontmatter** with `head -n 20 .agents/skills/<skill-name>/SKILL.md` to get its `name` and `description`
+1. **List skill directories** across all supported locations (`.agents/skills/`, `.opencode/skills/`, `~/.agents/skills/`)
+2. **Read each skill's frontmatter** with `head -n 20 <skills-dir>/<skill-name>/SKILL.md` to get its `name` and `description`
 3. **Match skills to the task** by analyzing the `description` — especially "Use when…" phrases
 4. **Recommend top 2-3 most relevant skills**
 
 ## Skills Directory Structure
 
-The skills are located in `.agents/skills/` with this structure:
+Skills follow the same structure across all supported locations:
 
 ```
-.agents/skills/
+<skills-dir>/
 ├── skill-name/
-│   ├── SKILL.md          # Main skill definition
+│   ├── SKILL.md          # Main skill definition (includes YAML frontmatter)
 │   └── references/       # Optional reference docs
 └── ...
 ```
+
+Supported locations in this repository:
+- `.agents/skills/` — skills for agent-based tooling
+- `.opencode/skills/` — skills for OpenCode
 
 ## Discovering Available Skills
 
@@ -79,23 +83,27 @@ Skills are not a fixed list — they grow over time. Always discover them dynami
 
 Skills are typically located in one of these directories (check in order):
 
-1. `.agents/skills/` — project-level skills (most common)
-2. `~/.agents/skills/` — user-level skills
-3. Any path referenced by the agent's configuration
+1. `.agents/skills/` — project-level skills for agents (most common)
+2. `.opencode/skills/` — project-level skills for OpenCode
+3. `~/.agents/skills/` — user-level skills
 
 ### How to Discover Skills
 
-**Step 1 — List all skill directories:**
+**Step 1 — List all skill directories across all supported locations:**
 
 ```bash
-ls .agents/skills/
+for dir in .agents/skills .opencode/skills ~/.agents/skills; do
+  [ -d "$dir" ] && echo "=== $dir ===" && ls "$dir"
+done
 ```
 
 **Step 2 — Read each skill's frontmatter to understand its purpose:**
 
 ```bash
-head -n 20 .agents/skills/<skill-name>/SKILL.md
+head -n 20 <skills-dir>/<skill-name>/SKILL.md
 ```
+
+Replace `<skills-dir>` with whichever directory the skill was found in (e.g., `.agents/skills` or `.opencode/skills`).
 
 The frontmatter (between `---` delimiters) contains:
 - `name`: the skill identifier
