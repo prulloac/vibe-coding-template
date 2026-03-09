@@ -52,28 +52,7 @@ Categorize the task:
 
 ### Step 4: Scan for Relevant Skills
 
-Discover available skills dynamically by examining their frontmatter:
-
-1. **List skill directories** across all supported locations (`.agents/skills/`, `.opencode/skills/`, `~/.agents/skills/`)
-2. **Read each skill's frontmatter** with `head -n 20 <skills-dir>/<skill-name>/SKILL.md` to get its `name` and `description`
-3. **Match skills to the task** by analyzing the `description` — especially "Use when…" phrases
-4. **Recommend top 2-3 most relevant skills**
-
-## Skills Directory Structure
-
-Skills follow the same structure across all supported locations:
-
-```
-<skills-dir>/
-├── skill-name/
-│   ├── SKILL.md          # Main skill definition (includes YAML frontmatter)
-│   └── references/       # Optional reference docs
-└── ...
-```
-
-Supported locations in this repository:
-- `.agents/skills/` — skills for agent-based tooling
-- `.opencode/skills/` — skills for OpenCode
+Discover available skills dynamically by examining their frontmatter. See [## Discovering Available Skills](#discovering-available-skills) for the full discovery procedure. Recommend the top 2-3 most relevant skills based on description matching.
 
 ## Discovering Available Skills
 
@@ -86,6 +65,16 @@ Skills are typically located in one of these directories (check in order):
 1. `.agents/skills/` — project-level skills for agents (most common)
 2. `.opencode/skills/` — project-level skills for OpenCode
 3. `~/.agents/skills/` — user-level skills
+
+Each skill directory follows this structure:
+
+```
+<skills-dir>/
+├── skill-name/
+│   ├── SKILL.md          # Main skill definition (includes YAML frontmatter)
+│   └── references/       # Optional reference docs
+└── ...
+```
 
 ### How to Discover Skills
 
