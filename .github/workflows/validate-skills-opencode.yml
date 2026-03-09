@@ -74,7 +74,7 @@ jobs:
 #        env:
 #          GITHUB_TOKEN: ${{ secrets.COPILOT_TOKEN }}
         with:
-          model: claude-haiku-4.5
+          model: github-copilot/claude-haiku-4.5
           prompt: |
             Run the skill-validator skill to validate the skill '${{ env.SKILL_NAME }}' in the .agents/skills directory. Return the full validation report for this specific skill.
           use_github_token: true
