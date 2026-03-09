@@ -72,7 +72,7 @@ jobs:
         id: validation
         uses: anomalyco/opencode/github@latest
         env:
-          GITHUB_TOKEN: ${{ secrets.COPILOT_TOKEN }}
+#          GITHUB_TOKEN: ${{ secrets.COPILOT_TOKEN }}
         with:
           model: anthropic/claude-sonnet-4-20250514
           prompt: |
