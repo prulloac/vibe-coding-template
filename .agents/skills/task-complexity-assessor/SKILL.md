@@ -156,6 +156,25 @@ When you assess a task:
    - Suggest loading relevant skills to the user
    - Explain how each skill helps
 
+## Safe Execution
+
+When assessment requires external operations (for example, listing skill directories or reading many skill files), apply these safeguards:
+
+1. **Use explicit error handling**
+   - Wrap file and subprocess operations in `try/except`.
+   - On failure, report a concise, non-sensitive message and continue with partial results when possible.
+   - If a required path is missing or unreadable, mark that source as unavailable and proceed with remaining sources.
+
+2. **Set timeout expectations for long-running operations**
+   - Apply timeouts to subprocess and network calls.
+   - Recommended default: `30s` per external command/request.
+   - If a timeout occurs, stop that operation, report timeout status, and continue with available data.
+
+3. **Fail safely and transparently**
+   - Never guess missing data from failed operations.
+   - Explicitly state which checks were completed vs skipped due to errors/timeouts.
+   - Keep all behavior read-only; do not modify files or repositories during assessment.
+
 ## Examples
 
 ### Example 1: Simple Task (No Todo)
