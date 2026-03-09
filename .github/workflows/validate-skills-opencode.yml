@@ -56,6 +56,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
+      id-token: write
     strategy:
       matrix:
         skill: ${{ fromJson(needs.detect-skills.outputs.skills) }}
@@ -67,31 +68,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install OpenCode
-        run: curl -fsSL https://opencode.ai/install | bash
-
       - name: Validate skill
         id: validation
-        run: |
-          VALIDATION_OUTPUT=$(opencode run --agent skill-validator "Run the skill-validator skill to validate the skill '$SKILL_NAME' in the .agents/skills directory. Return the full validation report for this specific skill." 2>&1)
-          echo "$VALIDATION_OUTPUT" > validation_output.txt
-
-          if echo "$VALIDATION_OUTPUT" | grep -qE "🚨|Critical|error|failed|Error"; then
-            echo "status=failed" >> $GITHUB_OUTPUT
-          else
-            echo "status=passed" >> $GITHUB_OUTPUT
-          fi
+        uses: anomalyco/opencode/github@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.COPILOT_TOKEN }}
+        with:
+          model: anthropic/claude-sonnet-4-20250514
+          prompt: |
+            Run the skill-validator skill to validate the skill '${{ env.SKILL_NAME }}' in the .agents/skills directory. Return the full validation report for this specific skill.
+          use_github_token: true
 
       - name: Post comment on PR
         if: github.event_name == 'pull_request'
         run: |
-          STATUS="${{ steps.validation.outputs.status }}"
-          VALIDATION_OUTPUT=$(cat validation_output.txt)
+          VALIDATION_OUTPUT="${{ steps.validation.outputs.result }}"
 
-          if [ "$STATUS" = "failed" ]; then
+          if echo "$VALIDATION_OUTPUT" | grep -qE "🚨|Critical|error|failed|Error"; then
             echo "status=failed"
             printf -v COMMENT_BODY '## 🚨 Skill Validation Failed (OpenCode): %s\n\n<details>\n<summary>Validation Output</summary>\n\n%s\n\n</details>\n\nPlease address the issues above before merging.' "$SKILL_NAME" "$VALIDATION_OUTPUT"
           else
+            echo "status=passed"
             printf -v COMMENT_BODY '## ✅ Skill Validation Passed (OpenCode): %s\n\n<details>\n<summary>Validation Output</summary>\n\n%s\n\n</details>' "$SKILL_NAME" "$VALIDATION_OUTPUT"
           fi
 
