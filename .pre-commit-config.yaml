@@ -36,31 +36,23 @@ repos:
   #     - id: codespell
   #       args: ['--ignore-words-list=crate,nd,sav,ser']
 
-  # Commit message validation via AI agent
-  # Enable ONE of the following hooks depending on your preferred CLI.
-  # Each validates the commit message against CONTRIBUTING.md guidelines.
+  # Commit message validation (non-AI)
   - repo: local
     hooks:
-      - id: validate-commit-msg
-        name: validate commit message (gemini)
-        entry: .pre-commit-hooks/validate-commit-msg-gemini.sh
+      - id: validate-commit-msg-conventional
+        name: validate commit message (conventional commits)
+        entry: .pre-commit-hooks/validate-commit-msg-conventional.sh
         language: script
         stages: [commit-msg]
         always_run: true
 
-      # - id: validate-commit-msg
-      #   name: validate commit message (copilot)
-      #   entry: .pre-commit-hooks/validate-commit-msg-copilot.sh
-      #   language: script
-      #   stages: [commit-msg]
-      #   always_run: true
-
-      # - id: validate-commit-msg
-      #   name: validate commit message (gemini)
-      #   entry: .pre-commit-hooks/validate-commit-msg-gemini.sh
-      #   language: script
-      #   stages: [commit-msg]
-      #   always_run: true
+      - id: validate-commit-msg-max
+        name: validate commit message max length (100)
+        entry: .pre-commit-hooks/validate-commit-msg-max.sh
+        args: ['100']
+        language: script
+        stages: [commit-msg]
+        always_run: true
 
 default_language_version:
   python: python3
